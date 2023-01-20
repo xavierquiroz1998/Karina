@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/provider/register_form_provider.dart';
 import 'package:tesis_karina/router/routes.dart';
-import 'package:tesis_karina/services/local_storage.dart';
 import 'package:tesis_karina/services/navigation_service.dart';
 import 'package:tesis_karina/services/notifications_service.dart';
 
-void main() async {
-  await LocalStorage.configurePrefs();
+void main() {
   runApp(const AppState());
 }
 
