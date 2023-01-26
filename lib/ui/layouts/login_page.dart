@@ -15,7 +15,7 @@ class LoginPage extends StatelessWidget {
               padding: const EdgeInsets.all(30.0),
               child: Column(children: [
                 Expanded(child: Container()),
-                const FaIcon(FontAwesomeIcons.roadCircleXmark, size: 50.0),
+                const FaIcon(FontAwesomeIcons.bridgeLock, size: 50.0),
                 const SizedBox(height: 30.0),
                 TextFormField(
                     decoration: const InputDecoration(
@@ -42,7 +42,7 @@ class LoginPage extends StatelessWidget {
                               const BorderRadius.all(Radius.circular(5.0)),
                           color: Colors.black12)),
                   onTap: () {
-                    
+                    Navigator.pushNamed(context, '/dashboard');
                   },
                 ),
                 Expanded(child: Container()),

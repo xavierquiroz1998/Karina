@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tesis_karina/style/custom/custom_labels.dart';
+import 'package:tesis_karina/datasource/terreno_datasource.dart';
 
 class TerrenosView extends StatelessWidget {
   const TerrenosView({Key? key}) : super(key: key);
@@ -12,17 +12,15 @@ class TerrenosView extends StatelessWidget {
         child: ListView(
           physics: const ClampingScrollPhysics(),
           children: [
-            Text('Vista de Usuarios', style: CustomLabels.h1),
-            const SizedBox(height: 10),
             PaginatedDataTable(
               columns: const [
                 DataColumn(label: Text('#')),
-                DataColumn(label: Text('Avatar')),
-                DataColumn(label: Text('Nombre')),
-                DataColumn(label: Text('Email')),
+                DataColumn(label: Text('Ubicacion')),
+                DataColumn(label: Text('Dimensiones')),
+                DataColumn(label: Text('Unidad')),
                 DataColumn(label: Text('Acciones'))
               ],
-              source: usersDataSource,
+              source: TerrenosDataSource([], context),
               onPageChanged: (page) {},
             ),
           ],

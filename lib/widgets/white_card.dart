@@ -4,9 +4,15 @@ import 'package:google_fonts/google_fonts.dart';
 class WhiteCard extends StatelessWidget {
   final String? title;
   final Widget child;
+  final Widget acciones;
   final double? width;
 
-  const WhiteCard({Key? key, this.title, required this.child, this.width})
+  const WhiteCard(
+      {Key? key,
+      this.title,
+      required this.child,
+      this.width,
+      required this.acciones})
       : super(key: key);
 
   @override
@@ -20,15 +26,21 @@ class WhiteCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (title != null) ...[
-            FittedBox(
-              fit: BoxFit.contain,
-              child: Text(
-                title!,
-                style: GoogleFonts.roboto(
-                    fontSize: 15, fontWeight: FontWeight.bold),
-              ),
+            Row(
+              children: [
+                FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text(
+                    title!,
+                    style: GoogleFonts.roboto(
+                        fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const Spacer(),
+                acciones
+              ],
             ),
-            Divider()
+            const Divider()
           ],
           child
         ],

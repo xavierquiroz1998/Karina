@@ -25,10 +25,8 @@ class UsuariosDataSource extends DataTableSource {
       DataCell(ClipOval(
         child: image,
       )),
-      //DataCell(Text(users.uid)),
       DataCell(Text(users.nombre)),
       DataCell(Text(users.correo)),
-
       DataCell(IconButton(
           onPressed: () {
             NavigationService.replaceTo('/dashboard/users/${users.uid}');

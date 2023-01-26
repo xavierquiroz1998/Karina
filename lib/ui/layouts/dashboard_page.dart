@@ -16,7 +16,7 @@ class DashboardPage extends StatelessWidget {
               child: Image(
                 width: 250.0,
                 height: 250.0,
-                image: AssetImage('assets/no-image.png'),
+                image: AssetImage('assets/no-image.jpg'),
               ),
             ),
             const Spacer(),
@@ -50,39 +50,34 @@ class MenuLateral extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     radius: 50,
                     child: Image(
-                      height: 100,    
+                      height: 100,
                       width: 100,
                       image: AssetImage('assets/no-image.jpg'),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "USUARIO LOGEADO XX",
+                    "USUARIO LOGEADO",
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 14, color: Colors.white),
+                    style: const TextStyle(fontSize: 14, color: Colors.black),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                     "XXXXXXXXXXX-XXXXXXXX-@XXXX.COM",
+                    "XXXXXX-XXXXXXXX-@XXXX.COM",
                     textAlign: TextAlign.center,
                     maxLines: 2,
-                    style: const TextStyle(fontSize: 14, color: Colors.white),
+                    style: const TextStyle(fontSize: 14, color: Colors.black),
                   ),
                 ],
               )),
           ListTile(
-            leading: const Icon(
-              Icons.rate_review_rounded,
-              color: Colors.blueGrey,
-            ),
-            title: const Text("Por definir"),
-            onTap: () async => Navigator.pushNamed(context, '/newmaster'),
+            leading: const Icon(Icons.medical_services, color: Colors.blueGrey),
+            title: const Text("Mantenimiento"),
+            onTap: () async =>
+                Navigator.pushNamed(context, '/dashboard/mantenimientos'),
           ),
           ListTile(
-            leading: const Icon(
-              Icons.exit_to_app_outlined,
-              color: Colors.red,
-            ),
+            leading: const Icon(Icons.exit_to_app_outlined, color: Colors.red),
             title: const Text("Salir"),
             onTap: () async {
               /* await LocalStorage.removeCache("usuario").whenComplete(() {

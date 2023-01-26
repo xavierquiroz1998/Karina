@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tesis_karina/datasource/usuario_datasource.dart';
-import 'package:tesis_karina/style/custom/custom_labels.dart';
 
 class UsuariosView extends StatelessWidget {
   const UsuariosView({Key? key}) : super(key: key);
@@ -13,8 +12,6 @@ class UsuariosView extends StatelessWidget {
         child: ListView(
           physics: const ClampingScrollPhysics(),
           children: [
-            Text('Vista de Usuarios', style: CustomLabels.h1),
-            const SizedBox(height: 10),
             PaginatedDataTable(
               columns: const [
                 DataColumn(label: Text('#')),
