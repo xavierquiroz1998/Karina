@@ -26,84 +26,87 @@ class _EnfermedadesViewState extends State<EnfermedadesView> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<EnfermedadProvider>(context);
-    return WhiteCard(
-      title: 'Lista de enfermedades',
-      acciones: InkWell(
-          onTap: () {
-            showModalBottomSheet(
-                context: context,
-                backgroundColor: Colors.transparent,
-                builder: (_) => const EnfermedadModals(enfermedad: null));
-          },
-          child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
-      child: SfDataGridTheme(
-        data: SfDataGridThemeData(headerColor: CustomColors.azulCielo),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height - 250,
-          child: SfDataGrid(
-            headerRowHeight: 35.0,
-            rowHeight: 35.0,
-            columns: <GridColumn>[
-              GridColumn(
-                width: 40,
-                columnName: 'index',
-                label: Tooltip(
-                  message: "Codigo",
-                  child: Center(
+    return SingleChildScrollView(
+      child: WhiteCard(
+        title: 'Lista de enfermedades',
+        acciones: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (_) => const EnfermedadModals(enfermedad: null));
+            },
+            child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
+        child: SfDataGridTheme(
+          data: SfDataGridThemeData(headerColor: CustomColors.azulCielo),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height - 250,
+            child: SfDataGrid(
+              headerRowHeight: 35.0,
+              rowHeight: 35.0,
+              columns: <GridColumn>[
+                GridColumn(
+                  width: 40,
+                  columnName: 'index',
+                  label: Tooltip(
+                    message: "Codigo",
+                    child: Center(
+                      child: Text(
+                        '#',
+                        style: CustomLabels.h4.copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                GridColumn(
+                  columnWidthMode: ColumnWidthMode.fill,
+                  columnName: 'nombre',
+                  label: Tooltip(
+                    message: "Nombre",
+                    child: Center(
+                      child: Text(
+                        'Nombre',
+                        style: CustomLabels.h4.copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                GridColumn(
+                  columnWidthMode: ColumnWidthMode.fill,
+                  columnName: 'grado',
+                  label: Tooltip(
+                    message: "Grado",
+                    child: Center(
+                      child: Text(
+                        'Grado',
+                        style: CustomLabels.h4.copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                GridColumn(
+                  columnWidthMode: ColumnWidthMode.fill,
+                  columnName: 'estado',
+                  label: Center(
                     child: Text(
-                      '#',
+                      'Estado',
                       style: CustomLabels.h4.copyWith(color: Colors.white),
                     ),
                   ),
                 ),
-              ),
-              GridColumn(
-                columnWidthMode: ColumnWidthMode.fill,
-                columnName: 'nombre',
-                label: Tooltip(
-                  message: "Nombre",
-                  child: Center(
+                GridColumn(
+                  columnName: 'acciones',
+                  label: Center(
                     child: Text(
-                      'Nombre',
+                      'Acciones',
                       style: CustomLabels.h4.copyWith(color: Colors.white),
                     ),
                   ),
                 ),
-              ),
-              GridColumn(
-                columnWidthMode: ColumnWidthMode.fill,
-                columnName: 'grado',
-                label: Tooltip(
-                  message: "Grado",
-                  child: Center(
-                    child: Text(
-                      'Grado',
-                      style: CustomLabels.h4.copyWith(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              GridColumn(
-                columnWidthMode: ColumnWidthMode.fill,
-                columnName: 'estado',
-                label: Center(
-                  child: Text(
-                    'Estado',
-                    style: CustomLabels.h4.copyWith(color: Colors.white),
-                  ),
-                ),
-              ),
-              GridColumn(
-                columnName: 'acciones',
-                label: Center(
-                  child: Text(
-                    'Acciones',
-                    style: CustomLabels.h4.copyWith(color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-            source: EnfermedadesDataSource(provider: provider, cxt: context),
+              ],
+              source: EnfermedadesDataSource(provider: provider, cxt: context),
+            ),
           ),
         ),
       ),

@@ -9,7 +9,7 @@ class Insumo {
     required this.estado,
   });
 
-  String uid;
+  int uid;
   String nombre;
   String clase;
   String ingreso;

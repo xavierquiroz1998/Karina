@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
-import 'package:tesis_karina/dialogs/dialog_maquinaria.dart';
-import 'package:tesis_karina/entity/maquinaria.dart';
-import 'package:tesis_karina/provider/maquinaria_provider.dart';
+import 'package:tesis_karina/dialogs/dialog_finca.dart';
+import 'package:tesis_karina/entity/finca.dart';
+import 'package:tesis_karina/modals/enfermedad_modals.dart';
+import 'package:tesis_karina/provider/finca_provider.dart';
 
-class MaquinariasDataSource extends DataGridSource {
+class FincaDataSource extends DataGridSource {
   late List<DataGridRow> listData;
   late BuildContext context;
-  late MaquinariaProvider maquinariaProvider;
+  late FincaProvider fincaProvider;
 
-  MaquinariasDataSource(
-      {required MaquinariaProvider provider, required BuildContext cxt}) {
+  FincaDataSource(
+      {required FincaProvider provider, required BuildContext cxt}) {
     context = cxt;
-    maquinariaProvider = provider;
-    listData = maquinariaProvider.listMaquinaria
+    fincaProvider = provider;
+    listData = fincaProvider.listFinca
         .map<DataGridRow>((e) => DataGridRow(cells: [
-              const DataGridCell<String>(columnName: 'index', value: "0"),
               DataGridCell<String>(columnName: 'nombre', value: e.nombre),
-              DataGridCell<String>(columnName: 'tipo', value: e.tipo),
-              DataGridCell<String>(columnName: 'estado', value: e.estado),
-              DataGridCell<Maquinaria>(columnName: 'acciones', value: e),
+              DataGridCell<String>(columnName: 'dimension', value: e.dimension),
+              DataGridCell<String>(columnName: 'ubicacion', value: e.ubicacion),
+              DataGridCell<Finca>(columnName: 'acciones', value: e),
             ]))
         .toList();
   }
@@ -33,14 +33,11 @@ class MaquinariasDataSource extends DataGridSource {
             alignment: Alignment.center,
             child: Text(row.getCells()[0].value.toString())),
         Container(
-            alignment: Alignment.center,
+            alignment: Alignment.centerLeft,
             child: Text(row.getCells()[1].value.toString())),
         Container(
             alignment: Alignment.center,
             child: Text(row.getCells()[2].value.toString())),
-        Container(
-            alignment: Alignment.center,
-            child: Text(row.getCells()[3].value.toString())),
         Container(
             alignment: Alignment.center,
             child: Row(
@@ -49,12 +46,9 @@ class MaquinariasDataSource extends DataGridSource {
               mainAxisSize: MainAxisSize.min,
               children: [
                 InkWell(
-                    onTap: () async {
-                      maquinariaProvider.txtNonbre.text =
-                          row.getCells()[4].value;
-                      maquinariaProvider.txtTipo.text = row.getCells()[4].value;
-                      showDialogViewMaquinaria(context, "Actualizar Maquinaria",
-                          maquinariaProvider, row.getCells()[4].value);
+                    onTap: () {
+                      showDialogViewFinca(context, "Actualizar finca",
+                          fincaProvider, row.getCells()[3].value);
                     },
                     child: const Icon(Icons.edit_outlined,
                         color: Colors.blueGrey)),
@@ -69,8 +63,7 @@ class MaquinariasDataSource extends DataGridSource {
 
                       if (respuesta) {
                         // ignore: use_build_context_synchronously
-                        maquinariaProvider
-                            .deleteObjeto(row.getCells()[4].value);
+                        fincaProvider.deleteObjeto(row.getCells()[3].value);
                       }
                     },
                     child: const Icon(Icons.delete, color: Colors.red))
@@ -83,3 +76,29 @@ class MaquinariasDataSource extends DataGridSource {
   @override
   List<DataGridRow> get rows => listData;
 }
+
+
+/* 
+
+  Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(10.0),
+          child: Tooltip(
+            message: row.getCells()[1].value.toString(),
+            child: Text(
+              row.getCells()[1].value.toString(),
+              overflow: TextOverflow.ellipsis,
+              style: buildStyle(),
+              softWrap: true,
+              maxLines: 2,
+            ),
+          ),
+        ),
+
+ Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(8.0),
+            child: Text(NumberFormat.currency(
+                    locale: 'en_US', symbol: r'$', decimalDigits: 2)
+                .format(row.getCells()[4].value))),
+ */

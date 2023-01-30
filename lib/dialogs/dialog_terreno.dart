@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tesis_karina/provider/insumo_provider.dart';
+import 'package:tesis_karina/entity/terreno.dart';
+import 'package:tesis_karina/provider/terreno_provider.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
-Future showDialogViewInsumo(
-    BuildContext context, String title, InsumoProvider insumoProvider) async {
+Future showDialogViewTerreno(
+    BuildContext context, String title, TerrenoProvider terrenoProvider) async {
   await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -13,24 +15,33 @@ Future showDialogViewInsumo(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20))),
           content: SizedBox(
-            height: 110,
             width: MediaQuery.of(context).size.width,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  controller: insumoProvider.txtNombre,
+                  controller: terrenoProvider.txtUbicacion,
                   decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Nombre del Insumo',
-                      label: 'Insumo',
+                      hint: 'Ubicacion',
+                      label: 'Ubicacion',
                       icon: Icons.new_releases_outlined),
                   style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: insumoProvider.txtclase,
+                  controller: terrenoProvider.txtDimension,
                   decoration: CustomInputs.boxInputDecoration(
-                      hint: 'clase de insumo',
-                      label: 'Clase',
+                      hint: 'Dimension',
+                      label: 'Dimension',
+                      icon: Icons.new_releases_outlined),
+                  style: const TextStyle(color: Colors.black),
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: terrenoProvider.txtUnidad,
+                  decoration: CustomInputs.boxInputDecoration(
+                      hint: 'Unidad',
+                      label: 'Unidad',
                       icon: Icons.new_releases_outlined),
                   style: const TextStyle(color: Colors.black),
                 )
@@ -48,7 +59,13 @@ Future showDialogViewInsumo(
                   return Colors.transparent;
                 })),
                 onPressed: () {
-                  insumoProvider.newObjeto();
+                  terrenoProvider.newObjeto(Terreno(
+                      uid: UtilView.numberRandonUid(),
+                      ubicacion: terrenoProvider.txtUbicacion.text,
+                      dimension: terrenoProvider.txtDimension.text,
+                      unidad: terrenoProvider.txtUnidad.text,
+                      ingreso: "0000-00-00",
+                      estado: "I"));
                   Navigator.of(context).pop();
                 },
                 child: const Text('Aceptar', style: TextStyle(fontSize: 14))),

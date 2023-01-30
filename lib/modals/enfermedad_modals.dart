@@ -18,7 +18,7 @@ class EnfermedadModals extends StatefulWidget {
 
 class _EnfermedadModalsState extends State<EnfermedadModals> {
   String nombre = '';
-  String? id;
+  int? id;
   String medida = '';
 
   @override
@@ -114,14 +114,19 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
                     try {
                       if (id == null) {
                         await enfermedadProvider.newObjeto(Enfermedad(
-                            uid: "1",
+                            uid: 1,
                             nombre: nombre,
                             grado: medida,
                             ingreso: "00-00-0000",
                             estado: "A"));
                         NotificationsService.showSnackbar('$nombre creado!');
                       } else {
-                        //await enfermedadProvider.updateObjeto(id!, nombre);
+                        await enfermedadProvider.updateObjeto(Enfermedad(
+                            uid: 1,
+                            nombre: nombre,
+                            grado: medida,
+                            ingreso: "00-00-0000",
+                            estado: "A"));
                         NotificationsService.showSnackbar(
                             '$nombre actualizado!');
                       }

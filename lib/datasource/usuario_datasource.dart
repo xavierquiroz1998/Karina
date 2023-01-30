@@ -1,46 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
 import 'package:tesis_karina/entity/usuario.dart';
-import 'package:tesis_karina/services/navigation_service.dart';
+import 'package:tesis_karina/provider/user_form_provider.dart';
+import 'package:tesis_karina/provider/usuario_provider.dart';
 
-class UsuariosDataSource extends DataTableSource {
-  final List<Usuario> usuarios;
-  final BuildContext context;
+class UsuariosDataSource extends DataGridSource {
+  late List<DataGridRow> listData;
+  late BuildContext context;
+  late UsuarioProvider usuarioProvider;
 
-  UsuariosDataSource(this.usuarios, this.context);
-
-  @override
-  DataRow getRow(int index) {
-    final users = usuarios[index];
-
-    final image = (users.img == null)
-        ? const Image(image: AssetImage('no-image.jpg'), width: 35, height: 35)
-        : FadeInImage.assetNetwork(
-            placeholder: 'loader.gif',
-            image: users.img!,
-            width: 35,
-            height: 35);
-
-    return DataRow.byIndex(index: index, cells: [
-      DataCell(Text('${index + 1}')),
-      DataCell(ClipOval(
-        child: image,
-      )),
-      DataCell(Text(users.nombre)),
-      DataCell(Text(users.correo)),
-      DataCell(IconButton(
-          onPressed: () {
-            NavigationService.replaceTo('/dashboard/users/${users.uid}');
-          },
-          icon: const Icon(Icons.edit_outlined))),
-    ]);
+  UsuariosDataSource(
+      {required UsuarioProvider provider, required BuildContext cxt}) {
+    context = cxt;
+    usuarioProvider = provider;
+    listData = usuarioProvider.listUsuario
+        .map<DataGridRow>((e) => DataGridRow(cells: [
+              DataGridCell<String>(columnName: 'avatar', value: e.img),
+              DataGridCell<String>(columnName: 'nombre', value: e.nombre),
+              DataGridCell<String>(columnName: 'tipo', value: e.correo),
+              DataGridCell<String>(columnName: 'rol', value: e.rol),
+              DataGridCell<Usuario>(columnName: 'acciones', value: e),
+            ]))
+        .toList();
   }
 
   @override
-  bool get isRowCountApproximate => false;
+  DataGridRowAdapter? buildRow(DataGridRow row) {
+    final image =
+        (row.getCells()[0].value == null || row.getCells()[0].value == "")
+            ? const Image(
+                image: AssetImage('assets/no-image.jpg'), width: 20, height: 20)
+            : FadeInImage.assetNetwork(
+                placeholder: 'assets/loader.gif',
+                image: row.getCells()[0].value.toString(),
+                width: 20,
+                height: 20);
+
+    return DataGridRowAdapter(
+      cells: <Widget>[
+        Container(alignment: Alignment.center, child: ClipOval(child: image)),
+        Container(
+            alignment: Alignment.center,
+            child: Text(row.getCells()[1].value.toString())),
+        Container(
+            alignment: Alignment.center,
+            child: Text(row.getCells()[2].value.toString())),
+        Container(
+            alignment: Alignment.center,
+            child: Text(row.getCells()[3].value.toString())),
+        Container(
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InkWell(
+                    onTap: () async {
+                      /* Provider.of<UsuarioProvider>(context, listen: false)
+                          .getUserById(row.getCells()[4].value.uid); */
+
+                      Provider.of<UserFormProvider>(context, listen: false)
+                          .user = row.getCells()[4].value;
+
+                      Navigator.pushNamed(context, '/dashboard/usuario');
+                    },
+                    child: const Icon(Icons.edit_outlined,
+                        color: Colors.blueGrey)),
+                const SizedBox(width: 5),
+                InkWell(
+                    onTap: () async {
+                      final respuesta = await dialogAcepCanc(
+                          context,
+                          "Seguro que deseas eliminar?",
+                          Icons.delete,
+                          Colors.red);
+
+                      if (respuesta) {
+                        // ignore: use_build_context_synchronously
+                        usuarioProvider.deleteObjeto(row.getCells()[4].value);
+                      }
+                    },
+                    child: const Icon(Icons.delete, color: Colors.red))
+              ],
+            )),
+      ],
+    );
+  }
 
   @override
-  int get rowCount => usuarios.length;
-
-  @override
-  int get selectedRowCount => 0;
+  List<DataGridRow> get rows => listData;
 }

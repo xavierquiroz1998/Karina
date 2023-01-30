@@ -10,7 +10,7 @@ class Terreno {
     required this.estado,
   });
 
-  String uid;
+  int uid;
   String ubicacion;
   String dimension;
   String unidad;

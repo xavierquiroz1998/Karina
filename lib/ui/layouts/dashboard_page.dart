@@ -71,8 +71,33 @@ class MenuLateral extends StatelessWidget {
                 ],
               )),
           ListTile(
-            leading: const Icon(Icons.medical_services, color: Colors.blueGrey),
+            leading: const Icon(Icons.store_mall_directory_rounded,
+                color: Colors.blueGrey),
             title: const Text("Mantenimiento"),
+            onTap: () async =>
+                Navigator.pushNamed(context, '/dashboard/mantenimientos'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
+            title: const Text("Generar Tareas"),
+            onTap: () async =>
+                Navigator.pushNamed(context, '/dashboard/mantenimientos'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
+            title: const Text("Cronograma"),
+            onTap: () async =>
+                Navigator.pushNamed(context, '/dashboard/mantenimientos'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
+            title: const Text("Seguimiento de cultivo"),
+            onTap: () async =>
+                Navigator.pushNamed(context, '/dashboard/mantenimientos'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
+            title: const Text("Generacion de reportes"),
             onTap: () async =>
                 Navigator.pushNamed(context, '/dashboard/mantenimientos'),
           ),
@@ -80,6 +105,7 @@ class MenuLateral extends StatelessWidget {
             leading: const Icon(Icons.exit_to_app_outlined, color: Colors.red),
             title: const Text("Salir"),
             onTap: () async {
+              Navigator.of(context).pushReplacementNamed('/');
               /* await LocalStorage.removeCache("usuario").whenComplete(() {
                 Navigator.of(context).pushReplacementNamed('/login');
               }); */

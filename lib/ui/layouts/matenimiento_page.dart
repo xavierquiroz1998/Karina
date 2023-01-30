@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tesis_karina/ui/view/enfermedades_view.dart';
+import 'package:tesis_karina/ui/view/finca_view.dart';
 import 'package:tesis_karina/ui/view/insumos_view.dart';
 import 'package:tesis_karina/ui/view/maquinarias_view.dart';
 import 'package:tesis_karina/ui/view/terrenos_view.dart';
@@ -11,8 +12,9 @@ class MatenimientoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 6,
       child: Scaffold(
+        backgroundColor: Colors.grey[600],
         appBar: AppBar(
           bottom: const TabBar(
             isScrollable: true,
@@ -30,6 +32,7 @@ class MatenimientoPage extends StatelessWidget {
               Tab(
                   icon: Icon(Icons.dashboard_customize_sharp),
                   child: Text('Terrenos')),
+              Tab(icon: Icon(Icons.cabin_rounded), child: Text('Finca')),
               Tab(
                   icon: Icon(Icons.supervised_user_circle_sharp),
                   child: Text('Usuarios')),
@@ -43,6 +46,7 @@ class MatenimientoPage extends StatelessWidget {
             InsumosView(),
             MaquinariasView(),
             TerrenosView(),
+            FincaView(),
             UsuariosView(),
           ],
         ),

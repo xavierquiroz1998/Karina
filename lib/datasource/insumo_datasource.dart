@@ -54,7 +54,8 @@ class InsumosDataSource extends DataGridSource {
                           row.getCells()[1].value.toString();
                       insumoProvider.txtclase.text =
                           row.getCells()[2].value.toString();
-                      showDialogViewItems(context, "Actualizar insumo");
+                      showDialogViewInsumo(
+                          context, "Actualizar insumo", insumoProvider);
                       /* showModalBottomSheet(
                           context: context,
                           backgroundColor: Colors.transparent,

@@ -2,38 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:tesis_karina/datasource/insumo_datasource.dart';
-import 'package:tesis_karina/dialogs/dialog_insumo.dart';
-import 'package:tesis_karina/provider/insumo_provider.dart';
+import 'package:tesis_karina/datasource/finca_datasource.dart';
+import 'package:tesis_karina/dialogs/dialog_finca.dart';
+import 'package:tesis_karina/provider/finca_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
-class InsumosView extends StatefulWidget {
-  const InsumosView({Key? key}) : super(key: key);
+class FincaView extends StatefulWidget {
+  const FincaView({Key? key}) : super(key: key);
 
   @override
-  State<InsumosView> createState() => _InsumosViewState();
+  State<FincaView> createState() => _FincaViewState();
 }
 
-class _InsumosViewState extends State<InsumosView> {
+class _FincaViewState extends State<FincaView> {
   @override
   void initState() {
-    Provider.of<InsumoProvider>(context, listen: false).getListInt();
+    Provider.of<FincaProvider>(context, listen: false).getListInt();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<InsumoProvider>(context);
+    final provider = Provider.of<FincaProvider>(context);
     return SingleChildScrollView(
       child: WhiteCard(
-        title: 'Lista de insumos',
+        title: 'Lista de fincas',
         acciones: InkWell(
             onTap: () {
-              provider.txtNombre.text = "";
-              provider.txtclase.text = "";
-              showDialogViewInsumo(context, "Nuevo insumo", provider);
+              showDialogViewFinca(context, "Nueva finca", provider, null);
             },
             child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
         child: SfDataGridTheme(
@@ -45,43 +43,26 @@ class _InsumosViewState extends State<InsumosView> {
               rowHeight: 35.0,
               columns: <GridColumn>[
                 GridColumn(
-                  width: 40,
-                  columnName: 'index',
-                  label: Tooltip(
-                    message: "Codigo",
-                    child: Center(
-                      child: Text('#',
-                          style: CustomLabels.h4.copyWith(color: Colors.white)),
-                    ),
-                  ),
-                ),
-                GridColumn(
                   columnWidthMode: ColumnWidthMode.fill,
                   columnName: 'nombre',
-                  label: Tooltip(
-                    message: "Nombre",
-                    child: Center(
-                      child: Text('Nombre',
-                          style: CustomLabels.h4.copyWith(color: Colors.white)),
-                    ),
-                  ),
-                ),
-                GridColumn(
-                  columnWidthMode: ColumnWidthMode.fill,
-                  columnName: 'tipo',
-                  label: Tooltip(
-                    message: "Tipo",
-                    child: Center(
-                      child: Text('Tipo',
-                          style: CustomLabels.h4.copyWith(color: Colors.white)),
-                    ),
-                  ),
-                ),
-                GridColumn(
-                  columnWidthMode: ColumnWidthMode.fill,
-                  columnName: 'estado',
                   label: Center(
-                    child: Text('Estado',
+                    child: Text('Nombre',
+                        style: CustomLabels.h4.copyWith(color: Colors.white)),
+                  ),
+                ),
+                GridColumn(
+                  columnWidthMode: ColumnWidthMode.fill,
+                  columnName: 'dimension',
+                  label: Center(
+                    child: Text('Dimension',
+                        style: CustomLabels.h4.copyWith(color: Colors.white)),
+                  ),
+                ),
+                GridColumn(
+                  columnWidthMode: ColumnWidthMode.fill,
+                  columnName: 'ubicacion',
+                  label: Center(
+                    child: Text('Ubicacion',
                         style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),
@@ -93,7 +74,7 @@ class _InsumosViewState extends State<InsumosView> {
                   ),
                 ),
               ],
-              source: InsumosDataSource(provider: provider, cxt: context),
+              source: FincaDataSource(provider: provider, cxt: context),
             ),
           ),
         ),

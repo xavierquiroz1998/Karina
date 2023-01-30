@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tesis_karina/provider/insumo_provider.dart';
+import 'package:tesis_karina/entity/finca.dart';
+import 'package:tesis_karina/provider/finca_provider.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
-Future showDialogViewInsumo(
-    BuildContext context, String title, InsumoProvider insumoProvider) async {
+Future showDialogViewFinca(BuildContext context, String title,
+    FincaProvider provider, Finca? finca) async {
   await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -13,24 +15,42 @@ Future showDialogViewInsumo(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20))),
           content: SizedBox(
-            height: 110,
             width: MediaQuery.of(context).size.width,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  controller: insumoProvider.txtNombre,
+                  controller: provider.txtNombre,
                   decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Nombre del Insumo',
-                      label: 'Insumo',
+                      hint: 'Nombre',
+                      label: 'Nombre',
                       icon: Icons.new_releases_outlined),
                   style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: insumoProvider.txtclase,
+                  controller: provider.txtDimension,
                   decoration: CustomInputs.boxInputDecoration(
-                      hint: 'clase de insumo',
-                      label: 'Clase',
+                      hint: 'Dimension',
+                      label: 'Dimension',
+                      icon: Icons.new_releases_outlined),
+                  style: const TextStyle(color: Colors.black),
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: provider.txtUbicacion,
+                  decoration: CustomInputs.boxInputDecoration(
+                      hint: 'Ubicacion',
+                      label: 'Ubicacion',
+                      icon: Icons.new_releases_outlined),
+                  style: const TextStyle(color: Colors.black),
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: provider.txtReferencia,
+                  decoration: CustomInputs.boxInputDecoration(
+                      hint: 'Referencia',
+                      label: 'Referencia',
                       icon: Icons.new_releases_outlined),
                   style: const TextStyle(color: Colors.black),
                 )
@@ -48,7 +68,21 @@ Future showDialogViewInsumo(
                   return Colors.transparent;
                 })),
                 onPressed: () {
-                  insumoProvider.newObjeto();
+                  if (finca == null) {
+                    provider.newObjeto(Finca(
+                        uid: UtilView.numberRandonUid(),
+                        nombre: provider.txtNombre.text,
+                        dimension: provider.txtDimension.text,
+                        ubicacion: provider.txtUbicacion.text,
+                        referencia: provider.txtReferencia.text,
+                        estado: "I"));
+                  } else {
+                    finca.dimension = provider.txtDimension.text;
+                    finca.nombre = provider.txtNombre.text;
+                    finca.referencia = provider.txtReferencia.text;
+                    finca.ubicacion = provider.txtUbicacion.text;
+                    provider.updateObjeto(finca);
+                  }
                   Navigator.of(context).pop();
                 },
                 child: const Text('Aceptar', style: TextStyle(fontSize: 14))),

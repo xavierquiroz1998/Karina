@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 class Enfermedad {
   Enfermedad({
@@ -9,7 +10,7 @@ class Enfermedad {
     required this.estado,
   });
 
-  String uid;
+  int uid;
   String nombre;
   String grado;
   String ingreso;

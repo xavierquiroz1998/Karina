@@ -9,7 +9,7 @@ class Maquinaria {
     required this.estado,
   });
 
-  String uid;
+  int uid;
   String nombre;
   String ingreso;
   String tipo;

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -141,6 +143,15 @@ class UtilView {
     }
     return colorPrimario;
   } */
+
+  static int numberRandonUid() {
+    int numberUid = 0;
+    var rng = Random();
+    for (var i = 0; i < 3; i++) {
+      numberUid += rng.nextInt(100);
+    }
+    return numberUid;
+  }
 
   static int convertInteger(String color) {
     int colorPrimario = int.parse(color != "" ? color : "0xee29");

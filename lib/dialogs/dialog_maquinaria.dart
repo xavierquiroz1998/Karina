@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tesis_karina/provider/insumo_provider.dart';
+import 'package:tesis_karina/entity/maquinaria.dart';
+import 'package:tesis_karina/provider/maquinaria_provider.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
 
-Future showDialogViewInsumo(
-    BuildContext context, String title, InsumoProvider insumoProvider) async {
+Future showDialogViewMaquinaria(BuildContext context, String title,
+    MaquinariaProvider maquinariaProvider, Maquinaria? maquinaria) async {
   await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -18,19 +19,19 @@ Future showDialogViewInsumo(
             child: Column(
               children: [
                 TextFormField(
-                  controller: insumoProvider.txtNombre,
+                  controller: maquinariaProvider.txtNonbre,
                   decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Nombre del Insumo',
-                      label: 'Insumo',
+                      hint: 'Nombre',
+                      label: 'Nombre',
                       icon: Icons.new_releases_outlined),
                   style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: insumoProvider.txtclase,
+                  controller: maquinariaProvider.txtTipo,
                   decoration: CustomInputs.boxInputDecoration(
-                      hint: 'clase de insumo',
-                      label: 'Clase',
+                      hint: 'Tipo de maquinaria',
+                      label: 'Tipo',
                       icon: Icons.new_releases_outlined),
                   style: const TextStyle(color: Colors.black),
                 )
@@ -48,7 +49,14 @@ Future showDialogViewInsumo(
                   return Colors.transparent;
                 })),
                 onPressed: () {
-                  insumoProvider.newObjeto();
+                  if (maquinaria == null) {
+                    maquinariaProvider.newObjeto();
+                  } else {
+                    maquinaria.nombre = maquinariaProvider.txtNonbre.text;
+                    maquinaria.tipo = maquinariaProvider.txtTipo.text;
+                    maquinariaProvider.updateObjeto(maquinaria);
+                  }
+
                   Navigator.of(context).pop();
                 },
                 child: const Text('Aceptar', style: TextStyle(fontSize: 14))),
