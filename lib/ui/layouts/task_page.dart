@@ -18,7 +18,9 @@ class _TaskPageState extends State<TaskPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
-                children: [Text('')],
+                children: [
+                  Text('prueba'),
+                ],
               )
             ],
           ),
