@@ -6,10 +6,6 @@ class TerrenoProvider extends ChangeNotifier {
   List<Terreno> listTerreno = [];
   final _api = SolicitudApi();
 
-  final txtUbicacion = TextEditingController();
-  final txtDimension = TextEditingController();
-  final txtUnidad = TextEditingController();
-
   getListInt() async {
     final resp = await _api.getApiTerrenos();
     listTerreno = resp;
@@ -22,18 +18,19 @@ class TerrenoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateObjeto(Terreno e) async {
-    final resp = await _api.putApiTerreno(e);
+  updateObjeto(Terreno terreno) async {
+    final resp = await _api.putApiTerreno(terreno);
     try {
-      listTerreno = listTerreno.map((en) {
-        if (en.uid != e.uid) return e;
-        e.ubicacion = e.ubicacion;
-        e.dimension = e.dimension;
+      this.listTerreno = this.listTerreno.map((e) {
+        if (terreno.uid != e.uid) return e;
+        e.ubicacion = terreno.ubicacion;
+        e.dimension = terreno.dimension;
         return e;
       }).toList();
       notifyListeners();
+      return true;
     } catch (e) {
-      throw 'Error al actualizar la enfermedad';
+      throw 'Error al actualizar el terreno';
     }
   }
 

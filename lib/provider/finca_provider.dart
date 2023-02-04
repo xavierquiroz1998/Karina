@@ -6,11 +6,6 @@ class FincaProvider extends ChangeNotifier {
   List<Finca> listFinca = [];
   final _api = SolicitudApi();
 
-  TextEditingController txtNombre = TextEditingController();
-  TextEditingController txtDimension = TextEditingController();
-  TextEditingController txtUbicacion = TextEditingController();
-  TextEditingController txtReferencia = TextEditingController();
-
   getListInt() async {
     final resp = await _api.getApiFincas();
     listFinca = resp;
@@ -20,16 +15,15 @@ class FincaProvider extends ChangeNotifier {
   newObjeto(Finca e) async {
     final resp = await _api.postApiFinca(e);
     listFinca.add(e);
-    clearValue();
     notifyListeners();
   }
 
   updateObjeto(Finca e) async {
     final resp = await _api.putApiFinca(e);
     try {
-      listFinca = listFinca.map((en) {
+      this.listFinca = this.listFinca.map((en) {
         if (en.uid != e.uid) return e;
-        e.nombre = e.nombre;
+        en.nombre = e.nombre;
         return e;
       }).toList();
 
@@ -41,15 +35,7 @@ class FincaProvider extends ChangeNotifier {
 
   deleteObjeto(Finca e) async {
     final resp = await _api.deleteApiFinca(e.uid);
-    print(resp);
     listFinca.remove(e);
     notifyListeners();
-  }
-
-  clearValue() {
-    txtDimension.clear();
-    txtNombre.clear();
-    txtReferencia.clear();
-    txtUbicacion.clear();
   }
 }

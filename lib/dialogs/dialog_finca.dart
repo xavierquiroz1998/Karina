@@ -6,6 +6,15 @@ import 'package:tesis_karina/utils/util_view.dart';
 
 Future showDialogViewFinca(BuildContext context, String title,
     FincaProvider provider, Finca? finca) async {
+  final txtNombre =
+      TextEditingController(text: finca == null ? "" : finca.nombre);
+  final txtDimension =
+      TextEditingController(text: finca == null ? "" : finca.dimension);
+  final txtUbicacion =
+      TextEditingController(text: finca == null ? "" : finca.ubicacion);
+  final txtReferencia =
+      TextEditingController(text: finca == null ? "" : finca.referencia);
+
   await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -20,7 +29,7 @@ Future showDialogViewFinca(BuildContext context, String title,
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  controller: provider.txtNombre,
+                  controller: txtNombre,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'Nombre',
                       label: 'Nombre',
@@ -29,7 +38,7 @@ Future showDialogViewFinca(BuildContext context, String title,
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: provider.txtDimension,
+                  controller: txtDimension,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'Dimension',
                       label: 'Dimension',
@@ -38,7 +47,7 @@ Future showDialogViewFinca(BuildContext context, String title,
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: provider.txtUbicacion,
+                  controller: txtUbicacion,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'Ubicacion',
                       label: 'Ubicacion',
@@ -47,7 +56,7 @@ Future showDialogViewFinca(BuildContext context, String title,
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: provider.txtReferencia,
+                  controller: txtReferencia,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'Referencia',
                       label: 'Referencia',
@@ -71,16 +80,17 @@ Future showDialogViewFinca(BuildContext context, String title,
                   if (finca == null) {
                     provider.newObjeto(Finca(
                         uid: UtilView.numberRandonUid(),
-                        nombre: provider.txtNombre.text,
-                        dimension: provider.txtDimension.text,
-                        ubicacion: provider.txtUbicacion.text,
-                        referencia: provider.txtReferencia.text,
-                        estado: "I"));
+                        nombre: txtNombre.text,
+                        dimension: txtDimension.text,
+                        ubicacion: txtUbicacion.text,
+                        referencia: txtReferencia.text,
+                        estado: 1));
                   } else {
-                    finca.dimension = provider.txtDimension.text;
-                    finca.nombre = provider.txtNombre.text;
-                    finca.referencia = provider.txtReferencia.text;
-                    finca.ubicacion = provider.txtUbicacion.text;
+                    finca.dimension = txtDimension.text;
+                    finca.nombre = txtNombre.text;
+                    finca.referencia = txtReferencia.text;
+                    finca.ubicacion = txtUbicacion.text;
+
                     provider.updateObjeto(finca);
                   }
                   Navigator.of(context).pop();

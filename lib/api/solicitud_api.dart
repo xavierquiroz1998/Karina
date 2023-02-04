@@ -2,32 +2,47 @@ import 'package:tesis_karina/entity/enfermedad.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
+import 'package:tesis_karina/entity/response/respuesta.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/entity/usuario.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:tesis_karina/utils/util_view.dart';
+
 class SolicitudApi {
-  static String baseUrl = "http://192.168.100.73:8000/api";
+  static String baseUrl = "http://192.168.100.4:8000/api";
+  //static String baseUrl = "http://192.168.100.73:8000/api";
 
   // BLOQUE DE USUARIOS Y PERSONAS INCIO ---------------------------------------------------------------------------------------------------------
 
   Future<Usuario?> getApiLogin(String usuario, String pass) async {
-    var url = Uri.parse("$baseUrl/usuarios/login/$usuario");
+    var url = Uri.parse("$baseUrl/usuarios/login/");
+
     final data = {"clave": pass, "correo": usuario};
     final bod = json.encode(data);
+
     try {
-      http.Response respuesta = await http.post(url, body: bod);
+      http.Response respuesta = await http.post(url, body: bod, headers: {
+        "Content-type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+      });
       if (respuesta.statusCode == 200) {
         return utf8.decode(respuesta.bodyBytes) != ""
             ? Usuario.fromJson(utf8.decode(respuesta.bodyBytes))
             : null;
+      } else if (respuesta.statusCode == 400 || respuesta.statusCode == 500) {
+        UtilView.messageDanger(
+            Respuesta.fromJson(utf8.decode(respuesta.bodyBytes)).msg);
       } else {
         throw Exception('Excepcion ${respuesta.statusCode}');
       }
     } catch (e) {
       throw ('error el en GET: $e');
     }
+
+    return null;
   }
 
   Future<List<Usuario>> getApiUsuarios() async {
@@ -67,7 +82,7 @@ class SolicitudApi {
     return parseo.map<Usuario>((json) => Usuario.fromMap(json)).toList();
   }
 
-  Future<bool> deleteApiUsuario(int uid) async {
+  Future<bool> deleteApiUsuario(String uid) async {
     var url = Uri.parse("$baseUrl/usuarios/$uid");
     final respuesta = await http.delete(url,
         headers: {"Content-type": "application/json;charset=UTF-8"});
@@ -158,7 +173,7 @@ class SolicitudApi {
     return parseo.map<Enfermedad>((json) => Enfermedad.fromMap(json)).toList();
   }
 
-  Future<bool> deleteApiEnfermedad(int uid) async {
+  Future<bool> deleteApiEnfermedad(String uid) async {
     var url = Uri.parse("$baseUrl/enfermedades/$uid");
     final respuesta = await http.delete(url,
         headers: {"Content-type": "application/json;charset=UTF-8"});
@@ -254,7 +269,7 @@ class SolicitudApi {
     return parseo.map<Insumo>((json) => Insumo.fromMap(json)).toList();
   }
 
-  Future<bool> deleteApiInsumo(int uid) async {
+  Future<bool> deleteApiInsumo(String uid) async {
     var url = Uri.parse("$baseUrl/insumos/$uid");
     final respuesta = await http.delete(url,
         headers: {"Content-type": "application/json;charset=UTF-8"});
@@ -348,7 +363,7 @@ class SolicitudApi {
     return parseo.map<Maquinaria>((json) => Maquinaria.fromMap(json)).toList();
   }
 
-  Future<bool> deleteApiMaquinaria(int uid) async {
+  Future<bool> deleteApiMaquinaria(String uid) async {
     var url = Uri.parse("$baseUrl/maquinarias/$uid");
     final respuesta = await http.delete(url,
         headers: {"Content-type": "application/json;charset=UTF-8"});
@@ -438,8 +453,8 @@ class SolicitudApi {
     return parseo.map<Terreno>((json) => Terreno.fromMap(json)).toList();
   }
 
-  Future<bool> deleteApiTerreno(int uid) async {
-    var url = Uri.parse("$baseUrl/terrenos?$uid");
+  Future<bool> deleteApiTerreno(String uid) async {
+    var url = Uri.parse("$baseUrl/terrenos/$uid");
     final respuesta = await http.delete(url,
         headers: {"Content-type": "application/json;charset=UTF-8"});
 
@@ -528,7 +543,7 @@ class SolicitudApi {
     return parseo.map<Finca>((json) => Finca.fromMap(json)).toList();
   }
 
-  Future<bool> deleteApiFinca(int uid) async {
+  Future<bool> deleteApiFinca(String uid) async {
     var url = Uri.parse("$baseUrl/fincas/$uid");
     final respuesta = await http.delete(url,
         headers: {"Content-type": "application/json;charset=UTF-8"});

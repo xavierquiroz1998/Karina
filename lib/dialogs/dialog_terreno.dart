@@ -4,8 +4,15 @@ import 'package:tesis_karina/provider/terreno_provider.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
-Future showDialogViewTerreno(
-    BuildContext context, String title, TerrenoProvider terrenoProvider) async {
+Future showDialogViewTerreno(BuildContext context, String title,
+    TerrenoProvider terrenoProvider, Terreno? terreno) async {
+  final txtUbicacion =
+      TextEditingController(text: terreno == null ? "" : terreno.ubicacion);
+  final txtDimension =
+      TextEditingController(text: terreno == null ? "" : terreno.dimension);
+  final txtUnidad =
+      TextEditingController(text: terreno == null ? "" : terreno.unidad);
+
   await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -20,7 +27,7 @@ Future showDialogViewTerreno(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  controller: terrenoProvider.txtUbicacion,
+                  controller: txtUbicacion,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'Ubicacion',
                       label: 'Ubicacion',
@@ -29,7 +36,7 @@ Future showDialogViewTerreno(
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: terrenoProvider.txtDimension,
+                  controller: txtDimension,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'Dimension',
                       label: 'Dimension',
@@ -38,7 +45,7 @@ Future showDialogViewTerreno(
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: terrenoProvider.txtUnidad,
+                  controller: txtUnidad,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'Unidad',
                       label: 'Unidad',
@@ -61,11 +68,11 @@ Future showDialogViewTerreno(
                 onPressed: () {
                   terrenoProvider.newObjeto(Terreno(
                       uid: UtilView.numberRandonUid(),
-                      ubicacion: terrenoProvider.txtUbicacion.text,
-                      dimension: terrenoProvider.txtDimension.text,
-                      unidad: terrenoProvider.txtUnidad.text,
-                      ingreso: "0000-00-00",
-                      estado: "I"));
+                      ubicacion: txtUbicacion.text,
+                      dimension: txtDimension.text,
+                      unidad: txtUnidad.text,
+                      observacion: "",
+                      estado: 1));
                   Navigator.of(context).pop();
                 },
                 child: const Text('Aceptar', style: TextStyle(fontSize: 14))),

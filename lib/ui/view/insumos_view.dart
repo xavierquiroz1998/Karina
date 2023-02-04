@@ -31,9 +31,7 @@ class _InsumosViewState extends State<InsumosView> {
         title: 'Lista de insumos',
         acciones: InkWell(
             onTap: () {
-              provider.txtNombre.text = "";
-              provider.txtclase.text = "";
-              showDialogViewInsumo(context, "Nuevo insumo", provider);
+              showDialogViewInsumo(context, "Nuevo insumo", provider, null);
             },
             child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
         child: SfDataGridTheme(
@@ -44,17 +42,6 @@ class _InsumosViewState extends State<InsumosView> {
               headerRowHeight: 35.0,
               rowHeight: 35.0,
               columns: <GridColumn>[
-                GridColumn(
-                  width: 40,
-                  columnName: 'index',
-                  label: Tooltip(
-                    message: "Codigo",
-                    child: Center(
-                      child: Text('#',
-                          style: CustomLabels.h4.copyWith(color: Colors.white)),
-                    ),
-                  ),
-                ),
                 GridColumn(
                   columnWidthMode: ColumnWidthMode.fill,
                   columnName: 'nombre',
@@ -75,14 +62,6 @@ class _InsumosViewState extends State<InsumosView> {
                       child: Text('Tipo',
                           style: CustomLabels.h4.copyWith(color: Colors.white)),
                     ),
-                  ),
-                ),
-                GridColumn(
-                  columnWidthMode: ColumnWidthMode.fill,
-                  columnName: 'estado',
-                  label: Center(
-                    child: Text('Estado',
-                        style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),
                 GridColumn(

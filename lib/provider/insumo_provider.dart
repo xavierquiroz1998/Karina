@@ -5,9 +5,6 @@ import 'package:tesis_karina/utils/util_view.dart';
 
 class InsumoProvider extends ChangeNotifier {
   List<Insumo> listInsumo = [];
-  TextEditingController txtNombre = TextEditingController();
-  TextEditingController txtclase = TextEditingController();
-
   final _api = SolicitudApi();
 
   getListInt() async {
@@ -16,28 +13,23 @@ class InsumoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  newObjeto() async {
-    final resp = await _api.postApiInsumo(Insumo(
-        uid: UtilView.numberRandonUid(),
-        nombre: txtNombre.text,
-        clase: txtclase.text,
-        ingreso: "00-00-0000",
-        estado: "1"));
-    clearValue();
-    print(resp);
+  Future<bool> newObjeto(Insumo insumo) async {
+    final resp = await _api.postApiInsumo(insumo);
+    listInsumo.add(insumo);
     notifyListeners();
+    return resp;
   }
 
-  updateObjeto(Insumo e) async {
-    final resp = await _api.putApiInsumo(e);
+  updateObjeto(Insumo insumo) async {
+    final resp = await _api.putApiInsumo(insumo);
     try {
-      listInsumo = listInsumo.map((en) {
-        if (en.uid != e.uid) return e;
-        e.nombre = e.nombre;
+      this.listInsumo = this.listInsumo.map((e) {
+        if (insumo.uid != e.uid) return e;
+        e.nombre = insumo.nombre;
         return e;
       }).toList();
-      clearValue();
       notifyListeners();
+      return true;
     } catch (e) {
       throw 'Error al actualizar el insumo';
     }
@@ -48,10 +40,5 @@ class InsumoProvider extends ChangeNotifier {
     print(resp);
     listInsumo.remove(e);
     notifyListeners();
-  }
-
-  void clearValue() {
-    txtNombre.clear();
-    txtclase.clear();
   }
 }

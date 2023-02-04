@@ -21,9 +21,9 @@ class EnfermedadProvider extends ChangeNotifier {
   updateObjeto(Enfermedad e) async {
     final resp = await _api.putApiEnfermedad(e);
     try {
-      listEnfermedad = listEnfermedad.map((en) {
+      this.listEnfermedad = this.listEnfermedad.map((en) {
         if (en.uid != e.uid) return e;
-        e.nombre = e.nombre;
+        en.nombre = e.nombre;
         return e;
       }).toList();
       notifyListeners();

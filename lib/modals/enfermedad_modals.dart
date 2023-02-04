@@ -5,6 +5,7 @@ import 'package:tesis_karina/provider/enfermedad_provider.dart';
 import 'package:tesis_karina/services/notifications_service.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/custom_outlined_button.dart';
 
 class EnfermedadModals extends StatefulWidget {
@@ -18,7 +19,7 @@ class EnfermedadModals extends StatefulWidget {
 
 class _EnfermedadModalsState extends State<EnfermedadModals> {
   String nombre = '';
-  int? id;
+  String? id;
   String medida = '';
 
   @override
@@ -32,18 +33,22 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
   @override
   Widget build(BuildContext context) {
     final enfermedadProvider = Provider.of<EnfermedadProvider>(context);
-    return Container(
-        padding: const EdgeInsets.all(20),
-        height: 300,
+    return Padding(
+      padding: MediaQuery.of(context).viewInsets,
+      child: Container(
+        height: 280,
         decoration: builBoxDecoration(),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.enfermedad?.nombre ?? 'Nueva Enfermedad',
-                  style: CustomLabels.h1.copyWith(color: Colors.white),
+                Container(
+                  margin: const EdgeInsets.only(left: 15, top: 15),
+                  child: Text(
+                    widget.enfermedad?.nombre ?? 'Nueva Enfermedad',
+                    style: CustomLabels.h1.copyWith(color: Colors.white),
+                  ),
                 ),
                 IconButton(
                     onPressed: () {
@@ -61,17 +66,20 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
             const SizedBox(
               height: 20,
             ),
-            TextFormField(
-              initialValue: widget.enfermedad?.nombre ?? '',
-              onChanged: (value) => nombre = value,
-              decoration: CustomInputs.boxInputDecoration(
-                  hint: 'Nombre de la enfermedad',
-                  label: 'Enfermedad',
-                  icon: Icons.new_releases_outlined),
-              style: const TextStyle(color: Colors.white),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              child: TextFormField(
+                initialValue: widget.enfermedad?.nombre ?? '',
+                onChanged: (value) => nombre = value,
+                decoration: CustomInputs.boxInputDecoration(
+                    hint: 'Nombre de la enfermedad',
+                    label: 'Enfermedad',
+                    icon: Icons.new_releases_outlined),
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10, left: 3),
+              padding: const EdgeInsets.only(top: 10, left: 18),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,7 +92,7 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
                   InkWell(
                       onTap: () {
                         setState(() {
-                          medida = "Media";
+                          medida = "Medio";
                         });
                       },
                       child: const Icon(Icons.emoji_emotions,
@@ -99,9 +107,12 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
                       child:
                           const Icon(Icons.warning_rounded, color: Colors.red)),
                   const Spacer(),
-                  Text(
-                    "Seleccionado: $medida",
-                    style: const TextStyle(color: Colors.white),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 18),
+                    child: Text(
+                      "Seleccionado: $medida",
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -114,19 +125,19 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
                     try {
                       if (id == null) {
                         await enfermedadProvider.newObjeto(Enfermedad(
-                            uid: 1,
+                            uid: UtilView.numberRandonUid(),
                             nombre: nombre,
                             grado: medida,
-                            ingreso: "00-00-0000",
-                            estado: "A"));
+                            observacion: "",
+                            estado: 1));
                         NotificationsService.showSnackbar('$nombre creado!');
                       } else {
                         await enfermedadProvider.updateObjeto(Enfermedad(
-                            uid: 1,
+                            uid: id!,
                             nombre: nombre,
                             grado: medida,
-                            ingreso: "00-00-0000",
-                            estado: "A"));
+                            observacion: "",
+                            estado: 1));
                         NotificationsService.showSnackbar(
                             '$nombre actualizado!');
                       }
@@ -141,7 +152,9 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
                   text: 'Guardar'),
             )
           ],
-        ));
+        ),
+      ),
+    );
   }
 
   BoxDecoration builBoxDecoration() => const BoxDecoration(

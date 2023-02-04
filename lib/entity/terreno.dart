@@ -6,17 +6,16 @@ class Terreno {
     required this.ubicacion,
     required this.dimension,
     required this.unidad,
-    required this.ingreso,
+    required this.observacion,
     required this.estado,
   });
 
-  int uid;
+  String uid;
   String ubicacion;
   String dimension;
   String unidad;
-  String ingreso;
-  String estado;
-  String? img;
+  String observacion;
+  int estado;
 
   factory Terreno.fromJson(String str) => Terreno.fromMap(json.decode(str));
 
@@ -27,7 +26,7 @@ class Terreno {
         ubicacion: json["ubicacion"],
         dimension: json["dimension"],
         unidad: json["unidad"],
-        ingreso: json["ingreso"],
+        observacion: json["observacion"],
         estado: json["estado"],
       );
 
@@ -36,7 +35,7 @@ class Terreno {
         "ubicacion": ubicacion,
         "dimension": dimension,
         "unidad": unidad,
-        "ingreso": ingreso,
+        "observacion": observacion,
         "estado": estado,
       };
 }
