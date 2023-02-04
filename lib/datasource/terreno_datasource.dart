@@ -1,48 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:tesis_karina/entity/usuario.dart';
-import 'package:tesis_karina/services/navigation_service.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
+import 'package:tesis_karina/entity/terreno.dart';
+import 'package:tesis_karina/provider/terreno_provider.dart';
 
-class TerrenosDataSource extends DataTableSource {
-  final List<Usuario> usuarios;
-  final BuildContext context;
+class TerrenosDataSource extends DataGridSource {
+  late List<DataGridRow> listData;
+  late BuildContext context;
+  late TerrenoProvider terrenoProvider;
 
-  TerrenosDataSource(this.usuarios, this.context);
-
-  @override
-  DataRow getRow(int index) {
-    final users = usuarios[index];
-
-    final image = (users.img == null)
-        ? const Image(image: AssetImage('no-image.jpg'), width: 35, height: 35)
-        : FadeInImage.assetNetwork(
-            placeholder: 'loader.gif',
-            image: users.img!,
-            width: 35,
-            height: 35);
-
-    return DataRow.byIndex(index: index, cells: [
-      DataCell(Text('${index + 1}')),
-      DataCell(ClipOval(
-        child: image,
-      )),
-      //DataCell(Text(users.uid)),
-      DataCell(Text(users.nombre)),
-      DataCell(Text(users.correo)),
-
-      DataCell(IconButton(
-          onPressed: () {
-            NavigationService.replaceTo('/dashboard/users/${users.uid}');
-          },
-          icon: const Icon(Icons.edit_outlined))),
-    ]);
+  TerrenosDataSource(
+      {required TerrenoProvider provider, required BuildContext cxt}) {
+    context = cxt;
+    terrenoProvider = provider;
+    listData = terrenoProvider.listTerreno
+        .map<DataGridRow>((e) => DataGridRow(cells: [
+              DataGridCell<String>(columnName: 'ubicacion', value: e.ubicacion),
+              DataGridCell<String>(columnName: 'dimension', value: e.dimension),
+              DataGridCell<String>(columnName: 'estado', value: e.estado),
+              DataGridCell<Terreno>(columnName: 'acciones', value: e),
+            ]))
+        .toList();
   }
 
   @override
-  bool get isRowCountApproximate => false;
+  DataGridRowAdapter? buildRow(DataGridRow row) {
+    return DataGridRowAdapter(
+      cells: <Widget>[
+        Container(
+            alignment: Alignment.center,
+            child: Text(row.getCells()[0].value.toString())),
+        Container(
+            alignment: Alignment.center,
+            child: Text(row.getCells()[1].value.toString())),
+        Container(
+            alignment: Alignment.center,
+            child: Text(row.getCells()[2].value.toString())),
+        Container(
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InkWell(
+                    onTap: () async {},
+                    child: const Icon(Icons.edit_outlined,
+                        color: Colors.blueGrey)),
+                const SizedBox(width: 5),
+                InkWell(
+                    onTap: () async {
+                      final respuesta = await dialogAcepCanc(
+                          context,
+                          "Seguro que deseas eliminar?",
+                          Icons.delete,
+                          Colors.red);
+
+                      if (respuesta) {
+                        // ignore: use_build_context_synchronously
+                        terrenoProvider.deleteObjeto(row.getCells()[3].value);
+                      }
+                    },
+                    child: const Icon(Icons.delete, color: Colors.red))
+              ],
+            )),
+      ],
+    );
+  }
 
   @override
-  int get rowCount => usuarios.length;
-
-  @override
-  int get selectedRowCount => 0;
+  List<DataGridRow> get rows => listData;
 }

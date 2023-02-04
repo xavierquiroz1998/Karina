@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tesis_karina/provider/enfermedad_provider.dart';
+import 'package:tesis_karina/provider/finca_provider.dart';
+import 'package:tesis_karina/provider/insumo_provider.dart';
+import 'package:tesis_karina/provider/maquinaria_provider.dart';
 import 'package:tesis_karina/provider/register_form_provider.dart';
+import 'package:tesis_karina/provider/terreno_provider.dart';
+import 'package:tesis_karina/provider/user_form_provider.dart';
+import 'package:tesis_karina/provider/usuario_provider.dart';
 import 'package:tesis_karina/router/routes.dart';
 import 'package:tesis_karina/services/navigation_service.dart';
 import 'package:tesis_karina/services/notifications_service.dart';
@@ -17,6 +24,13 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => RegisterFormProvider()),
+        ChangeNotifierProvider(create: (_) => EnfermedadProvider()),
+        ChangeNotifierProvider(create: (_) => TerrenoProvider()),
+        ChangeNotifierProvider(create: (_) => InsumoProvider()),
+        ChangeNotifierProvider(create: (_) => UsuarioProvider()),
+        ChangeNotifierProvider(create: (_) => MaquinariaProvider()),
+        ChangeNotifierProvider(create: (_) => FincaProvider()),
+        ChangeNotifierProvider(create: (_) => UserFormProvider()),
       ],
       child: const MyApp(),
     );

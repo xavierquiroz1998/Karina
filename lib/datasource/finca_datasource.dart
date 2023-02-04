@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
+import 'package:tesis_karina/dialogs/dialog_finca.dart';
+import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/modals/enfermedad_modals.dart';
-import 'package:tesis_karina/entity/enfermedad.dart';
-import 'package:tesis_karina/provider/enfermedad_provider.dart';
+import 'package:tesis_karina/provider/finca_provider.dart';
 
-class EnfermedadesDataSource extends DataGridSource {
+class FincaDataSource extends DataGridSource {
   late List<DataGridRow> listData;
   late BuildContext context;
-  late EnfermedadProvider enfermedadProvider;
+  late FincaProvider fincaProvider;
 
-  EnfermedadesDataSource(
-      {required EnfermedadProvider provider, required BuildContext cxt}) {
+  FincaDataSource(
+      {required FincaProvider provider, required BuildContext cxt}) {
     context = cxt;
-    enfermedadProvider = provider;
-    listData = enfermedadProvider.listEnfermedad
+    fincaProvider = provider;
+    listData = fincaProvider.listFinca
         .map<DataGridRow>((e) => DataGridRow(cells: [
-              const DataGridCell<String>(columnName: 'index', value: "0"),
               DataGridCell<String>(columnName: 'nombre', value: e.nombre),
-              DataGridCell<String>(columnName: 'grado', value: e.grado),
-              DataGridCell<String>(columnName: 'estado', value: e.estado),
-              DataGridCell<Enfermedad>(columnName: 'acciones', value: e),
+              DataGridCell<String>(columnName: 'dimension', value: e.dimension),
+              DataGridCell<String>(columnName: 'ubicacion', value: e.ubicacion),
+              DataGridCell<Finca>(columnName: 'acciones', value: e),
             ]))
         .toList();
   }
@@ -37,14 +37,7 @@ class EnfermedadesDataSource extends DataGridSource {
             child: Text(row.getCells()[1].value.toString())),
         Container(
             alignment: Alignment.center,
-            child: Icon(Icons.warning_rounded,
-                color:
-                    row.getCells()[2].value.toString().toLowerCase() == "medio"
-                        ? Colors.amber
-                        : Colors.red)),
-        Container(
-            alignment: Alignment.center,
-            child: Text(row.getCells()[3].value.toString())),
+            child: Text(row.getCells()[2].value.toString())),
         Container(
             alignment: Alignment.center,
             child: Row(
@@ -54,11 +47,8 @@ class EnfermedadesDataSource extends DataGridSource {
               children: [
                 InkWell(
                     onTap: () {
-                      showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.transparent,
-                          builder: (_) => EnfermedadModals(
-                              enfermedad: row.getCells()[4].value));
+                      showDialogViewFinca(context, "Actualizar finca",
+                          fincaProvider, row.getCells()[3].value);
                     },
                     child: const Icon(Icons.edit_outlined,
                         color: Colors.blueGrey)),
@@ -73,8 +63,7 @@ class EnfermedadesDataSource extends DataGridSource {
 
                       if (respuesta) {
                         // ignore: use_build_context_synchronously
-                        enfermedadProvider
-                            .deleteObjeto(row.getCells()[4].value);
+                        fincaProvider.deleteObjeto(row.getCells()[3].value);
                       }
                     },
                     child: const Icon(Icons.delete, color: Colors.red))

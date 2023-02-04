@@ -6,16 +6,14 @@ class Usuario {
       required this.estado,
       required this.nombre,
       required this.correo,
-      required this.direccion,
       required this.uid,
       this.img});
 
-  String rol;
-  bool estado;
+  int uid;
   String nombre;
   String correo;
-  bool direccion;
-  String uid;
+  String rol;
+  String estado;
   String? img;
 
   factory Usuario.fromJson(String str) => Usuario.fromMap(json.decode(str));
@@ -27,7 +25,6 @@ class Usuario {
         estado: json["estado"],
         nombre: json["nombre"],
         correo: json["correo"],
-        direccion: json["direccion"],
         uid: json["uid"],
         img: json["img"],
       );
@@ -37,7 +34,6 @@ class Usuario {
         "estado": estado,
         "nombre": nombre,
         "correo": correo,
-        "direccion": direccion,
         "uid": uid,
         "img": img,
       };
