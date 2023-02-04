@@ -5,16 +5,15 @@ class Maquinaria {
     required this.uid,
     required this.nombre,
     required this.tipo,
-    required this.ingreso,
+    required this.observacion,
     required this.estado,
   });
 
-  int uid;
+  String uid;
   String nombre;
-  String ingreso;
+  String observacion;
   String tipo;
-  String estado;
-  String? img;
+  int estado;
 
   factory Maquinaria.fromJson(String str) =>
       Maquinaria.fromMap(json.decode(str));
@@ -24,7 +23,7 @@ class Maquinaria {
   factory Maquinaria.fromMap(Map<String, dynamic> json) => Maquinaria(
         uid: json["uid"],
         nombre: json["nombre"],
-        ingreso: json["ingreso"],
+        observacion: json["observacion"],
         tipo: json["tipo"],
         estado: json["estado"],
       );
@@ -32,7 +31,7 @@ class Maquinaria {
   Map<String, dynamic> toMap() => {
         "uid": uid,
         "nombre": nombre,
-        "ingreso": ingreso,
+        "observacion": observacion,
         "tipo": tipo,
         "estado": estado,
       };

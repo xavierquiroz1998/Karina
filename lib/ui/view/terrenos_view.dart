@@ -31,7 +31,7 @@ class _TerrenosViewState extends State<TerrenosView> {
         title: 'Lista de Terrenos',
         acciones: InkWell(
             onTap: () {
-              showDialogViewTerreno(context, "Nuevo terreno", provider);
+              showDialogViewTerreno(context, "Nuevo terreno", provider, null);
             },
             child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
         child: SfDataGridTheme(
@@ -45,12 +45,9 @@ class _TerrenosViewState extends State<TerrenosView> {
                 GridColumn(
                   columnWidthMode: ColumnWidthMode.fill,
                   columnName: 'ubicacion',
-                  label: Tooltip(
-                    message: "Ubicacion",
-                    child: Center(
-                      child: Text('Ubicacion',
-                          style: CustomLabels.h4.copyWith(color: Colors.white)),
-                    ),
+                  label: Center(
+                    child: Text('Ubicacion',
+                        style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),
                 GridColumn(
@@ -58,14 +55,6 @@ class _TerrenosViewState extends State<TerrenosView> {
                   columnName: 'dimension',
                   label: Center(
                     child: Text('Dimension',
-                        style: CustomLabels.h4.copyWith(color: Colors.white)),
-                  ),
-                ),
-                GridColumn(
-                  columnWidthMode: ColumnWidthMode.fill,
-                  columnName: 'estado',
-                  label: Center(
-                    child: Text('Estado',
                         style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),

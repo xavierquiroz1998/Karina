@@ -17,7 +17,6 @@ class TerrenosDataSource extends DataGridSource {
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<String>(columnName: 'ubicacion', value: e.ubicacion),
               DataGridCell<String>(columnName: 'dimension', value: e.dimension),
-              DataGridCell<String>(columnName: 'estado', value: e.estado),
               DataGridCell<Terreno>(columnName: 'acciones', value: e),
             ]))
         .toList();
@@ -33,9 +32,6 @@ class TerrenosDataSource extends DataGridSource {
         Container(
             alignment: Alignment.center,
             child: Text(row.getCells()[1].value.toString())),
-        Container(
-            alignment: Alignment.center,
-            child: Text(row.getCells()[2].value.toString())),
         Container(
             alignment: Alignment.center,
             child: Row(
@@ -58,7 +54,7 @@ class TerrenosDataSource extends DataGridSource {
 
                       if (respuesta) {
                         // ignore: use_build_context_synchronously
-                        terrenoProvider.deleteObjeto(row.getCells()[3].value);
+                        terrenoProvider.deleteObjeto(row.getCells()[2].value);
                       }
                     },
                     child: const Icon(Icons.delete, color: Colors.red))

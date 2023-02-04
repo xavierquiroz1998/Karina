@@ -5,16 +5,15 @@ class Insumo {
     required this.uid,
     required this.nombre,
     required this.clase,
-    required this.ingreso,
+    required this.observacion,
     required this.estado,
   });
 
-  int uid;
+  String uid;
   String nombre;
   String clase;
-  String ingreso;
-  String estado;
-  String? img;
+  String observacion;
+  int estado;
 
   factory Insumo.fromJson(String str) => Insumo.fromMap(json.decode(str));
 
@@ -24,7 +23,7 @@ class Insumo {
         uid: json["uid"],
         nombre: json["nombre"],
         clase: json["clase"],
-        ingreso: json["ingreso"],
+        observacion: json["observacion"],
         estado: json["estado"],
       );
 
@@ -32,7 +31,7 @@ class Insumo {
         "uid": uid,
         "nombre": nombre,
         "clase": clase,
-        "ingreso": ingreso,
+        "observacion": observacion,
         "estado": estado,
       };
 }

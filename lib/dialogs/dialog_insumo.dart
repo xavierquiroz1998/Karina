@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/provider/insumo_provider.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
-Future showDialogViewInsumo(
-    BuildContext context, String title, InsumoProvider insumoProvider) async {
+Future showDialogViewInsumo(BuildContext context, String title,
+    InsumoProvider insumoProvider, Insumo? insumo) async {
+  final txtNombre =
+      TextEditingController(text: insumo == null ? "" : insumo.nombre);
+  final txtclase =
+      TextEditingController(text: insumo == null ? "" : insumo.clase);
+
   await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -18,7 +25,7 @@ Future showDialogViewInsumo(
             child: Column(
               children: [
                 TextFormField(
-                  controller: insumoProvider.txtNombre,
+                  controller: txtNombre,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'Nombre del Insumo',
                       label: 'Insumo',
@@ -27,7 +34,7 @@ Future showDialogViewInsumo(
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: insumoProvider.txtclase,
+                  controller: txtclase,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'clase de insumo',
                       label: 'Clase',
@@ -48,7 +55,19 @@ Future showDialogViewInsumo(
                   return Colors.transparent;
                 })),
                 onPressed: () {
-                  insumoProvider.newObjeto();
+                  if (insumo == null) {
+                    insumoProvider.newObjeto(Insumo(
+                        uid: UtilView.numberRandonUid(),
+                        nombre: txtNombre.text,
+                        clase: txtclase.text,
+                        observacion: "--",
+                        estado: 1));
+                  } else {
+                    insumo.nombre = txtNombre.text;
+                    insumo.clase = txtclase.text;
+                    insumoProvider.updateObjeto(insumo);
+                  }
+
                   Navigator.of(context).pop();
                 },
                 child: const Text('Aceptar', style: TextStyle(fontSize: 14))),

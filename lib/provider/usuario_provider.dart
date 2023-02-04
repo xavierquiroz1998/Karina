@@ -32,12 +32,12 @@ class UsuarioProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateObjeto(Usuario e) async {
-    final resp = await _api.putApiUsuario(e);
+  updateObjeto(Usuario usuario) async {
+    final resp = await _api.putApiUsuario(usuario);
     try {
-      listUsuario = listUsuario.map((en) {
-        if (en.uid != e.uid) return e;
-        e.nombre = e.nombre;
+      this.listUsuario = this.listUsuario.map((e) {
+        if (usuario.uid != e.uid) return e;
+        e.nombre = usuario.nombre;
         return e;
       }).toList();
       notifyListeners();

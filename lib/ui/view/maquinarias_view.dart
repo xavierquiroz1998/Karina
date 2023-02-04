@@ -45,17 +45,6 @@ class _MaquinariasViewState extends State<MaquinariasView> {
               rowHeight: 35.0,
               columns: <GridColumn>[
                 GridColumn(
-                  width: 40,
-                  columnName: 'index',
-                  label: Tooltip(
-                    message: "Codigo",
-                    child: Center(
-                      child: Text('#',
-                          style: CustomLabels.h4.copyWith(color: Colors.white)),
-                    ),
-                  ),
-                ),
-                GridColumn(
                   columnWidthMode: ColumnWidthMode.fill,
                   columnName: 'nombre',
                   label: Tooltip(
@@ -75,14 +64,6 @@ class _MaquinariasViewState extends State<MaquinariasView> {
                       child: Text('Tipo',
                           style: CustomLabels.h4.copyWith(color: Colors.white)),
                     ),
-                  ),
-                ),
-                GridColumn(
-                  columnWidthMode: ColumnWidthMode.fill,
-                  columnName: 'estado',
-                  label: Center(
-                    child: Text('Estado',
-                        style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),
                 GridColumn(

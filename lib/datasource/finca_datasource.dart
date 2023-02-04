@@ -3,7 +3,6 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
 import 'package:tesis_karina/dialogs/dialog_finca.dart';
 import 'package:tesis_karina/entity/finca.dart';
-import 'package:tesis_karina/modals/enfermedad_modals.dart';
 import 'package:tesis_karina/provider/finca_provider.dart';
 
 class FincaDataSource extends DataGridSource {

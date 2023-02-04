@@ -1,21 +1,19 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 class Enfermedad {
   Enfermedad({
     required this.uid,
     required this.nombre,
     required this.grado,
-    required this.ingreso,
+    required this.observacion,
     required this.estado,
   });
 
-  int uid;
+  String uid;
   String nombre;
   String grado;
-  String ingreso;
-  String estado;
-  String? img;
+  String observacion;
+  int estado;
 
   factory Enfermedad.fromJson(String str) =>
       Enfermedad.fromMap(json.decode(str));
@@ -26,7 +24,7 @@ class Enfermedad {
         uid: json["uid"],
         nombre: json["nombre"],
         grado: json["grado"],
-        ingreso: json["ingreso"],
+        observacion: json["observacion"],
         estado: json["estado"],
       );
 
@@ -34,7 +32,7 @@ class Enfermedad {
         "uid": uid,
         "nombre": nombre,
         "grado": grado,
-        "ingreso": ingreso,
+        "observacion": observacion,
         "estado": estado,
       };
 }

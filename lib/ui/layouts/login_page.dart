@@ -57,18 +57,16 @@ class LoginPage extends StatelessWidget {
                           textAlign: TextAlign.center,
                         )),
                     onTap: () async {
-                      if (formKey.currentState!.validate()) {
+                      /* if (formKey.currentState!.validate()) {
                         final user = await providerUsuario.getUsuarioLogin(
                             txtEmail.text, txtPass.text);
 
                         if (user != null) {
                           // ignore: use_build_context_synchronously
                           Navigator.pushNamed(context, '/dashboard');
-                        } else {
-                          NotificationsService.showSnackbar(
-                              "Error de credenciales");
                         }
-                      }
+                      } */
+                      Navigator.pushNamed(context, '/dashboard');
                     },
                   ),
                   Expanded(child: Container()),

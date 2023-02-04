@@ -9,11 +9,11 @@ class Usuario {
       required this.uid,
       this.img});
 
-  int uid;
+  String uid;
   String nombre;
   String correo;
   String rol;
-  String estado;
+  int estado;
   String? img;
 
   factory Usuario.fromJson(String str) => Usuario.fromMap(json.decode(str));

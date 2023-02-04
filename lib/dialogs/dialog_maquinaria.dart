@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/provider/maquinaria_provider.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
 Future showDialogViewMaquinaria(BuildContext context, String title,
     MaquinariaProvider maquinariaProvider, Maquinaria? maquinaria) async {
+  final txtNonbre =
+      TextEditingController(text: maquinaria == null ? "" : maquinaria.nombre);
+  final txtTipo =
+      TextEditingController(text: maquinaria == null ? "" : maquinaria.tipo);
+
   await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -19,7 +25,7 @@ Future showDialogViewMaquinaria(BuildContext context, String title,
             child: Column(
               children: [
                 TextFormField(
-                  controller: maquinariaProvider.txtNonbre,
+                  controller: txtNonbre,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'Nombre',
                       label: 'Nombre',
@@ -28,7 +34,7 @@ Future showDialogViewMaquinaria(BuildContext context, String title,
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: maquinariaProvider.txtTipo,
+                  controller: txtTipo,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'Tipo de maquinaria',
                       label: 'Tipo',
@@ -50,10 +56,15 @@ Future showDialogViewMaquinaria(BuildContext context, String title,
                 })),
                 onPressed: () {
                   if (maquinaria == null) {
-                    maquinariaProvider.newObjeto();
+                    maquinariaProvider.newObjeto(Maquinaria(
+                        uid: UtilView.numberRandonUid(),
+                        nombre: txtNonbre.text,
+                        tipo: txtTipo.text,
+                        observacion: "",
+                        estado: 1));
                   } else {
-                    maquinaria.nombre = maquinariaProvider.txtNonbre.text;
-                    maquinaria.tipo = maquinariaProvider.txtTipo.text;
+                    maquinaria.nombre = txtNonbre.text;
+                    maquinaria.tipo = txtTipo.text;
                     maquinariaProvider.updateObjeto(maquinaria);
                   }
 

@@ -16,10 +16,8 @@ class EnfermedadesDataSource extends DataGridSource {
     enfermedadProvider = provider;
     listData = enfermedadProvider.listEnfermedad
         .map<DataGridRow>((e) => DataGridRow(cells: [
-              const DataGridCell<String>(columnName: 'index', value: "0"),
               DataGridCell<String>(columnName: 'nombre', value: e.nombre),
               DataGridCell<String>(columnName: 'grado', value: e.grado),
-              DataGridCell<String>(columnName: 'estado', value: e.estado),
               DataGridCell<Enfermedad>(columnName: 'acciones', value: e),
             ]))
         .toList();
@@ -30,21 +28,25 @@ class EnfermedadesDataSource extends DataGridSource {
     return DataGridRowAdapter(
       cells: <Widget>[
         Container(
-            alignment: Alignment.center,
+            padding: const EdgeInsets.only(left: 5),
+            alignment: Alignment.centerLeft,
             child: Text(row.getCells()[0].value.toString())),
         Container(
-            alignment: Alignment.centerLeft,
-            child: Text(row.getCells()[1].value.toString())),
-        Container(
             alignment: Alignment.center,
-            child: Icon(Icons.warning_rounded,
-                color:
-                    row.getCells()[2].value.toString().toLowerCase() == "medio"
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Text(row.getCells()[1].value.toString().toUpperCase()),
+                ),
+                Icon(Icons.warning_rounded,
+                    color: row.getCells()[1].value.toString().toLowerCase() ==
+                            "medio"
                         ? Colors.amber
-                        : Colors.red)),
-        Container(
-            alignment: Alignment.center,
-            child: Text(row.getCells()[3].value.toString())),
+                        : Colors.red)
+              ],
+            )),
         Container(
             alignment: Alignment.center,
             child: Row(
@@ -56,9 +58,10 @@ class EnfermedadesDataSource extends DataGridSource {
                     onTap: () {
                       showModalBottomSheet(
                           context: context,
+                          isScrollControlled: true,
                           backgroundColor: Colors.transparent,
                           builder: (_) => EnfermedadModals(
-                              enfermedad: row.getCells()[4].value));
+                              enfermedad: row.getCells()[2].value));
                     },
                     child: const Icon(Icons.edit_outlined,
                         color: Colors.blueGrey)),
@@ -74,7 +77,7 @@ class EnfermedadesDataSource extends DataGridSource {
                       if (respuesta) {
                         // ignore: use_build_context_synchronously
                         enfermedadProvider
-                            .deleteObjeto(row.getCells()[4].value);
+                            .deleteObjeto(row.getCells()[2].value);
                       }
                     },
                     child: const Icon(Icons.delete, color: Colors.red))

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tesis_karina/entity/usuario.dart';
 import 'package:tesis_karina/provider/usuario_provider.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
 Future showDialogViewUsuario(
     BuildContext context, String title, UsuarioProvider usuarioProvider) async {
@@ -61,7 +63,7 @@ Future showDialogViewUsuario(
               ),
               const SizedBox(height: 10),
               TextFormField(
-                controller: usuarioProvider.txtCelular,
+                controller: usuarioProvider.txtEmail,
                 decoration: CustomInputs.boxInputDecoration(
                     hint: 'Correo',
                     label: 'Correo',
@@ -81,7 +83,12 @@ Future showDialogViewUsuario(
                   return Colors.transparent;
                 })),
                 onPressed: () {
-                  //usuarioProvider.newObjeto();
+                  usuarioProvider.newObjeto(Usuario(
+                      uid: UtilView.numberRandonUid(),
+                      estado: 1,
+                      rol: "1",
+                      nombre: usuarioProvider.txtNombre.text,
+                      correo: usuarioProvider.txtEmail.text));
                   Navigator.of(context).pop();
                 },
                 child: const Text('Aceptar', style: TextStyle(fontSize: 14))),

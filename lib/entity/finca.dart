@@ -10,12 +10,12 @@ class Finca {
     required this.estado,
   });
 
-  int uid;
+  String uid;
   String nombre;
   String dimension;
   String ubicacion;
   String referencia;
-  String estado;
+  int estado;
 
   factory Finca.fromJson(String str) => Finca.fromMap(json.decode(str));
 
