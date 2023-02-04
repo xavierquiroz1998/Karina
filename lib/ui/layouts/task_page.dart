@@ -20,6 +20,8 @@ class _TaskPageState extends State<TaskPage> {
               Row(
                 children: [
                   Text('prueba'),
+                  Text('prueba'),
+                  Text('prueba'),
                 ],
               )
             ],
