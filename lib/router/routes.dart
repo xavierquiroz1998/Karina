@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tesis_karina/ui/layouts/cronograma_page.dart';
+import 'package:tesis_karina/ui/layouts/planificacion_page.dart';
 import 'package:tesis_karina/ui/layouts/dashboard_page.dart';
 import 'package:tesis_karina/ui/layouts/login_page.dart';
 import 'package:tesis_karina/ui/layouts/matenimiento_page.dart';
@@ -17,10 +17,10 @@ final routes = <String, WidgetBuilder>{
 
   //DASBOARD OPT
   '/dashboard/mantenimientos': (context) => const MatenimientoPage(),
-  '/dashboard/controlCronograma': (context) => CronogramaPage(),
+  '/dashboard/controlCronograma': (context) => const PlanificacionPage(),
   '/dashboard/controlReporte': (context) => ReportPage(),
   '/dashboard/controlSeguimiento': (context) => SeguiminentoPage(),
-  '/dashboard/controlTareas': (context) => TaskPage(),
+  '/dashboard/controlTareas': (context) => const TaskPage(),
   //FIN
 
   //VISTAS COMPLETAS --> complemento del dashboard

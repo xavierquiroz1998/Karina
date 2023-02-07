@@ -85,7 +85,7 @@ class MenuLateral extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
-            title: const Text("Cronograma"),
+            title: const Text("Planificación"),
             onTap: () async =>
                 Navigator.pushNamed(context, '/dashboard/controlCronograma'),
           ),

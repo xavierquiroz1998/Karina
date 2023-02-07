@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:tesis_karina/widgets/input_form.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
-class CronogramaPage extends StatefulWidget {
-  const CronogramaPage({Key? key}) : super(key: key);
+class PlanificacionPage extends StatefulWidget {
+  const PlanificacionPage({Key? key}) : super(key: key);
 
   @override
-  State<CronogramaPage> createState() => _CronogramaPageState();
+  State<PlanificacionPage> createState() => _PlanificacionPageState();
 }
 
-class _CronogramaPageState extends State<CronogramaPage> {
+class _PlanificacionPageState extends State<PlanificacionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Cronograma de Actv.')),
+      appBar: AppBar(title: const Text('Planificacion')),
       body: WhiteCard(
           // ignore: sort_child_properties_last
           child: Column(
