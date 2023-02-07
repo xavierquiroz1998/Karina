@@ -1,5 +1,7 @@
+import 'package:tesis_karina/entity/Task.dart';
 import 'package:tesis_karina/entity/enfermedad.dart';
 import 'package:tesis_karina/entity/finca.dart';
+import 'package:tesis_karina/entity/hist_task.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/entity/response/respuesta.dart';
@@ -11,7 +13,7 @@ import 'dart:convert';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class SolicitudApi {
-  static String baseUrl = "http://192.168.100.4:8000/api";
+  static String baseUrl = "http://192.168.1.52:8000/api";
   //static String baseUrl = "http://192.168.100.73:8000/api";
 
   // BLOQUE DE USUARIOS Y PERSONAS INCIO ---------------------------------------------------------------------------------------------------------
@@ -594,4 +596,121 @@ class SolicitudApi {
   }
 
 // BLOQUE DE FINCA FIN ---------------------------------------------------------------------------------------------------------
+
+  // BLOQUE DE INSUMO INCIO ---------------------------------------------------------------------------------------------------------
+
+  Future<List<Task>> getApiTask() async {
+    var url = Uri.parse("$baseUrl/task");
+    print(url.toString());
+
+    try {
+      var respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListTask(utf8.decode(respuesta.bodyBytes));
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  Future<List<HistTask>> getApiListUserTask(String user, String estado) async {
+    var url = Uri.parse("$baseUrl/listtask/tareas");
+
+    var data = {"obs": estado, "referencia": user};
+
+    try {
+      var respuesta = await http.post(url,
+          headers: {"Content-type": "application/json;charset=UTF-8"},
+          body: json.encode(data));
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListHistTask(utf8.decode(respuesta.bodyBytes));
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  Future<List<HistTask>> getApiListTask() async {
+    var url = Uri.parse("$baseUrl/listtask");
+    print(url.toString());
+
+    try {
+      var respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListHistTask(utf8.decode(respuesta.bodyBytes));
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  List<HistTask> parseJsonToListHistTask(String respuesta) {
+    final parseo = jsonDecode(respuesta);
+    return parseo.map<HistTask>((json) => HistTask.fromMap(json)).toList();
+  }
+
+  List<Task> parseJsonToListTask(String respuesta) {
+    final parseo = jsonDecode(respuesta);
+    return parseo.map<Task>((json) => Task.fromMap(json)).toList();
+  }
+
+  Future<bool> deleteApiTask(String uid) async {
+    var url = Uri.parse("$baseUrl/task/$uid");
+    final respuesta = await http.delete(url,
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+
+    try {
+      if (respuesta.statusCode == 200) {
+        return true;
+        //return utf8.decode(respuesta.bodyBytes).contains('true');
+      } else {
+        throw Exception(respuesta.statusCode.toString());
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
+  Future<bool> putApiTask(Task datos) async {
+    var url = Uri.parse("$baseUrl/task/${datos.uid}");
+    final respuesta = await http.put(url,
+        body: datos.toJson(),
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+    try {
+      if (respuesta.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception(respuesta.statusCode.toString());
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
+  Future<bool> postApiTask(Task datos) async {
+    var url = Uri.parse("$baseUrl/task");
+    var data = datos.toJson();
+
+    final resquet = await http.post(url,
+        body: data,
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+
+    try {
+      if (resquet.statusCode != 200) {
+        throw Exception('${resquet.statusCode}');
+      } else {
+        return true;
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
+  // BLOQUE DE IINSUMO FIN ---------------------------------------------------------------------------------------------------------
 }

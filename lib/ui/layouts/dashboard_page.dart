@@ -79,7 +79,7 @@ class MenuLateral extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
-            title: const Text("Generar Tareas"),
+            title: const Text("Tareas"),
             onTap: () async =>
                 Navigator.pushNamed(context, '/dashboard/controlTareas'),
           ),
