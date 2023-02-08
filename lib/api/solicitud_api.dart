@@ -13,10 +13,10 @@ import 'dart:convert';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class SolicitudApi {
-  static String baseUrl = "http://192.168.100.4:8000/api";
+  static String baseUrl = "http://192.168.100.15:8001/api";
   //static String baseUrl = "http://192.168.100.73:8000/api";
 
-  // BLOQUE DE USUARIOS Y PERSONAS INCIO ---------------------------------------------------------------------------------------------------------
+// #region BLOQUE DE USUARIOS Y PERSONAS
 
   Future<Usuario?> getApiLogin(String usuario, String pass) async {
     var url = Uri.parse("$baseUrl/usuarios/login/");
@@ -133,10 +133,9 @@ class SolicitudApi {
     }
   }
 
-  // BLOQUE DE USUARIOS Y PERSONAS FIN ---------------------------------------------------------------------------------------------------------
+// #endregion
 
-  // BLOQUE DE ENFERMEDADES INCIO ---------------------------------------------------------------------------------------------------------
-
+// #region BLOQUE DE ENFERMEDADES INCIO
   Future<Enfermedad?> getApiEnfermedad(String uid) async {
     var url = Uri.parse("$baseUrl/enfermedades?id=$uid");
 
@@ -229,9 +228,9 @@ class SolicitudApi {
     }
   }
 
-  // BLOQUE DE ENFERMEDADES FIN ---------------------------------------------------------------------------------------------------------
+// #endregion
 
-  // BLOQUE DE INSUMO INCIO ---------------------------------------------------------------------------------------------------------
+// #region // BLOQUE DE INSUMO INCIO
 
   Future<Insumo?> getApiInsumo(String uid) async {
     var url = Uri.parse("$baseUrl/insumos?id=$uid");
@@ -323,10 +322,9 @@ class SolicitudApi {
     }
   }
 
-  // BLOQUE DE IINSUMO FIN ---------------------------------------------------------------------------------------------------------
+// #endregion
 
-  // BLOQUE DE MAQUUINARIA INCIO ---------------------------------------------------------------------------------------------------------
-
+// #region BLOQUE DE MAQUUINARIA INCIO
   Future<Maquinaria?> getApiMaquinaria(String uid) async {
     var url = Uri.parse("$baseUrl/maquinarias?id=$uid");
 
@@ -413,10 +411,10 @@ class SolicitudApi {
       throw ('$e');
     }
   }
-  // BLOQUE DE MAQUINARIA FIN ---------------------------------------------------------------------------------------------------------
 
-  // BLOQUE DE TERRENO INCIO ---------------------------------------------------------------------------------------------------------
+  // #endregion // BLOQUE DE MAQUINARIA FIN ---------------------------------------------------------------------------------------------------------
 
+// #region BLOQUE DE TERRENO INCIO
   Future<Terreno?> getApiTerreno(String uid) async {
     var url = Uri.parse("$baseUrl/terrenos/$uid");
 
@@ -505,8 +503,9 @@ class SolicitudApi {
   }
 // BLOQUE DE TERRENO FIN ---------------------------------------------------------------------------------------------------------
 
-// BLOQUE DE FINCA INCIO ---------------------------------------------------------------------------------------------------------
+// #endregion
 
+// #region BLOQUE DE FINCA INCIO
   Future<Finca?> getApiFinca(String uid) async {
     var url = Uri.parse("$baseUrl/terrenos/id=$uid");
 
@@ -597,7 +596,9 @@ class SolicitudApi {
 
 // BLOQUE DE FINCA FIN ---------------------------------------------------------------------------------------------------------
 
-  // BLOQUE DE INSUMO INCIO ---------------------------------------------------------------------------------------------------------
+// #endregion
+
+// #region BLOQUE TASK INICIO
 
   Future<List<Task>> getApiTask() async {
     var url = Uri.parse("$baseUrl/task");
@@ -712,5 +713,100 @@ class SolicitudApi {
     }
   }
 
-  // BLOQUE DE IINSUMO FIN ---------------------------------------------------------------------------------------------------------
+// #endregion
+
+// #region BLOQUE DE PERSONAS INCIO
+  Future<Finca?> getApiPersona(String uid) async {
+    var url = Uri.parse("$baseUrl/personas/id=$uid");
+
+    try {
+      http.Response respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return utf8.decode(respuesta.bodyBytes) != ""
+            ? Finca.fromJson(utf8.decode(respuesta.bodyBytes))
+            : null;
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  Future<List<Finca>> getApiPersonas() async {
+    var url = Uri.parse("$baseUrl/personas");
+    print(url.toString());
+
+    try {
+      var respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListPersonas(utf8.decode(respuesta.bodyBytes));
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  List<Finca> parseJsonToListPersonas(String respuesta) {
+    final parseo = jsonDecode(respuesta);
+    return parseo.map<Finca>((json) => Finca.fromMap(json)).toList();
+  }
+
+  Future<bool> deleteApiPersonas(String uid) async {
+    var url = Uri.parse("$baseUrl/personas/$uid");
+    final respuesta = await http.delete(url,
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+
+    try {
+      if (respuesta.statusCode == 200) {
+        return true;
+        //return utf8.decode(respuesta.bodyBytes).contains('true');
+      } else {
+        throw Exception(respuesta.statusCode.toString());
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
+  Future<bool> putApiPersonas(Finca datos) async {
+    var url = Uri.parse("$baseUrl/personas/${datos.uid}");
+    final respuesta = await http.put(url,
+        body: datos.toJson(),
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+    try {
+      if (respuesta.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception(respuesta.statusCode.toString());
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
+  Future<bool> postApiPersonas(Finca datos) async {
+    var url = Uri.parse("$baseUrl/personas");
+    print(datos.toJson());
+    final resquet = await http.post(url,
+        body: datos.toJson(),
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+    try {
+      if (resquet.statusCode != 200) {
+        throw Exception('${resquet.statusCode}');
+      } else {
+        return true;
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
+// BLOQUE DE FINCA FIN ---------------------------------------------------------------------------------------------------------
+
+// #endregion
+
+
 }

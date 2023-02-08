@@ -13,6 +13,8 @@ import 'package:tesis_karina/router/routes.dart';
 import 'package:tesis_karina/services/navigation_service.dart';
 import 'package:tesis_karina/services/notifications_service.dart';
 
+import 'provider/planificacion_provider.dart';
+
 void main() {
   runApp(const AppState());
 }
@@ -33,6 +35,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FincaProvider()),
         ChangeNotifierProvider(create: (_) => TaskProvider()),
         ChangeNotifierProvider(create: (_) => UserFormProvider()),
+        ChangeNotifierProvider(create: (_) => PlanificacionProvider()),
       ],
       child: const MyApp(),
     );

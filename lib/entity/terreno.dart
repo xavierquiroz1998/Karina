@@ -38,4 +38,10 @@ class Terreno {
         "observacion": observacion,
         "estado": estado,
       };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return ubicacion;
+  }
 }

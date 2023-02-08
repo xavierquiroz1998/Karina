@@ -38,4 +38,9 @@ class Finca {
         "referencia": referencia,
         "estado": estado,
       };
+
+  @override
+  String toString() {
+    return nombre;
+  }
 }

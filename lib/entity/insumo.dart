@@ -34,4 +34,10 @@ class Insumo {
         "observacion": observacion,
         "estado": estado,
       };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return nombre;
+  }
 }
