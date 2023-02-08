@@ -4,6 +4,7 @@ import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/hist_task.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
+import 'package:tesis_karina/entity/personas.dart';
 import 'package:tesis_karina/entity/response/respuesta.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/entity/usuario.dart';
@@ -716,14 +717,14 @@ class SolicitudApi {
 // #endregion
 
 // #region BLOQUE DE PERSONAS INCIO
-  Future<Finca?> getApiPersona(String uid) async {
+  Future<Persona?> getApiPersona(String uid) async {
     var url = Uri.parse("$baseUrl/personas/id=$uid");
 
     try {
       http.Response respuesta = await http.get(url);
       if (respuesta.statusCode == 200) {
         return utf8.decode(respuesta.bodyBytes) != ""
-            ? Finca.fromJson(utf8.decode(respuesta.bodyBytes))
+            ? Persona.fromJson(utf8.decode(respuesta.bodyBytes))
             : null;
       } else {
         throw Exception('Excepcion ${respuesta.statusCode}');
@@ -733,7 +734,7 @@ class SolicitudApi {
     }
   }
 
-  Future<List<Finca>> getApiPersonas() async {
+  Future<List<Persona>> getApiPersonas() async {
     var url = Uri.parse("$baseUrl/personas");
     print(url.toString());
 
@@ -749,9 +750,9 @@ class SolicitudApi {
     }
   }
 
-  List<Finca> parseJsonToListPersonas(String respuesta) {
+  List<Persona> parseJsonToListPersonas(String respuesta) {
     final parseo = jsonDecode(respuesta);
-    return parseo.map<Finca>((json) => Finca.fromMap(json)).toList();
+    return parseo.map<Persona>((json) => Persona.fromMap(json)).toList();
   }
 
   Future<bool> deleteApiPersonas(String uid) async {
@@ -771,7 +772,7 @@ class SolicitudApi {
     }
   }
 
-  Future<bool> putApiPersonas(Finca datos) async {
+  Future<bool> putApiPersonas(Persona datos) async {
     var url = Uri.parse("$baseUrl/personas/${datos.uid}");
     final respuesta = await http.put(url,
         body: datos.toJson(),
@@ -787,7 +788,7 @@ class SolicitudApi {
     }
   }
 
-  Future<bool> postApiPersonas(Finca datos) async {
+  Future<bool> postApiPersonas(Persona datos) async {
     var url = Uri.parse("$baseUrl/personas");
     print(datos.toJson());
     final resquet = await http.post(url,
@@ -807,6 +808,4 @@ class SolicitudApi {
 // BLOQUE DE FINCA FIN ---------------------------------------------------------------------------------------------------------
 
 // #endregion
-
-
 }

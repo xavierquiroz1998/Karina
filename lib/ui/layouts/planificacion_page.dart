@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/insumo.dart';
+import 'package:tesis_karina/entity/personas.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/provider/planificacion_provider.dart';
 import 'package:tesis_karina/widgets/input_form.dart';
@@ -134,6 +135,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                         ),
                       ),
                     ),
+                  
                   ],
                 ),
                 Row(
@@ -238,7 +240,101 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                 Row(
                   children: [
                     Text("Personal"),
-                    Expanded(child: TextFormField()),
+                      Expanded(
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2(
+                          isExpanded: true,
+                          hint: Align(
+                            alignment: AlignmentDirectional.center,
+                            child: Text(
+                              'Select Items',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context).hintColor,
+                              ),
+                            ),
+                          ),
+                          items: provPlanificacion.listPersonas.map((item) {
+                            return DropdownMenuItem<Persona>(
+                              value: item,
+                              //disable default onTap to avoid closing menu when selecting an item
+                              enabled: false,
+                              child: StatefulBuilder(
+                                builder: (context, menuSetState) {
+                                  final _isSelected = provPlanificacion
+                                      .listPersonasSelect
+                                      .contains(item);
+                                  return InkWell(
+                                    onTap: () {
+                                      _isSelected
+                                          ? provPlanificacion.listPersonasSelect
+                                              .remove(item)
+                                          : provPlanificacion.listPersonasSelect
+                                              .add(item);
+                                      //This rebuilds the StatefulWidget to update the button's text
+                                      setState(() {});
+                                      //This rebuilds the dropdownMenu Widget to update the check mark
+                                      menuSetState(() {});
+                                    },
+                                    child: Container(
+                                      height: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: Row(
+                                        children: [
+                                          _isSelected
+                                              ? const Icon(
+                                                  Icons.check_box_outlined)
+                                              : const Icon(Icons
+                                                  .check_box_outline_blank),
+                                          const SizedBox(width: 16),
+                                          Text(
+                                            item.nombre,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          }).toList(),
+                          //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
+                          value: provPlanificacion.listPersonasSelect.isEmpty
+                              ? null
+                              : provPlanificacion.listPersonasSelect.last,
+                          onChanged: (value) {},
+                          buttonHeight: 40,
+                          buttonWidth: 140,
+                          itemHeight: 40,
+                          itemPadding: EdgeInsets.zero,
+                          selectedItemBuilder: (context) {
+                            return provPlanificacion.listPersonas.map(
+                              (item) {
+                                return Container(
+                                  alignment: AlignmentDirectional.center,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
+                                  child: Text(
+                                    provPlanificacion.listPersonasSelect
+                                        .join(', '),
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    maxLines: 1,
+                                  ),
+                                );
+                              },
+                            ).toList();
+                          },
+                        ),
+                      ),
+                    ),
+                  
                   ],
                 ),
                 Row(
