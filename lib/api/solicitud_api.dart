@@ -3,6 +3,7 @@ import 'package:tesis_karina/entity/enfermedad.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/hist_task.dart';
 import 'package:tesis_karina/entity/insumo.dart';
+import 'package:tesis_karina/entity/list_insumos.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/entity/personas.dart';
 import 'package:tesis_karina/entity/response/respuesta.dart';
@@ -808,4 +809,23 @@ class SolicitudApi {
 // BLOQUE DE FINCA FIN ---------------------------------------------------------------------------------------------------------
 
 // #endregion
+
+  Future<bool> postApiListInsumo(ListInsumos insumos) async {
+    var url = Uri.parse("$baseUrl/listinsumo");
+    var data = insumos.toJson();
+
+    final resquet = await http.post(url,
+        body: data,
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+
+    try {
+      if (resquet.statusCode != 200) {
+        throw Exception('${resquet.statusCode}');
+      } else {
+        return true;
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
 }

@@ -135,7 +135,6 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                         ),
                       ),
                     ),
-                  
                   ],
                 ),
                 Row(
@@ -240,7 +239,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                 Row(
                   children: [
                     Text("Personal"),
-                      Expanded(
+                    Expanded(
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2(
                           isExpanded: true,
@@ -334,7 +333,6 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                         ),
                       ),
                     ),
-                  
                   ],
                 ),
                 Row(
@@ -532,7 +530,9 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () async{
+                        provPlanificacion.grabar();
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text("Guardar"),
