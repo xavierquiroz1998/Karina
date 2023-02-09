@@ -7,6 +7,7 @@ import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/personas.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/provider/planificacion_provider.dart';
+import 'package:tesis_karina/style/custom/custom_labels.dart';
 import 'package:tesis_karina/widgets/input_form.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
@@ -20,10 +21,8 @@ class PlanificacionPage extends StatefulWidget {
 class _PlanificacionPageState extends State<PlanificacionPage> {
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
-
     Provider.of<PlanificacionProvider>(context, listen: false).inializacion();
+    super.initState();
   }
 
   @override
@@ -31,7 +30,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
     var provPlanificacion = Provider.of<PlanificacionProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Planificacion')),
+      appBar: AppBar(title: const Text('Crear Planificacion')),
       body: SingleChildScrollView(
         child: WhiteCard(
             // ignore: sort_child_properties_last
@@ -40,7 +39,9 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
               children: [
                 Row(
                   children: [
-                    Text("Finca"),
+                    SizedBox(
+                        width: 100,
+                        child: Text("Finca", style: CustomLabels.h11)),
                     Expanded(
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2(
@@ -139,7 +140,9 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                 ),
                 Row(
                   children: [
-                    Text("Terreno"),
+                    SizedBox(
+                        width: 100,
+                        child: Text("Terreno", style: CustomLabels.h11)),
                     Expanded(
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2(
@@ -238,7 +241,9 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                 ),
                 Row(
                   children: [
-                    Text("Personal"),
+                    SizedBox(
+                        width: 100,
+                        child: Text("Personal", style: CustomLabels.h11)),
                     Expanded(
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2(
@@ -337,7 +342,9 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                 ),
                 Row(
                   children: [
-                    Text("Insumos"),
+                    SizedBox(
+                        width: 100,
+                        child: Text("Insumos", style: CustomLabels.h11)),
                     Expanded(
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2(
@@ -436,26 +443,76 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                 ),
                 Row(
                   children: [
-                    Text("Disponible"),
-                    Expanded(child: TextFormField()),
+                    SizedBox(
+                        width: 100,
+                        child: Text("Disponible", style: CustomLabels.h11)),
+                    Expanded(
+                        child: InputForm(
+                      controller: provPlanificacion.disponibleController,
+                      hint: "",
+                      icon: Icons.assignment,
+                      length: 6,
+                      textInputType: TextInputType.text,
+                    )),
                   ],
                 ),
                 Row(
                   children: [
-                    Text("Humedad"),
-                    Expanded(child: TextFormField()),
+                    SizedBox(
+                        width: 100,
+                        child: Text("Humedad", style: CustomLabels.h11)),
+                    Expanded(
+                        child: InputForm(
+                      controller: provPlanificacion.humedadFinController,
+                      hint: "",
+                      icon: Icons.assignment,
+                      length: 6,
+                      textInputType: TextInputType.number,
+                    )),
                   ],
                 ),
                 Row(
                   children: [
-                    Text("Temperatura"),
-                    Expanded(child: TextFormField()),
+                    SizedBox(
+                        width: 100,
+                        child: Text("Temperatura", style: CustomLabels.h11)),
+                    Expanded(
+                        child: InputForm(
+                      controller: provPlanificacion.temperaturaFinController,
+                      hint: "",
+                      icon: Icons.assignment,
+                      length: 6,
+                      textInputType: TextInputType.number,
+                    )),
                   ],
                 ),
                 Row(
                   children: [
-                    Text("Observación"),
-                    Expanded(child: TextFormField()),
+                    SizedBox(
+                        width: 100,
+                        child: Text("Observación", style: CustomLabels.h11)),
+                    Expanded(
+                        child: InputForm(
+                      controller: provPlanificacion.observacionFinController,
+                      hint: "",
+                      icon: Icons.assignment,
+                      maxLines: 3,
+                      length: 200,
+                      textInputType: TextInputType.text,
+                    )),
+                  ],
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                        width: 100,
+                        child: Text("Agregar Act.", style: CustomLabels.h11)),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(Icons.assignment_add),
+                          label: const Text('Actividades')),
+                    )
                   ],
                 ),
                 Row(
@@ -467,7 +524,8 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                           decoration: const InputDecoration(
                               icon: Icon(
                                   Icons.calendar_today), //icon of text field
-                              labelText: "Fecha Inicio" //label text of field
+                              labelText:
+                                  "Fecha de inicio de planificacion" //label text of field
                               ),
                           readOnly: true, // when true user cannot edit text
                           onTap: () async {
@@ -501,7 +559,8 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                           decoration: const InputDecoration(
                               icon: Icon(
                                   Icons.calendar_today), //icon of text field
-                              labelText: "Fecha Fin" //label text of field
+                              labelText:
+                                  "Fecha de fin de planificacion" //label text of field
                               ),
                           readOnly: true, // when true user cannot edit text
                           onTap: () async {
@@ -530,19 +589,19 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         provPlanificacion.grabar();
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("Guardar"),
+                        child: Text("Guardar", style: CustomLabels.h11),
                       ),
                     ),
                     TextButton(
                       onPressed: () {},
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("Cancelar"),
+                        child: Text("Cancelar", style: CustomLabels.h11),
                       ),
                     ),
                   ],

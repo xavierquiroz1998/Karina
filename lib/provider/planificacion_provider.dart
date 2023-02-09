@@ -20,6 +20,11 @@ class PlanificacionProvider extends ChangeNotifier {
   TextEditingController _dateController = TextEditingController();
   TextEditingController _dateFinController = TextEditingController();
 
+  TextEditingController disponibleController = TextEditingController();
+  TextEditingController humedadFinController = TextEditingController();
+  TextEditingController temperaturaFinController = TextEditingController();
+  TextEditingController observacionFinController = TextEditingController();
+
   final _api = SolicitudApi();
 
   TextEditingController get dateFinController => _dateFinController;
@@ -71,7 +76,7 @@ class PlanificacionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void grabar() async{
+  void grabar() async {
     try {
       var referenciaTask = UtilView.numberRandonUid();
       for (var e in listInsumoSelect) {
