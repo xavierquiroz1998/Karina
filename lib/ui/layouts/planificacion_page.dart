@@ -452,7 +452,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                       hint: "",
                       icon: Icons.assignment,
                       length: 6,
-                      textInputType: TextInputType.text,
+                      textInputType: TextInputType.number,
                     )),
                   ],
                 ),
@@ -537,7 +537,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                                     2020), //DateTime.now() - not to allow to choose before today.
                                 lastDate: DateTime(2101));
                             if (pickedDate != null) {
-                              String formattedDate = DateFormat('dd-MM-yyyy')
+                              String formattedDate = DateFormat('yyyy-MM-dd')
                                   .format(
                                       pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
 
@@ -572,7 +572,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                                     2020), //DateTime.now() - not to allow to choose before today.
                                 lastDate: DateTime(2101));
                             if (pickedDate != null) {
-                              String formattedDate = DateFormat('dd-MM-yyyy')
+                              String formattedDate = DateFormat('yyyy-MM-dd')
                                   .format(
                                       pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
 

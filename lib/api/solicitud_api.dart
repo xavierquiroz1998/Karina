@@ -4,6 +4,8 @@ import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/hist_task.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/list_insumos.dart';
+import 'package:tesis_karina/entity/list_personal.dart';
+import 'package:tesis_karina/entity/list_terrenos.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/entity/personas.dart';
 import 'package:tesis_karina/entity/response/respuesta.dart';
@@ -15,7 +17,7 @@ import 'dart:convert';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class SolicitudApi {
-  static String baseUrl = "http://192.168.100.4:8000/api";
+  static String baseUrl = "http://192.168.100.15:8001/api";
   //static String baseUrl = "http://192.168.100.73:8000/api";
 
 // #region BLOQUE DE USUARIOS Y PERSONAS
@@ -813,6 +815,44 @@ class SolicitudApi {
   Future<bool> postApiListInsumo(ListInsumos insumos) async {
     var url = Uri.parse("$baseUrl/listinsumo");
     var data = insumos.toJson();
+
+    final resquet = await http.post(url,
+        body: data,
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+
+    try {
+      if (resquet.statusCode != 200) {
+        throw Exception('${resquet.statusCode}');
+      } else {
+        return true;
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
+  Future<bool> postApiListPersonal(ListPersonal personal) async {
+    var url = Uri.parse("$baseUrl/listpersonal");
+    var data = personal.toJson();
+
+    final resquet = await http.post(url,
+        body: data,
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+
+    try {
+      if (resquet.statusCode != 200) {
+        throw Exception('${resquet.statusCode}');
+      } else {
+        return true;
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
+  Future<bool> postApiListTerrenos(ListTerrenos terreno) async {
+    var url = Uri.parse("$baseUrl/listterreno");
+    var data = terreno.toJson();
 
     final resquet = await http.post(url,
         body: data,

@@ -14,9 +14,7 @@ class Task {
     required this.observacion,
     required this.start,
     required this.end,
-    required this.estado,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.estado
   });
 
   String uid;
@@ -32,8 +30,6 @@ class Task {
   DateTime start;
   DateTime end;
   int estado;
-  DateTime createdAt;
-  DateTime updatedAt;
 
   factory Task.fromJson(String str) => Task.fromMap(json.decode(str));
 
@@ -52,9 +48,7 @@ class Task {
         observacion: json["observacion"],
         start: DateTime.parse(json["start"]),
         end: DateTime.parse(json["end"]),
-        estado: json["estado"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        estado: json["estado"]
       );
 
   Map<String, dynamic> toMap() => {
@@ -70,8 +64,6 @@ class Task {
         "observacion": observacion,
         "start": start.toIso8601String(),
         "end": end.toIso8601String(),
-        "estado": estado,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "estado": estado
       };
 }
