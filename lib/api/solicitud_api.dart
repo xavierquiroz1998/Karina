@@ -17,8 +17,8 @@ import 'dart:convert';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class SolicitudApi {
-  static String baseUrl = "http://192.168.100.15:8001/api";
-  //static String baseUrl = "http://192.168.100.73:8000/api";
+  //static String baseUrl = "http://192.168.100.15:8001/api";
+  static String baseUrl = "http://192.168.100.73:8000/api";
 
 // #region BLOQUE DE USUARIOS Y PERSONAS
 
