@@ -1,9 +1,7 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/provider/seguimiento_provider.dart';
-import 'package:tesis_karina/services/notifications_service.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
 import 'package:tesis_karina/widgets/input_form.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
@@ -109,7 +107,7 @@ class _ObservacionPageState extends State<ObservacionPage> {
                       ),
                       FloatingActionButton(
                         onPressed: () async {
-                          FilePickerResult? result =
+                          /*  FilePickerResult? result =
                               await FilePicker.platform.pickFiles(
                             type: FileType.custom,
                             allowedExtensions: ['jpg', 'png', 'jpeg'],
@@ -120,7 +118,7 @@ class _ObservacionPageState extends State<ObservacionPage> {
                             Navigator.of(context).pop();
                           } else {
                             //Cancelar la busqueda de la imagen
-                          }
+                          } */
                         },
                         elevation: 0,
                         backgroundColor: Colors.indigo,

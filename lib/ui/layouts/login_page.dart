@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/provider/user_form_provider.dart';
 import 'package:tesis_karina/provider/usuario_provider.dart';
-import 'package:tesis_karina/services/notifications_service.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);

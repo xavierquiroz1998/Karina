@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/entity/usuario.dart';
@@ -193,7 +192,7 @@ class _AvatarContainer extends StatelessWidget {
                             border: Border.all(color: Colors.white, width: 5)),
                         child: FloatingActionButton(
                           onPressed: () async {
-                            FilePickerResult? result =
+                            /*  FilePickerResult? result =
                                 await FilePicker.platform.pickFiles(
                               type: FileType.custom,
                               allowedExtensions: ['jpg', 'png', 'jpeg'],
@@ -213,7 +212,7 @@ class _AvatarContainer extends StatelessWidget {
                               Navigator.of(context).pop();
                             } else {
                               //Cancelar la busqueda de la imagen
-                            }
+                            } */
                           },
                           elevation: 0,
                           backgroundColor: Colors.indigo,

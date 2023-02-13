@@ -31,7 +31,7 @@ dependencies:
   dio: ^4.0.6
   dropdown_button2: ^1.9.2
   email_validator: ^2.1.17
-  file_picker: ^5.2.5
+  excel: ^2.0.1
   fluro: ^2.0.4
   flutter:
     sdk: flutter
@@ -42,11 +42,17 @@ dependencies:
   font_awesome_flutter: ^10.3.0
   google_fonts: ^3.0.1
   http: ^0.13.5
-  intl: ^0.18.0
+  intl: ^0.17.0
+  open_file: ^3.2.1
+  printing: ^5.10.1
   provider: ^6.0.5
   shared_preferences: ^2.0.16
-  syncfusion_flutter_core: ^20.4.44
-  syncfusion_flutter_datagrid: ^20.4.44
+  syncfusion_flutter_core: ^20.4.49
+  syncfusion_flutter_datagrid: ^20.4.49
+  syncfusion_flutter_xlsio: ^20.4.49-beta
+  syncfusion_officechart: ^20.4.49-beta
+  syncfusion_officecore: ^20.4.49-beta
+  url_launcher: ^6.1.9
   uuid: ^3.0.7
 
 dev_dependencies:
