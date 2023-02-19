@@ -360,7 +360,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                             ),
                           ),
                           items: provPlanificacion.listInsumo.map((item) {
-                            return DropdownMenuItem<Insumo>(
+                            return DropdownMenuItem<Insumos>(
                               value: item,
                               //disable default onTap to avoid closing menu when selecting an item
                               enabled: false,

@@ -22,7 +22,7 @@ class FincaProvider extends ChangeNotifier {
     final resp = await _api.putApiFinca(e);
     try {
       this.listFinca = this.listFinca.map((en) {
-        if (en.uid != e.uid) return e;
+        if (en.idfinca != e.idfinca) return e;
         en.nombre = e.nombre;
         return e;
       }).toList();
@@ -34,7 +34,7 @@ class FincaProvider extends ChangeNotifier {
   }
 
   deleteObjeto(Finca e) async {
-    final resp = await _api.deleteApiFinca(e.uid);
+    final resp = await _api.deleteApiFinca(e.idfinca);
     listFinca.remove(e);
     notifyListeners();
   }

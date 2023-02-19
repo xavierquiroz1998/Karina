@@ -16,8 +16,11 @@ class MaquinariasDataSource extends DataGridSource {
     maquinariaProvider = provider;
     listData = maquinariaProvider.listMaquinaria
         .map<DataGridRow>((e) => DataGridRow(cells: [
+              DataGridCell<String>(
+                  columnName: 'identificacion', value: e.identificacion),
               DataGridCell<String>(columnName: 'nombre', value: e.nombre),
-              DataGridCell<String>(columnName: 'tipo', value: e.tipo),
+              DataGridCell<String>(
+                  columnName: 'capacidad', value: "${e.capacidad}"),
               DataGridCell<Maquinaria>(columnName: 'acciones', value: e),
             ]))
         .toList();
@@ -29,11 +32,15 @@ class MaquinariasDataSource extends DataGridSource {
       cells: <Widget>[
         Container(
             padding: const EdgeInsets.only(left: 8),
-            alignment: Alignment.center,
+            alignment: Alignment.centerLeft,
             child: Text(row.getCells()[0].value.toString())),
         Container(
-            alignment: Alignment.center,
+            padding: const EdgeInsets.only(left: 8),
+            alignment: Alignment.centerLeft,
             child: Text(row.getCells()[1].value.toString())),
+        Container(
+            alignment: Alignment.center,
+            child: Text(row.getCells()[2].value.toString())),
         Container(
             alignment: Alignment.center,
             child: Row(
@@ -44,7 +51,7 @@ class MaquinariasDataSource extends DataGridSource {
                 InkWell(
                     onTap: () async {
                       showDialogViewMaquinaria(context, "Actualizar Maquinaria",
-                          maquinariaProvider, row.getCells()[2].value);
+                          maquinariaProvider, row.getCells()[3].value);
                     },
                     child: const Icon(Icons.edit_outlined,
                         color: Colors.blueGrey)),
@@ -60,7 +67,7 @@ class MaquinariasDataSource extends DataGridSource {
                       if (respuesta) {
                         // ignore: use_build_context_synchronously
                         maquinariaProvider
-                            .deleteObjeto(row.getCells()[2].value);
+                            .deleteObjeto(row.getCells()[3].value);
                       }
                     },
                     child: const Icon(Icons.delete, color: Colors.red))

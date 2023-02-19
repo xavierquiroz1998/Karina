@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tesis_karina/api/solicitud_api.dart';
-import 'package:tesis_karina/entity/hist_task.dart';
+import 'package:tesis_karina/entity/detalle_planificacion.dart';
 
 class TaskProvider extends ChangeNotifier {
-  List<HistTask> listTask = [];
+  List<Detalleplanificacion> listTask = [];
   final _api = SolicitudApi();
 
   getListInt() async {

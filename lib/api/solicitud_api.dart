@@ -1,15 +1,19 @@
-import 'package:tesis_karina/entity/Task.dart';
+import 'package:tesis_karina/entity/detalle_planificacion.dart';
 import 'package:tesis_karina/entity/enfermedad.dart';
 import 'package:tesis_karina/entity/finca.dart';
-import 'package:tesis_karina/entity/hist_task.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/list_insumos.dart';
 import 'package:tesis_karina/entity/list_personal.dart';
 import 'package:tesis_karina/entity/list_terrenos.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/entity/personas.dart';
+import 'package:tesis_karina/entity/planificacion.dart';
 import 'package:tesis_karina/entity/response/respuesta.dart';
 import 'package:tesis_karina/entity/terreno.dart';
+import 'package:tesis_karina/entity/tipos_enfermedades.dart';
+import 'package:tesis_karina/entity/tipos_insumos.dart';
+import 'package:tesis_karina/entity/tipos_maquinarias.dart';
+import 'package:tesis_karina/entity/tipos_plagas.dart';
 import 'package:tesis_karina/entity/usuario.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,7 +22,7 @@ import 'package:tesis_karina/utils/util_view.dart';
 
 class SolicitudApi {
   //static String baseUrl = "http://192.168.100.15:8001/api";
-  static String baseUrl = "http://192.168.100.73:8000/api";
+  static String baseUrl = "http://192.168.100.4:8000/api";
 
 // #region BLOQUE DE USUARIOS Y PERSONAS
 
@@ -106,7 +110,7 @@ class SolicitudApi {
   }
 
   Future<bool> putApiUsuario(Usuario datos) async {
-    var url = Uri.parse("$baseUrl/usuarios/${datos.uid}");
+    var url = Uri.parse("$baseUrl/usuarios/${datos.idusuarios}");
     final respuesta = await http.put(url,
         body: datos.toJson(),
         headers: {"Content-type": "application/json;charset=UTF-8"});
@@ -140,14 +144,14 @@ class SolicitudApi {
 // #endregion
 
 // #region BLOQUE DE ENFERMEDADES INCIO
-  Future<Enfermedad?> getApiEnfermedad(String uid) async {
+  Future<Enfermedades?> getApiEnfermedad(String uid) async {
     var url = Uri.parse("$baseUrl/enfermedades?id=$uid");
 
     try {
       http.Response respuesta = await http.get(url);
       if (respuesta.statusCode == 200) {
         return utf8.decode(respuesta.bodyBytes) != ""
-            ? Enfermedad.fromJson(utf8.decode(respuesta.bodyBytes))
+            ? Enfermedades.fromJson(utf8.decode(respuesta.bodyBytes))
             : null;
       } else {
         throw Exception('Excepcion ${respuesta.statusCode}');
@@ -157,14 +161,14 @@ class SolicitudApi {
     }
   }
 
-  Future<List<Enfermedad>> getApiEnfermedades() async {
+  Future<List<Enfermedades>> getApiEnfermedades() async {
     var url = Uri.parse("$baseUrl/enfermedades");
     print(url.toString());
 
     try {
       var respuesta = await http.get(url);
       if (respuesta.statusCode == 200) {
-        return parseJsonToListEnfermedad(utf8.decode(respuesta.bodyBytes));
+        return parseJsonToListEnfermedades(utf8.decode(respuesta.bodyBytes));
       } else {
         throw Exception('Excepcion ${respuesta.statusCode}');
       }
@@ -173,9 +177,58 @@ class SolicitudApi {
     }
   }
 
-  List<Enfermedad> parseJsonToListEnfermedad(String respuesta) {
+  Future<List<TipoEnfermedades>> getApiTipoEnfermedades() async {
+    var url = Uri.parse("$baseUrl/tiposenfermedades");
+    print(url.toString());
+
+    try {
+      var respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListTipoEnfermedades(
+            utf8.decode(respuesta.bodyBytes));
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  Future<List<TiposPlagas>> getApiTipoPlagas() async {
+    var url = Uri.parse("$baseUrl/tiposplagas");
+    print(url.toString());
+
+    try {
+      var respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListTiposPlagas(utf8.decode(respuesta.bodyBytes));
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  List<Enfermedades> parseJsonToListEnfermedades(String respuesta) {
     final parseo = jsonDecode(respuesta);
-    return parseo.map<Enfermedad>((json) => Enfermedad.fromMap(json)).toList();
+    return parseo
+        .map<Enfermedades>((json) => Enfermedades.fromMap(json))
+        .toList();
+  }
+
+  List<TiposPlagas> parseJsonToListTiposPlagas(String respuesta) {
+    final parseo = jsonDecode(respuesta);
+    return parseo
+        .map<TiposPlagas>((json) => TiposPlagas.fromMap(json))
+        .toList();
+  }
+
+  List<TipoEnfermedades> parseJsonToListTipoEnfermedades(String respuesta) {
+    final parseo = jsonDecode(respuesta);
+    return parseo
+        .map<TipoEnfermedades>((json) => TipoEnfermedades.fromMap(json))
+        .toList();
   }
 
   Future<bool> deleteApiEnfermedad(String uid) async {
@@ -195,8 +248,8 @@ class SolicitudApi {
     }
   }
 
-  Future<bool> putApiEnfermedad(Enfermedad datos) async {
-    var url = Uri.parse("$baseUrl/enfermedades/${datos.uid}");
+  Future<bool> putApiEnfermedad(Enfermedades datos) async {
+    var url = Uri.parse("$baseUrl/enfermedades/${datos.idenfermedades}");
 
     print(url.toString());
 
@@ -214,7 +267,7 @@ class SolicitudApi {
     }
   }
 
-  Future<bool> postApiEnfermedad(Enfermedad datos) async {
+  Future<bool> postApiEnfermedad(Enfermedades datos) async {
     var url = Uri.parse("$baseUrl/enfermedades");
     var data = datos.toJson();
 
@@ -236,14 +289,14 @@ class SolicitudApi {
 
 // #region // BLOQUE DE INSUMO INCIO
 
-  Future<Insumo?> getApiInsumo(String uid) async {
+  Future<Insumos?> getApiInsumo(String uid) async {
     var url = Uri.parse("$baseUrl/insumos?id=$uid");
 
     try {
       http.Response respuesta = await http.get(url);
       if (respuesta.statusCode == 200) {
         return utf8.decode(respuesta.bodyBytes) != ""
-            ? Insumo.fromJson(utf8.decode(respuesta.bodyBytes))
+            ? Insumos.fromJson(utf8.decode(respuesta.bodyBytes))
             : null;
       } else {
         throw Exception('Excepcion ${respuesta.statusCode}');
@@ -253,14 +306,14 @@ class SolicitudApi {
     }
   }
 
-  Future<List<Insumo>> getApiInsumos() async {
+  Future<List<Insumos>> getApiInsumos() async {
     var url = Uri.parse("$baseUrl/insumos");
     print(url.toString());
 
     try {
       var respuesta = await http.get(url);
       if (respuesta.statusCode == 200) {
-        return parseJsonToListInsumo(utf8.decode(respuesta.bodyBytes));
+        return parseJsonToListInsumos(utf8.decode(respuesta.bodyBytes));
       } else {
         throw Exception('Excepcion ${respuesta.statusCode}');
       }
@@ -269,9 +322,32 @@ class SolicitudApi {
     }
   }
 
-  List<Insumo> parseJsonToListInsumo(String respuesta) {
+  List<Insumos> parseJsonToListInsumos(String respuesta) {
     final parseo = jsonDecode(respuesta);
-    return parseo.map<Insumo>((json) => Insumo.fromMap(json)).toList();
+    return parseo.map<Insumos>((json) => Insumos.fromMap(json)).toList();
+  }
+
+  Future<List<TiposInsumos>> getApiTipoInsumos() async {
+    var url = Uri.parse("$baseUrl/tiposinsumos");
+    print(url.toString());
+
+    try {
+      var respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListTiposInsumos(utf8.decode(respuesta.bodyBytes));
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  List<TiposInsumos> parseJsonToListTiposInsumos(String respuesta) {
+    final parseo = jsonDecode(respuesta);
+    return parseo
+        .map<TiposInsumos>((json) => TiposInsumos.fromMap(json))
+        .toList();
   }
 
   Future<bool> deleteApiInsumo(String uid) async {
@@ -291,8 +367,8 @@ class SolicitudApi {
     }
   }
 
-  Future<bool> putApiInsumo(Insumo datos) async {
-    var url = Uri.parse("$baseUrl/insumos/${datos.uid}");
+  Future<bool> putApiInsumo(Insumos datos) async {
+    var url = Uri.parse("$baseUrl/insumos/${datos.idinsumos}");
     final respuesta = await http.put(url,
         body: datos.toJson(),
         headers: {"Content-type": "application/json;charset=UTF-8"});
@@ -307,7 +383,7 @@ class SolicitudApi {
     }
   }
 
-  Future<bool> postApiInsumo(Insumo datos) async {
+  Future<bool> postApiInsumo(Insumos datos) async {
     var url = Uri.parse("$baseUrl/insumos");
     var data = datos.toJson();
 
@@ -367,6 +443,30 @@ class SolicitudApi {
     return parseo.map<Maquinaria>((json) => Maquinaria.fromMap(json)).toList();
   }
 
+  Future<List<TiposMaquinarias>> getApiTipoMaquinarias() async {
+    var url = Uri.parse("$baseUrl/tiposmaquinarias");
+    print(url.toString());
+
+    try {
+      var respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListTiposMaquinarias(
+            utf8.decode(respuesta.bodyBytes));
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  List<TiposMaquinarias> parseJsonToListTiposMaquinarias(String respuesta) {
+    final parseo = jsonDecode(respuesta);
+    return parseo
+        .map<TiposMaquinarias>((json) => TiposMaquinarias.fromMap(json))
+        .toList();
+  }
+
   Future<bool> deleteApiMaquinaria(String uid) async {
     var url = Uri.parse("$baseUrl/maquinarias/$uid");
     final respuesta = await http.delete(url,
@@ -385,7 +485,7 @@ class SolicitudApi {
   }
 
   Future<bool> putApiMaquinaria(Maquinaria datos) async {
-    var url = Uri.parse("$baseUrl/maquinarias/${datos.uid}");
+    var url = Uri.parse("$baseUrl/maquinarias/${datos.idmaquinarias}");
     final respuesta = await http.put(url,
         body: datos.toJson(),
         headers: {"Content-type": "application/json;charset=UTF-8"});
@@ -437,7 +537,7 @@ class SolicitudApi {
   }
 
   Future<List<Terreno>> getApiTerrenos() async {
-    var url = Uri.parse("$baseUrl/terrenos");
+    var url = Uri.parse("$baseUrl/terreno");
     print(url.toString());
 
     try {
@@ -475,7 +575,7 @@ class SolicitudApi {
   }
 
   Future<bool> putApiTerreno(Terreno datos) async {
-    var url = Uri.parse("$baseUrl/terrenos/${datos.uid}");
+    var url = Uri.parse("$baseUrl/terrenos/${datos.idterreno}");
     final respuesta = await http.put(url,
         body: datos.toJson(),
         headers: {"Content-type": "application/json;charset=UTF-8"});
@@ -566,7 +666,7 @@ class SolicitudApi {
   }
 
   Future<bool> putApiFinca(Finca datos) async {
-    var url = Uri.parse("$baseUrl/fincas/${datos.uid}");
+    var url = Uri.parse("$baseUrl/fincas/${datos.idfinca}");
     final respuesta = await http.put(url,
         body: datos.toJson(),
         headers: {"Content-type": "application/json;charset=UTF-8"});
@@ -604,14 +704,14 @@ class SolicitudApi {
 
 // #region BLOQUE TASK INICIO
 
-  Future<List<Task>> getApiTask() async {
+  Future<List<Planificacion>> getApiTask() async {
     var url = Uri.parse("$baseUrl/task");
     print(url.toString());
 
     try {
       var respuesta = await http.get(url);
       if (respuesta.statusCode == 200) {
-        return parseJsonToListTask(utf8.decode(respuesta.bodyBytes));
+        return parseJsonToListPlanificacion(utf8.decode(respuesta.bodyBytes));
       } else {
         throw Exception('Excepcion ${respuesta.statusCode}');
       }
@@ -620,8 +720,9 @@ class SolicitudApi {
     }
   }
 
-  Future<List<HistTask>> getApiListUserTask(String user, String estado) async {
-    var url = Uri.parse("$baseUrl/listtask/tareas");
+  Future<List<Detalleplanificacion>> getApiListUserTask(
+      String user, String estado) async {
+    var url = Uri.parse("$baseUrl/detalleplanificacion");
 
     var data = {"obs": estado, "referencia": user};
 
@@ -630,7 +731,8 @@ class SolicitudApi {
           headers: {"Content-type": "application/json;charset=UTF-8"},
           body: json.encode(data));
       if (respuesta.statusCode == 200) {
-        return parseJsonToListHistTask(utf8.decode(respuesta.bodyBytes));
+        return parseJsonToListDetalleplanificacion(
+            utf8.decode(respuesta.bodyBytes));
       } else {
         throw Exception('Excepcion ${respuesta.statusCode}');
       }
@@ -639,14 +741,15 @@ class SolicitudApi {
     }
   }
 
-  Future<List<HistTask>> getApiListTask() async {
-    var url = Uri.parse("$baseUrl/listtask");
+  Future<List<Detalleplanificacion>> getApiListTask() async {
+    var url = Uri.parse("$baseUrl/detalleplanificacion");
     print(url.toString());
 
     try {
       var respuesta = await http.get(url);
       if (respuesta.statusCode == 200) {
-        return parseJsonToListHistTask(utf8.decode(respuesta.bodyBytes));
+        return parseJsonToListDetalleplanificacion(
+            utf8.decode(respuesta.bodyBytes));
       } else {
         throw Exception('Excepcion ${respuesta.statusCode}');
       }
@@ -655,14 +758,19 @@ class SolicitudApi {
     }
   }
 
-  List<HistTask> parseJsonToListHistTask(String respuesta) {
+  List<Detalleplanificacion> parseJsonToListDetalleplanificacion(
+      String respuesta) {
     final parseo = jsonDecode(respuesta);
-    return parseo.map<HistTask>((json) => HistTask.fromMap(json)).toList();
+    return parseo
+        .map<Detalleplanificacion>((json) => Detalleplanificacion.fromMap(json))
+        .toList();
   }
 
-  List<Task> parseJsonToListTask(String respuesta) {
+  List<Planificacion> parseJsonToListPlanificacion(String respuesta) {
     final parseo = jsonDecode(respuesta);
-    return parseo.map<Task>((json) => Task.fromMap(json)).toList();
+    return parseo
+        .map<Planificacion>((json) => Planificacion.fromMap(json))
+        .toList();
   }
 
   Future<bool> deleteApiTask(String uid) async {
@@ -682,8 +790,8 @@ class SolicitudApi {
     }
   }
 
-  Future<bool> putApiTask(Task datos) async {
-    var url = Uri.parse("$baseUrl/task/${datos.uid}");
+  Future<bool> putApiTask(Planificacion datos) async {
+    var url = Uri.parse("$baseUrl/task/${datos.idplanificacion}");
     final respuesta = await http.put(url,
         body: datos.toJson(),
         headers: {"Content-type": "application/json;charset=UTF-8"});
@@ -698,7 +806,7 @@ class SolicitudApi {
     }
   }
 
-  Future<bool> postApiTask(Task datos) async {
+  Future<bool> postApiTask(Planificacion datos) async {
     var url = Uri.parse("$baseUrl/task");
     var data = datos.toJson();
 
@@ -776,7 +884,7 @@ class SolicitudApi {
   }
 
   Future<bool> putApiPersonas(Persona datos) async {
-    var url = Uri.parse("$baseUrl/personas/${datos.uid}");
+    var url = Uri.parse("$baseUrl/personas/${datos.idpersonas}");
     final respuesta = await http.put(url,
         body: datos.toJson(),
         headers: {"Content-type": "application/json;charset=UTF-8"});

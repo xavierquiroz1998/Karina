@@ -84,10 +84,12 @@ Future showDialogViewUsuario(
                 })),
                 onPressed: () {
                   usuarioProvider.newObjeto(Usuario(
-                      uid: UtilView.numberRandonUid(),
-                      estado: 1,
+                      idusuarios: UtilView.numberRandonUid(),
+                      estado: true,
                       rol: "1",
-                      nombre: usuarioProvider.txtNombre.text,
+                      clave: "",
+                      createdAt: DateTime.now(),
+                      updatedAt: DateTime.now(),
                       correo: usuarioProvider.txtEmail.text));
                   Navigator.of(context).pop();
                 },

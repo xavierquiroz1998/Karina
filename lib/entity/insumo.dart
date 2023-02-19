@@ -1,43 +1,53 @@
 import 'dart:convert';
 
-class Insumo {
-  Insumo({
-    required this.uid,
+class Insumos {
+  Insumos({
+    required this.idinsumos,
+    required this.insumoTipoId,
     required this.nombre,
-    required this.clase,
+    required this.fechaCaducidad,
     required this.observacion,
+    required this.unidades,
     required this.estado,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
-  String uid;
+  String idinsumos;
+  String insumoTipoId;
   String nombre;
-  String clase;
+  DateTime fechaCaducidad;
   String observacion;
+  String unidades;
   int estado;
+  DateTime createdAt;
+  DateTime updatedAt;
 
-  factory Insumo.fromJson(String str) => Insumo.fromMap(json.decode(str));
+  factory Insumos.fromJson(String str) => Insumos.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Insumo.fromMap(Map<String, dynamic> json) => Insumo(
-        uid: json["uid"],
+  factory Insumos.fromMap(Map<String, dynamic> json) => Insumos(
+        idinsumos: json["idinsumos"],
+        insumoTipoId: json["insumoTipoId"],
         nombre: json["nombre"],
-        clase: json["clase"],
+        fechaCaducidad: DateTime.parse(json["fechaCaducidad"]),
         observacion: json["observacion"],
+        unidades: json["unidades"],
         estado: json["estado"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "uid": uid,
+        "idinsumos": idinsumos,
+        "insumoTipoId": insumoTipoId,
         "nombre": nombre,
-        "clase": clase,
+        "fechaCaducidad": fechaCaducidad.toIso8601String(),
         "observacion": observacion,
+        "unidades": unidades,
         "estado": estado,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
       };
-
-  @override
-  String toString() {
-    // TODO: implement toString
-    return nombre;
-  }
 }

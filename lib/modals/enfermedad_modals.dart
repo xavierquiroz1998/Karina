@@ -9,7 +9,7 @@ import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/custom_outlined_button.dart';
 
 class EnfermedadModals extends StatefulWidget {
-  final Enfermedad? enfermedad;
+  final Enfermedades? enfermedad;
 
   const EnfermedadModals({Key? key, this.enfermedad}) : super(key: key);
 
@@ -20,14 +20,14 @@ class EnfermedadModals extends StatefulWidget {
 class _EnfermedadModalsState extends State<EnfermedadModals> {
   String nombre = '';
   String? id;
-  String medida = '';
+  String observacion = '';
 
   @override
   void initState() {
     super.initState();
-    id = widget.enfermedad?.uid;
+    id = widget.enfermedad?.idenfermedades;
     nombre = widget.enfermedad?.nombre ?? '';
-    medida = widget.enfermedad?.grado ?? '';
+    observacion = widget.enfermedad?.observacion ?? '';
   }
 
   @override
@@ -36,7 +36,7 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: Container(
-        height: 280,
+        height: 400,
         decoration: builBoxDecoration(),
         child: Column(
           children: [
@@ -63,9 +63,7 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
             Divider(
               color: Colors.white.withOpacity(0.3),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 15),
               child: TextFormField(
@@ -78,43 +76,75 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
                 style: const TextStyle(color: Colors.white),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10, left: 18),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Grado:',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
-                  ),
-                  const SizedBox(width: 10),
-                  InkWell(
-                      onTap: () {
-                        setState(() {
-                          medida = "Medio";
-                        });
-                      },
-                      child: const Icon(Icons.emoji_emotions,
-                          color: Colors.amber)),
-                  const SizedBox(width: 10),
-                  InkWell(
-                      onTap: () {
-                        setState(() {
-                          medida = "Alta";
-                        });
-                      },
-                      child:
-                          const Icon(Icons.warning_rounded, color: Colors.red)),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 18),
-                    child: Text(
-                      "Seleccionado: $medida",
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  )
-                ],
+            const SizedBox(height: 10),
+            Container(
+              height: 40,
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: DropdownButtonFormField<String>(
+                value: enfermedadProvider.isSelectE,
+                onChanged: (value) {
+                  enfermedadProvider.isSelectE = value!;
+                },
+                dropdownColor: Colors.blueGrey,
+                items: enfermedadProvider.tiposEnfermedad.map((item) {
+                  return DropdownMenuItem(
+                    value: item,
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          item,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  );
+                }).toList(),
+                decoration: CustomInputs.boxInputDecorationDialogSearch(
+                    label: 'Tipo de enfermedad', hint: 'Tipo de enfermedad'),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              height: 40,
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: DropdownButtonFormField<String>(
+                value: enfermedadProvider.isSelectP,
+                onChanged: (value) {
+                  enfermedadProvider.isSelectP = value!;
+                },
+                dropdownColor: Colors.blueGrey,
+                items: enfermedadProvider.tiposPlagas.map((item) {
+                  return DropdownMenuItem(
+                    value: item,
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          item,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  );
+                }).toList(),
+                decoration: CustomInputs.boxInputDecorationDialogSearch(
+                    label: 'Tipo de plagas', hint: 'Tipo de plagas'),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              child: TextFormField(
+                initialValue: widget.enfermedad?.observacion ?? '',
+                onChanged: (value) => observacion = value,
+                decoration: CustomInputs.boxInputDecoration(
+                    hint: 'Observacion',
+                    label: 'Ingrese Observacion',
+                    icon: Icons.new_releases_outlined),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
             Container(
@@ -124,19 +154,36 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
                   onPressed: () async {
                     try {
                       if (id == null) {
-                        await enfermedadProvider.newObjeto(Enfermedad(
-                            uid: UtilView.numberRandonUid(),
+                        await enfermedadProvider.newObjeto(Enfermedades(
+                            idenfermedades: UtilView.numberRandonUid(),
                             nombre: nombre,
-                            grado: medida,
-                            observacion: "",
+                            observacion: observacion,
+                            enfermedadTipoId: enfermedadProvider.isSelectE
+                                .split("/")[0]
+                                .trim(),
+                            plagasTipoId: enfermedadProvider.isSelectP
+                                .split("/")[0]
+                                .trim(),
+                            fotografia: "-",
+                            tratamiento: "-",
+                            especificaciones: "-",
                             estado: 1));
                         NotificationsService.showSnackbar('$nombre creado!');
                       } else {
-                        await enfermedadProvider.updateObjeto(Enfermedad(
-                            uid: id!,
+                        await enfermedadProvider.updateObjeto(Enfermedades(
+                            idenfermedades: id!,
                             nombre: nombre,
-                            grado: medida,
-                            observacion: "",
+                            observacion: observacion,
+                            enfermedadTipoId: enfermedadProvider.isSelectE,
+                            plagasTipoId: enfermedadProvider.isSelectP
+                                .split("/")[0]
+                                .trim(),
+                            fotografia: widget.enfermedad!.fotografia
+                                .split("/")[0]
+                                .trim(),
+                            tratamiento: widget.enfermedad!.tratamiento,
+                            especificaciones:
+                                widget.enfermedad!.especificaciones,
                             estado: 1));
                         NotificationsService.showSnackbar(
                             '$nombre actualizado!');

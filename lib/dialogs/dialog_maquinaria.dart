@@ -8,8 +8,10 @@ Future showDialogViewMaquinaria(BuildContext context, String title,
     MaquinariaProvider maquinariaProvider, Maquinaria? maquinaria) async {
   final txtNonbre =
       TextEditingController(text: maquinaria == null ? "" : maquinaria.nombre);
-  final txtTipo =
-      TextEditingController(text: maquinaria == null ? "" : maquinaria.tipo);
+  final txtIdentificacion = TextEditingController(
+      text: maquinaria == null ? "" : maquinaria.identificacion);
+  final txtCapacidad = TextEditingController(
+      text: maquinaria == null ? "" : "${maquinaria.capacidad}");
 
   await showDialog(
       context: context,
@@ -20,7 +22,7 @@ Future showDialogViewMaquinaria(BuildContext context, String title,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20))),
           content: SizedBox(
-            height: 110,
+            height: 220,
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
@@ -34,13 +36,50 @@ Future showDialogViewMaquinaria(BuildContext context, String title,
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: txtTipo,
+                  controller: txtCapacidad,
+                  keyboardType: TextInputType.number,
                   decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Tipo de maquinaria',
-                      label: 'Tipo',
+                      hint: 'Capacidad',
+                      label: 'Capacidad',
                       icon: Icons.new_releases_outlined),
                   style: const TextStyle(color: Colors.black),
-                )
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: txtIdentificacion,
+                  decoration: CustomInputs.boxInputDecoration(
+                      hint: 'Identificación',
+                      label: 'Identificación',
+                      icon: Icons.new_releases_outlined),
+                  style: const TextStyle(color: Colors.black),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 40,
+                  child: DropdownButtonFormField<String>(
+                    value: maquinariaProvider.isSelect,
+                    onChanged: (value) {
+                      maquinariaProvider.isSelect = value!;
+                    },
+                    dropdownColor: Colors.blueGrey,
+                    items: maquinariaProvider.tipoMaquinaria.map((item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              item,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.bold),
+                            )),
+                      );
+                    }).toList(),
+                    decoration: CustomInputs.boxInputDecorationDialogSearch(
+                        label: 'Tipo de maquinaria',
+                        hint: 'Tipo de maquinaria'),
+                  ),
+                ),
               ],
             ),
           ),
@@ -57,14 +96,21 @@ Future showDialogViewMaquinaria(BuildContext context, String title,
                 onPressed: () {
                   if (maquinaria == null) {
                     maquinariaProvider.newObjeto(Maquinaria(
-                        uid: UtilView.numberRandonUid(),
+                        idmaquinarias: UtilView.numberRandonUid(),
                         nombre: txtNonbre.text,
-                        tipo: txtTipo.text,
-                        observacion: "",
+                        maquinariaTipoId:
+                            maquinariaProvider.isSelect.split("/")[0].trim(),
+                        identificacion: txtIdentificacion.text,
+                        capacidad: int.tryParse(txtCapacidad.text) ?? 0,
+                        createdAt: DateTime.now(),
+                        updatedAt: DateTime.now(),
                         estado: 1));
                   } else {
                     maquinaria.nombre = txtNonbre.text;
-                    maquinaria.tipo = txtTipo.text;
+                    maquinaria.identificacion = txtIdentificacion.text;
+                    maquinaria.maquinariaTipoId =
+                        maquinariaProvider.isSelect.split("/")[0].trim();
+                    maquinaria.capacidad = int.tryParse(txtCapacidad.text) ?? 0;
                     maquinariaProvider.updateObjeto(maquinaria);
                   }
 

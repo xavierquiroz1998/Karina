@@ -36,8 +36,8 @@ class UsuarioProvider extends ChangeNotifier {
     final resp = await _api.putApiUsuario(usuario);
     try {
       this.listUsuario = this.listUsuario.map((e) {
-        if (usuario.uid != e.uid) return e;
-        e.nombre = usuario.nombre;
+        if (usuario.idusuarios != e.idusuarios) return e;
+
         return e;
       }).toList();
       notifyListeners();
@@ -48,14 +48,14 @@ class UsuarioProvider extends ChangeNotifier {
   }
 
   deleteObjeto(Usuario e) async {
-    final resp = await _api.deleteApiUsuario(e.uid);
+    final resp = await _api.deleteApiUsuario(e.idusuarios);
     print(resp);
     listUsuario.remove(e);
     notifyListeners();
   }
 
-  Future<Usuario?> getUserById(int uid) async {
-    final usuario = await _api.getApiUsuario(uid);
+  Future<Usuario?> getUserById(int idusuarios) async {
+    final usuario = await _api.getApiUsuario(idusuarios);
     return usuario;
   }
 }

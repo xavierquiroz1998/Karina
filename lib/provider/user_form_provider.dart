@@ -7,7 +7,7 @@ class UserFormProvider extends ChangeNotifier {
 
   copyUserWith({
     String? rol,
-    int? estado,
+    bool? estado,
     String? nombre,
     String? correo,
     String? uid,
@@ -16,10 +16,12 @@ class UserFormProvider extends ChangeNotifier {
     user = Usuario(
       rol: rol ?? user!.rol,
       estado: estado ?? user!.estado,
-      nombre: nombre ?? user!.nombre,
       correo: correo ?? user!.correo,
-      uid: uid ?? user!.uid,
+      idusuarios: uid ?? user!.idusuarios,
       img: img ?? user!.img,
+      clave: '',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
     notifyListeners();
   }

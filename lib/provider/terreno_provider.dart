@@ -22,7 +22,7 @@ class TerrenoProvider extends ChangeNotifier {
     final resp = await _api.putApiTerreno(terreno);
     try {
       this.listTerreno = this.listTerreno.map((e) {
-        if (terreno.uid != e.uid) return e;
+        if (terreno.idterreno != e.idterreno) return e;
         e.ubicacion = terreno.ubicacion;
         e.dimension = terreno.dimension;
         return e;
@@ -35,7 +35,7 @@ class TerrenoProvider extends ChangeNotifier {
   }
 
   deleteObjeto(Terreno e) async {
-    final resp = await _api.deleteApiTerreno(e.uid);
+    final resp = await _api.deleteApiTerreno(e.idterreno);
     print(resp);
     listTerreno.remove(e);
     notifyListeners();

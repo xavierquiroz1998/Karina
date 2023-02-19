@@ -67,12 +67,18 @@ Future showDialogViewTerreno(BuildContext context, String title,
                 })),
                 onPressed: () {
                   terrenoProvider.newObjeto(Terreno(
-                      uid: UtilView.numberRandonUid(),
+                      idterreno: UtilView.numberRandonUid(),
+                      idFinca: "",
                       ubicacion: txtUbicacion.text,
                       dimension: txtDimension.text,
                       unidad: txtUnidad.text,
                       observacion: "",
-                      estado: 1));
+                      estado: true,
+                      disponibilidad: '',
+                      longitud: '',
+                      latitud: '',
+                      createdAt: DateTime.now(),
+                      updatedAt: DateTime.now()));
                   Navigator.of(context).pop();
                 },
                 child: const Text('Aceptar', style: TextStyle(fontSize: 14))),

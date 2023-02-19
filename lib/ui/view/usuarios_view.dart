@@ -45,41 +45,21 @@ class _UsuariosViewState extends State<UsuariosView> {
                   GridColumn(
                     width: 40,
                     columnName: 'avatar',
-                    label: Tooltip(
-                      message: "Codigo",
-                      child: Center(
-                        child: Text('#',
-                            style:
-                                CustomLabels.h4.copyWith(color: Colors.white)),
-                      ),
-                    ),
-                  ),
-                  GridColumn(
-                    columnWidthMode: ColumnWidthMode.fill,
-                    columnName: 'nombre',
-                    label: Tooltip(
-                      message: "Nombre",
-                      child: Center(
-                        child: Text('Nombre',
-                            style:
-                                CustomLabels.h4.copyWith(color: Colors.white)),
-                      ),
+                    label: Center(
+                      child: Text('#',
+                          style: CustomLabels.h4.copyWith(color: Colors.white)),
                     ),
                   ),
                   GridColumn(
                     columnWidthMode: ColumnWidthMode.fill,
                     columnName: 'correo',
-                    label: Tooltip(
-                      message: "Correo",
-                      child: Center(
-                        child: Text('Correo',
-                            style:
-                                CustomLabels.h4.copyWith(color: Colors.white)),
-                      ),
+                    label: Center(
+                      child: Text('Correo',
+                          style: CustomLabels.h4.copyWith(color: Colors.white)),
                     ),
                   ),
                   GridColumn(
-                    columnWidthMode: ColumnWidthMode.fill,
+                    columnWidthMode: ColumnWidthMode.fitByColumnName,
                     columnName: 'rol',
                     label: Center(
                       child: Text('Rol',

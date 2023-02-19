@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:syncfusion_officechart/officechart.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel;
@@ -82,7 +80,7 @@ class ReporteProvider extends ChangeNotifier {
     final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
 
-    await FileSaveHelper.saveAndLaunchFile(bytes, 'Chart');
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'Chart.xlsx');
   }
 
   bool isNumber(String number) {

@@ -3,27 +3,50 @@ import 'package:tesis_karina/api/solicitud_api.dart';
 import 'package:tesis_karina/entity/enfermedad.dart';
 
 class EnfermedadProvider extends ChangeNotifier {
-  List<Enfermedad> listEnfermedad = [];
   final _api = SolicitudApi();
+  late Enfermedades isSelectEnfermedad;
+  List<Enfermedades> listEnfermedad = [];
+  List<String> tiposEnfermedad = [];
+  List<String> tiposPlagas = [];
+
+  String isSelectE = "TPE-01 / TIPOENFERMEDAD1";
+  String isSelectP = "TPP-01 / TIPOPLAGA";
 
   getListInt() async {
     final resp = await _api.getApiEnfermedades();
+    getTipoList();
     listEnfermedad = resp;
     notifyListeners();
   }
 
-  newObjeto(Enfermedad e) async {
+  getTipoList() async {
+    final resp1 = await _api.getApiTipoEnfermedades();
+    final resp2 = await _api.getApiTipoPlagas();
+    tiposEnfermedad = resp1.map((en) {
+      return "${en.idtiposenfermedades} / ${en.observacion}";
+    }).toList();
+    tiposPlagas = resp2.map((en) {
+      return "${en.idtiposplagas} / ${en.observacion}";
+    }).toList();
+    print(tiposEnfermedad);
+    print(tiposPlagas);
+  }
+
+  newObjeto(Enfermedades e) async {
     final resp = await _api.postApiEnfermedad(e);
     listEnfermedad.add(e);
     notifyListeners();
   }
 
-  updateObjeto(Enfermedad e) async {
+  updateObjeto(Enfermedades e) async {
     final resp = await _api.putApiEnfermedad(e);
     try {
       this.listEnfermedad = this.listEnfermedad.map((en) {
-        if (en.uid != e.uid) return e;
+        if (en.idenfermedades != e.idenfermedades) return e;
         en.nombre = e.nombre;
+        en.plagasTipoId = isSelectP;
+        en.enfermedadTipoId = isSelectE;
+        en.observacion = e.observacion;
         return e;
       }).toList();
       notifyListeners();
@@ -32,8 +55,8 @@ class EnfermedadProvider extends ChangeNotifier {
     }
   }
 
-  deleteObjeto(Enfermedad e) async {
-    final resp = await _api.deleteApiEnfermedad(e.uid);
+  deleteObjeto(Enfermedades e) async {
+    final resp = await _api.deleteApiEnfermedad(e.idenfermedades);
     print(resp);
     listEnfermedad.remove(e);
     notifyListeners();

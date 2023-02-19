@@ -46,24 +46,26 @@ class _MaquinariasViewState extends State<MaquinariasView> {
               columns: <GridColumn>[
                 GridColumn(
                   columnWidthMode: ColumnWidthMode.fill,
-                  columnName: 'nombre',
-                  label: Tooltip(
-                    message: "Nombre",
-                    child: Center(
-                      child: Text('Nombre',
-                          style: CustomLabels.h4.copyWith(color: Colors.white)),
-                    ),
+                  columnName: 'identificacion',
+                  label: Center(
+                    child: Text('Identificacion',
+                        style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),
                 GridColumn(
                   columnWidthMode: ColumnWidthMode.fill,
-                  columnName: 'tipo',
-                  label: Tooltip(
-                    message: "Tipo",
-                    child: Center(
-                      child: Text('Tipo',
-                          style: CustomLabels.h4.copyWith(color: Colors.white)),
-                    ),
+                  columnName: 'nombre',
+                  label: Center(
+                    child: Text('Nombre',
+                        style: CustomLabels.h4.copyWith(color: Colors.white)),
+                  ),
+                ),
+                GridColumn(
+                  columnWidthMode: ColumnWidthMode.fill,
+                  columnName: 'capacidad',
+                  label: Center(
+                    child: Text('N°',
+                        style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),
                 GridColumn(

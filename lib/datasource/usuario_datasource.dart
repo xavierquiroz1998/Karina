@@ -18,8 +18,7 @@ class UsuariosDataSource extends DataGridSource {
     listData = usuarioProvider.listUsuario
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<String>(columnName: 'avatar', value: e.img),
-              DataGridCell<String>(columnName: 'nombre', value: e.nombre),
-              DataGridCell<String>(columnName: 'tipo', value: e.correo),
+              DataGridCell<String>(columnName: 'correo', value: e.correo),
               DataGridCell<String>(columnName: 'rol', value: e.rol),
               DataGridCell<Usuario>(columnName: 'acciones', value: e),
             ]))
@@ -49,9 +48,6 @@ class UsuariosDataSource extends DataGridSource {
             child: Text(row.getCells()[2].value.toString())),
         Container(
             alignment: Alignment.center,
-            child: Text(row.getCells()[3].value.toString())),
-        Container(
-            alignment: Alignment.center,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +59,7 @@ class UsuariosDataSource extends DataGridSource {
                           .getUserById(row.getCells()[4].value.uid); */
 
                       Provider.of<UserFormProvider>(context, listen: false)
-                          .user = row.getCells()[4].value;
+                          .user = row.getCells()[3].value;
 
                       Navigator.pushNamed(context, '/dashboard/usuario');
                     },
@@ -80,7 +76,7 @@ class UsuariosDataSource extends DataGridSource {
 
                       if (respuesta) {
                         // ignore: use_build_context_synchronously
-                        usuarioProvider.deleteObjeto(row.getCells()[4].value);
+                        usuarioProvider.deleteObjeto(row.getCells()[3].value);
                       }
                     },
                     child: const Icon(Icons.delete, color: Colors.red))

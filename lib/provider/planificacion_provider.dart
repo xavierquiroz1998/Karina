@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tesis_karina/api/solicitud_api.dart';
-import 'package:tesis_karina/entity/Task.dart';
+import 'package:tesis_karina/entity/planificacion.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/list_insumos.dart';
@@ -11,13 +11,13 @@ import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class PlanificacionProvider extends ChangeNotifier {
-  List<Insumo> listInsumo = [];
+  List<Insumos> listInsumo = [];
   List<Terreno> listTerrenos = [];
   List<Finca> listFincas = [];
   List<Persona> listPersonas = [];
   List<Finca> listFincasSelect = [];
   List<Terreno> listTerrenosSelect = [];
-  List<Insumo> listInsumoSelect = [];
+  List<Insumos> listInsumoSelect = [];
   List<Persona> listPersonasSelect = [];
 
   TextEditingController _dateController = TextEditingController();
@@ -86,13 +86,13 @@ class PlanificacionProvider extends ChangeNotifier {
       var referenciaTask = UtilView.numberRandonUid();
       var uidInsumos = "";
 
-      String idFinca = listFincasSelect[0].uid;
+      String idFinca = listFincasSelect[0].idfinca;
       // insumos
       for (var e in listInsumoSelect) {
         uidInsumos = UtilView.numberRandonUid();
 
-        await _api.postApiListInsumo(ListInsumos(
-            uid: uidInsumos, referencia: referenciaTask, idinsumo: e.uid));
+        /*  await _api.postApiListInsumo(ListInsumos(
+            uid: uidInsumos, referencia: referenciaTask, idinsumo: e.uid)); */
       }
 
       var uidPersonal = "";
@@ -101,8 +101,8 @@ class PlanificacionProvider extends ChangeNotifier {
       for (var e in listPersonasSelect) {
         uidPersonal = UtilView.numberRandonUid();
 
-        await _api.postApiListPersonal(ListPersonal(
-            uid: uidPersonal, referencia: referenciaTask, idUsuario: usuario));
+        /*    await _api.postApiListPersonal(ListPersonal(
+            uid: uidPersonal, referencia: referenciaTask, idUsuario: usuario)); */
       }
 
       var uidTerrenos = "";
@@ -111,7 +111,9 @@ class PlanificacionProvider extends ChangeNotifier {
         uidTerrenos = UtilView.numberRandonUid();
 
         await _api.postApiListTerrenos(ListTerrenos(
-            uid: uidTerrenos, referencia: referenciaTask, idTerreno: e.uid));
+            uid: uidTerrenos,
+            referencia: referenciaTask,
+            idTerreno: e.idterreno));
       }
 
       var observacio = observacionFinController.text;
@@ -122,7 +124,7 @@ class PlanificacionProvider extends ChangeNotifier {
       var fechaInicio = DateTime.parse(dateController.text);
       var fechafin = DateTime.parse(dateFinController.text);
 
-      Task tarea = Task(
+      /*  Task tarea = Task(
           uid: referenciaTask,
           idFinca: idFinca,
           idTerreno: uidTerrenos,
@@ -135,9 +137,9 @@ class PlanificacionProvider extends ChangeNotifier {
           observacion: observacio,
           start: fechaInicio,
           end: fechafin,
-          estado: estado);
+          estado: estado); */
 
-      await _api.postApiTask(tarea);
+      //await _api.postApiTask(tarea);
       return true;
     } catch (e) {
       print("Error al guardar task ${e.toString()}");

@@ -45,23 +45,25 @@ class _InsumosViewState extends State<InsumosView> {
                 GridColumn(
                   columnWidthMode: ColumnWidthMode.fill,
                   columnName: 'nombre',
-                  label: Tooltip(
-                    message: "Nombre",
-                    child: Center(
-                      child: Text('Nombre',
-                          style: CustomLabels.h4.copyWith(color: Colors.white)),
-                    ),
+                  label: Center(
+                    child: Text('Nombre',
+                        style: CustomLabels.h4.copyWith(color: Colors.white)),
+                  ),
+                ),
+                GridColumn(
+                  columnWidthMode: ColumnWidthMode.fitByColumnName,
+                  columnName: 'unidad',
+                  label: Center(
+                    child: Text('Unidad',
+                        style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),
                 GridColumn(
                   columnWidthMode: ColumnWidthMode.fill,
-                  columnName: 'tipo',
-                  label: Tooltip(
-                    message: "Tipo",
-                    child: Center(
-                      child: Text('Tipo',
-                          style: CustomLabels.h4.copyWith(color: Colors.white)),
-                    ),
+                  columnName: 'fecha',
+                  label: Center(
+                    child: Text('F.Caducidad',
+                        style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),
                 GridColumn(

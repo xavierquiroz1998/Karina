@@ -2,18 +2,24 @@ import 'dart:convert';
 
 class Maquinaria {
   Maquinaria({
-    required this.uid,
+    required this.idmaquinarias,
     required this.nombre,
-    required this.tipo,
-    required this.observacion,
+    required this.identificacion,
+    required this.maquinariaTipoId,
+    required this.capacidad,
     required this.estado,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
-  String uid;
+  String idmaquinarias;
   String nombre;
-  String observacion;
-  String tipo;
+  String identificacion;
+  String maquinariaTipoId;
+  int capacidad;
   int estado;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   factory Maquinaria.fromJson(String str) =>
       Maquinaria.fromMap(json.decode(str));
@@ -21,18 +27,24 @@ class Maquinaria {
   String toJson() => json.encode(toMap());
 
   factory Maquinaria.fromMap(Map<String, dynamic> json) => Maquinaria(
-        uid: json["uid"],
+        idmaquinarias: json["idmaquinarias"],
         nombre: json["nombre"],
-        observacion: json["observacion"],
-        tipo: json["tipo"],
+        identificacion: json["identificacion"],
+        maquinariaTipoId: json["maquinariaTipoId"],
+        capacidad: json["capacidad"],
         estado: json["estado"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "uid": uid,
+        "idmaquinarias": idmaquinarias,
         "nombre": nombre,
-        "observacion": observacion,
-        "tipo": tipo,
+        "identificacion": identificacion,
+        "maquinariaTipoId": maquinariaTipoId,
+        "capacidad": capacidad,
         "estado": estado,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
       };
 }

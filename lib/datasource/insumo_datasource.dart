@@ -4,6 +4,7 @@ import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
 import 'package:tesis_karina/dialogs/dialog_insumo.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/provider/insumo_provider.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
 class InsumosDataSource extends DataGridSource {
   late List<DataGridRow> listData;
@@ -17,8 +18,11 @@ class InsumosDataSource extends DataGridSource {
     listData = insumoProvider.listInsumo
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<String>(columnName: 'nombre', value: e.nombre),
-              DataGridCell<String>(columnName: 'tipo', value: e.clase),
-              DataGridCell<Insumo>(columnName: 'acciones', value: e),
+              DataGridCell<String>(columnName: 'unidad', value: e.unidades),
+              DataGridCell<String>(
+                  columnName: 'fecha',
+                  value: UtilView.convertDateToString(e.fechaCaducidad)),
+              DataGridCell<Insumos>(columnName: 'acciones', value: e),
             ]))
         .toList();
   }
@@ -33,8 +37,12 @@ class InsumosDataSource extends DataGridSource {
             child: Text(row.getCells()[0].value.toString())),
         Container(
             padding: const EdgeInsets.only(left: 7),
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.center,
             child: Text(row.getCells()[1].value.toString())),
+        Container(
+            padding: const EdgeInsets.only(left: 7),
+            alignment: Alignment.centerLeft,
+            child: Text(row.getCells()[2].value.toString())),
         Container(
             alignment: Alignment.center,
             child: Row(
@@ -45,7 +53,7 @@ class InsumosDataSource extends DataGridSource {
                 InkWell(
                     onTap: () async {
                       showDialogViewInsumo(context, "Actualizar insumo",
-                          insumoProvider, row.getCells()[2].value);
+                          insumoProvider, row.getCells()[3].value);
                     },
                     child: const Icon(Icons.edit_outlined,
                         color: Colors.blueGrey)),
@@ -60,7 +68,7 @@ class InsumosDataSource extends DataGridSource {
 
                       if (respuesta) {
                         // ignore: use_build_context_synchronously
-                        insumoProvider.deleteObjeto(row.getCells()[2].value);
+                        insumoProvider.deleteObjeto(row.getCells()[3].value);
                       }
                     },
                     child: const Icon(Icons.delete, color: Colors.red))

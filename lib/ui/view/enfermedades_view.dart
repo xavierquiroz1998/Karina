@@ -49,26 +49,20 @@ class _EnfermedadesViewState extends State<EnfermedadesView> {
                 GridColumn(
                   columnWidthMode: ColumnWidthMode.fill,
                   columnName: 'nombre',
-                  label: Tooltip(
-                    message: "Nombre",
-                    child: Center(
-                      child: Text(
-                        'Nombre',
-                        style: CustomLabels.h4.copyWith(color: Colors.white),
-                      ),
+                  label: Center(
+                    child: Text(
+                      'Nombre',
+                      style: CustomLabels.h4.copyWith(color: Colors.white),
                     ),
                   ),
                 ),
                 GridColumn(
                   columnWidthMode: ColumnWidthMode.fill,
-                  columnName: 'grado',
-                  label: Tooltip(
-                    message: "Grado",
-                    child: Center(
-                      child: Text(
-                        'Grado',
-                        style: CustomLabels.h4.copyWith(color: Colors.white),
-                      ),
+                  columnName: 'obs',
+                  label: Center(
+                    child: Text(
+                      'Observacion',
+                      style: CustomLabels.h4.copyWith(color: Colors.white),
                     ),
                   ),
                 ),

@@ -76,8 +76,8 @@ class _UsuarioPageForm extends StatelessWidget {
           autovalidateMode: AutovalidateMode.always,
           child: Column(
             children: [
-              TextFormField(
-                initialValue: user.nombre,
+              /*  TextFormField(
+                initialValue: user.,
                 decoration: CustomInputs.boxInputDecoration(
                     hint: 'Nombre del usuario',
                     label: 'Nombre',
@@ -94,7 +94,7 @@ class _UsuarioPageForm extends StatelessWidget {
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 20), */
               TextFormField(
                 initialValue: user.correo,
                 decoration: CustomInputs.boxInputDecoration(
@@ -154,10 +154,10 @@ class _AvatarContainer extends StatelessWidget {
     final userFormProvider = Provider.of<UserFormProvider>(context);
     final user = userFormProvider.user!;
 
-    final image = (user.img == null || user.img == "")
+    final image = (user.img == "")
         ? const Image(image: AssetImage('assets/no-image.jpg'))
         : FadeInImage.assetNetwork(
-            placeholder: 'assets/loader.gif', image: user.img!);
+            placeholder: 'assets/loader.gif', image: user.img);
 
     return WhiteCard(
       width: 250,
@@ -228,10 +228,10 @@ class _AvatarContainer extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Text(
+            /*  Text(
               user.nombre,
               style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            ), */
           ],
         ),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
-import 'package:tesis_karina/modals/enfermedad_modals.dart';
 import 'package:tesis_karina/entity/enfermedad.dart';
+import 'package:tesis_karina/modals/enfermedad_modals.dart';
 import 'package:tesis_karina/provider/enfermedad_provider.dart';
 
 class EnfermedadesDataSource extends DataGridSource {
@@ -17,8 +17,8 @@ class EnfermedadesDataSource extends DataGridSource {
     listData = enfermedadProvider.listEnfermedad
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<String>(columnName: 'nombre', value: e.nombre),
-              DataGridCell<String>(columnName: 'grado', value: e.grado),
-              DataGridCell<Enfermedad>(columnName: 'acciones', value: e),
+              DataGridCell<String>(columnName: 'obs', value: e.observacion),
+              DataGridCell<Enfermedades>(columnName: 'acciones', value: e),
             ]))
         .toList();
   }
@@ -32,21 +32,11 @@ class EnfermedadesDataSource extends DataGridSource {
             alignment: Alignment.centerLeft,
             child: Text(row.getCells()[0].value.toString())),
         Container(
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: Text(row.getCells()[1].value.toString().toUpperCase()),
-                ),
-                Icon(Icons.warning_rounded,
-                    color: row.getCells()[1].value.toString().toLowerCase() ==
-                            "medio"
-                        ? Colors.amber
-                        : Colors.red)
-              ],
-            )),
+            padding: const EdgeInsets.only(left: 5),
+            alignment: Alignment.centerLeft,
+            child: Tooltip(
+                message: row.getCells()[1].value.toString(),
+                child: Text(row.getCells()[1].value.toString()))),
         Container(
             alignment: Alignment.center,
             child: Row(

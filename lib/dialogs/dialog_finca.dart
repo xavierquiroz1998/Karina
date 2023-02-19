@@ -79,12 +79,14 @@ Future showDialogViewFinca(BuildContext context, String title,
                 onPressed: () {
                   if (finca == null) {
                     provider.newObjeto(Finca(
-                        uid: UtilView.numberRandonUid(),
+                        idfinca: UtilView.numberRandonUid(),
                         nombre: txtNombre.text,
                         dimension: txtDimension.text,
                         ubicacion: txtUbicacion.text,
                         referencia: txtReferencia.text,
-                        estado: 1));
+                        estado: "1",
+                        createdAt: DateTime.now(),
+                        updatedAt: DateTime.now()));
                   } else {
                     finca.dimension = txtDimension.text;
                     finca.nombre = txtNombre.text;
