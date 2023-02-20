@@ -722,7 +722,7 @@ class SolicitudApi {
 
   Future<List<Detalleplanificacion>> getApiListUserTask(
       String user, String estado) async {
-    var url = Uri.parse("$baseUrl/detalleplanificacion");
+    var url = Uri.parse("$baseUrl/detalleplanificacion/tareas/");
 
     var data = {"obs": estado, "referencia": user};
 

@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'package:tesis_karina/entity/finca.dart';
 
 class Planificacion {
   Planificacion({
     required this.idplanificacion,
-    required this.idFinca,
     required this.humedad,
     required this.temperatura,
     required this.idListInsumo,
@@ -16,10 +16,11 @@ class Planificacion {
     required this.estado,
     required this.createdAt,
     required this.updatedAt,
+    required this.idFinca,
+    required this.finca,
   });
 
   String idplanificacion;
-  String idFinca;
   String humedad;
   String temperatura;
   String idListInsumo;
@@ -32,6 +33,8 @@ class Planificacion {
   bool estado;
   DateTime createdAt;
   DateTime updatedAt;
+  String idFinca;
+  Finca finca;
 
   factory Planificacion.fromJson(String str) =>
       Planificacion.fromMap(json.decode(str));
@@ -40,7 +43,6 @@ class Planificacion {
 
   factory Planificacion.fromMap(Map<String, dynamic> json) => Planificacion(
         idplanificacion: json["idplanificacion"],
-        idFinca: json["idFinca"],
         humedad: json["humedad"],
         temperatura: json["temperatura"],
         idListInsumo: json["idListInsumo"],
@@ -53,11 +55,12 @@ class Planificacion {
         estado: json["estado"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        idFinca: json["idFinca"],
+        finca: Finca.fromMap(json["finca"]),
       );
 
   Map<String, dynamic> toMap() => {
         "idplanificacion": idplanificacion,
-        "idFinca": idFinca,
         "humedad": humedad,
         "temperatura": temperatura,
         "idListInsumo": idListInsumo,
@@ -70,5 +73,7 @@ class Planificacion {
         "estado": estado,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+        "idFinca": idFinca,
+        "finca": finca.toMap(),
       };
 }
