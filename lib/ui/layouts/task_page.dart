@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
 import 'package:tesis_karina/dialogs/dialog_comentario.dart';
 import 'package:tesis_karina/provider/task_provider.dart';
 import 'package:tesis_karina/utils/util_view.dart';
@@ -23,7 +25,7 @@ class _TaskPageState extends State<TaskPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<TaskProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Generar Tareas')),
+      appBar: AppBar(title: const Text('Tareas')),
       body: ListView(
         children: [
           WhiteCard(
@@ -68,13 +70,40 @@ class _TaskPageState extends State<TaskPage> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         InkWell(
-                                          onTap: () {
+                                          onTap: () async {
                                             if (provider
                                                     .listTask[i].observacion ==
                                                 "-") {
-                                              UtilView.messageAccess(
-                                                  "Tarea asignada",
-                                                  Colors.green);
+                                              final opt = await dialogAcepCanc(
+                                                  context,
+                                                  "Deseas asignarte la tarea?",
+                                                  Icons
+                                                      .check_circle_outline_outlined,
+                                                  Colors.blueGrey);
+                                              if (opt) {
+                                                provider.listTask[i].inicio =
+                                                    UtilView.convertStringToDate(
+                                                        DateFormat("dd/MM/yyyy")
+                                                            .format(provider
+                                                                .listTask[i]
+                                                                .inicio));
+                                                provider.listTask[i].fin =
+                                                    UtilView.convertStringToDate(
+                                                        DateFormat("dd/MM/yyyy")
+                                                            .format(provider
+                                                                .listTask[i]
+                                                                .fin));
+
+                                                provider.listTask[i]
+                                                    .observacion = 'U-01';
+
+                                                provider.userTask(
+                                                    provider.listTask[i]);
+
+                                                UtilView.messageAccess(
+                                                    "Tarea asignada",
+                                                    Colors.green);
+                                              }
                                             } else {
                                               UtilView.messageWarning(
                                                   "Tarea en proceso");
@@ -122,43 +151,90 @@ class _TaskPageState extends State<TaskPage> {
                                         fontWeight: FontWeight.bold)),
                               )),
                               const Divider(color: Colors.black),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 6),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        child: InkWell(
-                                            onTap: () {
-                                              dialogComentario(context);
-                                            },
-                                            child: const Icon(Icons.cancel,
-                                                color: Colors.red))),
-                                    Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        child: InkWell(
-                                            onTap: () {
-                                              dialogComentario(context);
-                                            },
-                                            child: Icon(Icons.warning_rounded,
-                                                color: Colors.yellow[700]))),
-                                    Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        child: InkWell(
-                                            onTap: () {
-                                              dialogComentario(context);
-                                            },
-                                            child: const Icon(Icons.check,
-                                                color: Colors.green)))
-                                  ],
-                                ),
-                              ),
+                              provider.listTask[i].observacion != "-"
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(bottom: 6),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              child: InkWell(
+                                                  onTap: () async {
+                                                    String resp =
+                                                        await dialogComentario(
+                                                            context,
+                                                            "Se cerrara la tarea con un estado de que no se pudo completar");
+                                                    if (resp != "") {
+                                                      provider.listTask[i]
+                                                          .estado = false;
+                                                      provider.listTask[i]
+                                                          .observacion2 = resp;
+                                                      provider.listTask[i].fin =
+                                                          DateTime.now();
+                                                      provider.listTask[i]
+                                                              .inicio =
+                                                          UtilView.convertStringToDate(
+                                                              DateFormat(
+                                                                      "dd/MM/yyyy")
+                                                                  .format(provider
+                                                                      .listTask[
+                                                                          i]
+                                                                      .inicio));
+                                                      provider.closeTask(
+                                                          provider.listTask[i]);
+                                                      provider.listTask.remove(
+                                                          provider.listTask[i]);
+                                                    }
+                                                  },
+                                                  child: const Icon(
+                                                      Icons.cancel,
+                                                      color: Colors.red))),
+                                          Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              child: InkWell(
+                                                  onTap: () async {
+                                                    String resp =
+                                                        await dialogComentario(
+                                                            context,
+                                                            "Se cerrara la Tarea con exito");
+                                                    if (resp != "") {
+                                                      provider.listTask[i]
+                                                              .inicio =
+                                                          UtilView.convertStringToDate(
+                                                              DateFormat(
+                                                                      "dd/MM/yyyy")
+                                                                  .format(provider
+                                                                      .listTask[
+                                                                          i]
+                                                                      .inicio));
+                                                      provider.listTask[i]
+                                                          .observacion2 = resp;
+                                                      provider.listTask[i].fin =
+                                                          DateTime.now();
+                                                      provider.listTask[i]
+                                                          .estado = false;
+
+                                                      provider.closeTask(
+                                                          provider.listTask[i]);
+                                                      provider.listTask.remove(
+                                                          provider.listTask[i]);
+                                                    }
+                                                  },
+                                                  child: const Icon(Icons.check,
+                                                      color: Colors.green)))
+                                        ],
+                                      ),
+                                    )
+                                  : Text('')
                             ],
                           ),
                         );

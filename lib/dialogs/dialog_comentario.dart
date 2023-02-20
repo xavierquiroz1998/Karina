@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
 
-Future<String> dialogComentario(BuildContext context) async {
+Future<String> dialogComentario(BuildContext context, String opt) async {
   TextEditingController _controller = TextEditingController();
 
   await showDialog(
@@ -20,10 +20,17 @@ Future<String> dialogComentario(BuildContext context) async {
               const Flexible(
                   child: Padding(
                 padding: EdgeInsets.all(9),
-                child: Text("Agregar Comentario",
+                child: Text("Agregar Comentario ",
                     textAlign: TextAlign.start,
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              )),
+              Flexible(
+                  child: Padding(
+                padding: const EdgeInsets.all(9),
+                child: Text(opt,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(fontSize: 12, color: Colors.grey)),
               )),
               Container(
                   margin: const EdgeInsets.only(top: 15, bottom: 10),
@@ -39,7 +46,10 @@ Future<String> dialogComentario(BuildContext context) async {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton.icon(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      _controller.text = "";
+                      Navigator.pop(context);
+                    },
                     icon: const Icon(Icons.cancel, color: Colors.red),
                     label: Text(
                       'Cancelar',

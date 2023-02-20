@@ -1,6 +1,7 @@
 import 'package:tesis_karina/entity/detalle_planificacion.dart';
 import 'package:tesis_karina/entity/enfermedad.dart';
 import 'package:tesis_karina/entity/finca.dart';
+import 'package:tesis_karina/entity/historial.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/list_insumos.dart';
 import 'package:tesis_karina/entity/list_personal.dart';
@@ -520,7 +521,7 @@ class SolicitudApi {
 
 // #region BLOQUE DE TERRENO INCIO
   Future<Terreno?> getApiTerreno(String uid) async {
-    var url = Uri.parse("$baseUrl/terrenos/$uid");
+    var url = Uri.parse("$baseUrl/terreno/$uid");
 
     try {
       http.Response respuesta = await http.get(url);
@@ -528,6 +529,21 @@ class SolicitudApi {
         return utf8.decode(respuesta.bodyBytes) != ""
             ? Terreno.fromJson(utf8.decode(respuesta.bodyBytes))
             : null;
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  Future<List<Terreno>> getApiFincaAndTerreno(String uid) async {
+    var url = Uri.parse("$baseUrl/terreno/listFinca/$uid");
+
+    try {
+      var respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListTerreno(utf8.decode(respuesta.bodyBytes));
       } else {
         throw Exception('Excepcion ${respuesta.statusCode}');
       }
@@ -741,6 +757,23 @@ class SolicitudApi {
     }
   }
 
+  Future<bool> putApiTask(Detalleplanificacion datos) async {
+    var url = Uri.parse(
+        "$baseUrl/detalleplanificacion/${datos.iddetalleplanificacion}");
+    final respuesta = await http.put(url,
+        body: datos.toJson(),
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+    try {
+      if (respuesta.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception(respuesta.statusCode.toString());
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
   Future<List<Detalleplanificacion>> getApiListTask() async {
     var url = Uri.parse("$baseUrl/detalleplanificacion");
     print(url.toString());
@@ -790,22 +823,6 @@ class SolicitudApi {
     }
   }
 
-  Future<bool> putApiTask(Planificacion datos) async {
-    var url = Uri.parse("$baseUrl/task/${datos.idplanificacion}");
-    final respuesta = await http.put(url,
-        body: datos.toJson(),
-        headers: {"Content-type": "application/json;charset=UTF-8"});
-    try {
-      if (respuesta.statusCode == 200) {
-        return true;
-      } else {
-        throw Exception(respuesta.statusCode.toString());
-      }
-    } catch (e) {
-      throw ('$e');
-    }
-  }
-
   Future<bool> postApiTask(Planificacion datos) async {
     var url = Uri.parse("$baseUrl/task");
     var data = datos.toJson();
@@ -826,6 +843,29 @@ class SolicitudApi {
   }
 
 // #endregion
+
+//
+
+  Future<bool> postApiHist(Historial datos) async {
+    var url = Uri.parse("$baseUrl/historial");
+    var data = datos.toJson();
+
+    final resquet = await http.post(url,
+        body: data,
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+
+    try {
+      if (resquet.statusCode != 200) {
+        throw Exception('${resquet.statusCode}');
+      } else {
+        return true;
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
+//
 
 // #region BLOQUE DE PERSONAS INCIO
   Future<Persona?> getApiPersona(String uid) async {

@@ -15,7 +15,7 @@ class SeguiminentoPage extends StatefulWidget {
 class _SeguiminentoPageState extends State<SeguiminentoPage> {
   @override
   void initState() {
-    Provider.of<SeguimientoProvider>(context, listen: false).getListTerreno();
+    Provider.of<SeguimientoProvider>(context, listen: false).getIntList();
     super.initState();
   }
 
@@ -23,10 +23,10 @@ class _SeguiminentoPageState extends State<SeguiminentoPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<SeguimientoProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Seguimiento de Tareas')),
+      appBar: AppBar(title: const Text('Seguimiento')),
       body: WhiteCard(
-        title: 'Lista de Cultivos',
-        acciones: Text(''),
+        title: 'Lista de Finca',
+        acciones: const Text(''),
         child: Center(
           child: SizedBox(
             height: MediaQuery.of(context).size.height - 220,
@@ -35,8 +35,49 @@ class _SeguiminentoPageState extends State<SeguiminentoPage> {
               spacing: 20,
               runSpacing: 20,
               children: [
-                for (var item in provider.listTerreno) ...[
+                for (var item in provider.listFinca) ...[
                   Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: InkWell(
+                      onTap: () {
+                        provider.getListTerreno(item.idfinca);
+                        Navigator.pushNamed(
+                            context, '/dashboard/controlSeguimiento2');
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: item.referencia == "1"
+                                    ? Colors.green[700]
+                                    : Colors.blueGrey),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 80,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Container(
+                              padding: const EdgeInsets.all(8.0),
+                              constraints: const BoxConstraints(maxWidth: 200),
+                              child: Text(
+                                item.nombre.toUpperCase(),
+                                textAlign: TextAlign.center,
+                                maxLines: 3,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 14),
+                              ))
+                        ],
+                      ),
+                    ),
+                  )
+                  /*      Padding(
                     padding: const EdgeInsets.only(top: 50),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2<Terreno>(
@@ -103,6 +144,7 @@ class _SeguiminentoPageState extends State<SeguiminentoPage> {
                       ),
                     ),
                   )
+              */
                 ]
               ],
             ),

@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/provider/user_form_provider.dart';
 import 'package:tesis_karina/provider/usuario_provider.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -56,15 +59,15 @@ class LoginPage extends StatelessWidget {
                           textAlign: TextAlign.center,
                         )),
                     onTap: () async {
-                      /* if (formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                         final user = await providerUsuario.getUsuarioLogin(
                             txtEmail.text, txtPass.text);
 
                         if (user != null) {
-                          // ignore: use_build_context_synchronously
+                          UtilView.usuarioUtil = user;
                           Navigator.pushNamed(context, '/dashboard');
                         }
-                      } */
+                      }
                       Navigator.pushNamed(context, '/dashboard');
                     },
                   ),

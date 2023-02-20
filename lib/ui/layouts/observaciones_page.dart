@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:tesis_karina/entity/tipos_plagas.dart';
 import 'package:tesis_karina/provider/seguimiento_provider.dart';
+import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/input_form.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
@@ -24,7 +27,7 @@ class _ObservacionPageState extends State<ObservacionPage> {
       body: ListView(
         children: [
           WhiteCard(
-              title: "Cultivo seleccionado",
+              title: "Observaciones sobre el terreno",
               // ignore: sort_child_properties_last
               child: Column(
                 children: [
@@ -51,13 +54,34 @@ class _ObservacionPageState extends State<ObservacionPage> {
                           width: 100,
                           child: Text("Hay,Plagas?", style: CustomLabels.h11)),
                       Expanded(
-                          child: InputForm(
-                        controller: provider.txtPlagas,
-                        hint: "",
-                        icon: Icons.assignment,
-                        length: 200,
-                        textInputType: TextInputType.number,
-                      )),
+                        child: SizedBox(
+                          height: 40,
+                          child: DropdownButtonFormField<TiposPlagas>(
+                            onChanged: (value) {
+                              provider.selectTpPlaga = value!;
+                            },
+                            dropdownColor: Colors.blueGrey,
+                            items: provider.listTplaga.map((item) {
+                              return DropdownMenuItem(
+                                value: item,
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      item.observacion,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                              );
+                            }).toList(),
+                            decoration:
+                                CustomInputs.boxInputDecorationDialogSearch(
+                                    label: 'Tipo de plagas',
+                                    hint: 'Tipo de plagas'),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 15),
@@ -132,7 +156,11 @@ class _ObservacionPageState extends State<ObservacionPage> {
                 ],
               ),
               acciones: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    provider.saveGuardarHist();
+                    UtilView.messageAccess("Guardado exitoso", Colors.green);
+                    Navigator.pushReplacementNamed(context, '/dashboard');
+                  },
                   child: const Tooltip(
                       message: "Guardar", child: Icon(Icons.save))))
         ],

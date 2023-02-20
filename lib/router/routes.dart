@@ -6,6 +6,7 @@ import 'package:tesis_karina/ui/layouts/login_page.dart';
 import 'package:tesis_karina/ui/layouts/matenimiento_page.dart';
 import 'package:tesis_karina/ui/layouts/report_page.dart';
 import 'package:tesis_karina/ui/layouts/seguimiento_page.dart';
+import 'package:tesis_karina/ui/layouts/seguimiento_page2.dart';
 import 'package:tesis_karina/ui/layouts/task_page.dart';
 import 'package:tesis_karina/ui/layouts/usuario_page.dart';
 
@@ -19,8 +20,9 @@ final routes = <String, WidgetBuilder>{
   //DASBOARD OPT
   '/dashboard/mantenimientos': (context) => const MatenimientoPage(),
   '/dashboard/controlCronograma': (context) => const PlanificacionPage(),
-  '/dashboard/controlReporte': (context) => ReportPage(),
+  '/dashboard/controlReporte': (context) => const ReportPage(),
   '/dashboard/controlSeguimiento': (context) => const SeguiminentoPage(),
+  '/dashboard/controlSeguimiento2': (context) => const SeguiminentoPage2(),
   '/dashboard/controlTareas': (context) => const TaskPage(),
   //FIN
 

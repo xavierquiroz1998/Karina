@@ -17,4 +17,36 @@ class TaskProvider extends ChangeNotifier {
     listTask = resp;
     notifyListeners();
   }
+
+  closeTask(Detalleplanificacion detalle) async {
+    final resp = await _api.putApiTask(detalle);
+    try {
+      this.listTask = this.listTask.map((e) {
+        if (detalle.iddetalleplanificacion != e.iddetalleplanificacion)
+          return e;
+        e.observacion2 = detalle.observacion2;
+        return e;
+      }).toList();
+      notifyListeners();
+      return true;
+    } catch (e) {
+      throw 'Error al actualizar el insumo';
+    }
+  }
+
+  userTask(Detalleplanificacion detalle) async {
+    final resp = await _api.putApiTask(detalle);
+    try {
+      this.listTask = this.listTask.map((e) {
+        if (detalle.iddetalleplanificacion != e.iddetalleplanificacion)
+          return e;
+        e.observacion = detalle.observacion;
+        return e;
+      }).toList();
+      notifyListeners();
+      return true;
+    } catch (e) {
+      throw 'Error al actualizar el insumo';
+    }
+  }
 }

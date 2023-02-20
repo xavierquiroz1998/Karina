@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -56,14 +57,14 @@ class MenuLateral extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    "USUARIO LOGEADO",
+                  const Text(
+                    "ADMIN",
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 14, color: Colors.black),
+                    style: TextStyle(fontSize: 14, color: Colors.black),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "XXXXXX-XXXXXXXX-@XXXX.COM",
+                    UtilView.usuarioUtil.correo,
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     style: const TextStyle(fontSize: 14, color: Colors.black),
