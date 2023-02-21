@@ -50,4 +50,10 @@ class Insumos {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
       };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return nombre;
+  }
 }

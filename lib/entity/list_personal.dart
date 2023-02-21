@@ -6,16 +6,12 @@ class ListPersonal {
     required this.idPersonal,
     required this.idPlanificacion,
     required this.estado,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   String idlistadepersonal;
   String idPersonal;
   String idPlanificacion;
   int estado;
-  DateTime createdAt;
-  DateTime updatedAt;
 
   factory ListPersonal.fromJson(String str) =>
       ListPersonal.fromMap(json.decode(str));
@@ -27,8 +23,6 @@ class ListPersonal {
         idPersonal: json["idPersonal"],
         idPlanificacion: json["idPlanificacion"],
         estado: json["estado"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toMap() => {
@@ -36,7 +30,5 @@ class ListPersonal {
         "idPersonal": idPersonal,
         "idPlanificacion": idPlanificacion,
         "estado": estado,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
       };
 }

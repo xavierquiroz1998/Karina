@@ -50,4 +50,10 @@ class Persona {
         "estado": estado,
         "idUsuario": idUsuario,
       };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return nombre;
+  }
 }

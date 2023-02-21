@@ -14,10 +14,8 @@ class Planificacion {
     required this.fechaI,
     required this.fechaF,
     required this.estado,
-    required this.createdAt,
-    required this.updatedAt,
     required this.idFinca,
-    required this.finca,
+ 
   });
 
   String idplanificacion;
@@ -31,10 +29,10 @@ class Planificacion {
   DateTime fechaI;
   DateTime fechaF;
   bool estado;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   String idFinca;
-  Finca finca;
+  Finca? finca;
 
   factory Planificacion.fromJson(String str) =>
       Planificacion.fromMap(json.decode(str));
@@ -53,10 +51,10 @@ class Planificacion {
         fechaI: DateTime.parse(json["fechaI"]),
         fechaF: DateTime.parse(json["fechaF"]),
         estado: json["estado"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        // createdAt: DateTime.parse(json["createdAt"] ) ,
+        // updatedAt: DateTime.parse(json["updatedAt"]),
         idFinca: json["idFinca"],
-        finca: Finca.fromMap(json["finca"]),
+        //finca: Finca.fromMap(json["finca"]),
       );
 
   Map<String, dynamic> toMap() => {
@@ -71,9 +69,9 @@ class Planificacion {
         "fechaI": fechaI.toIso8601String(),
         "fechaF": fechaF.toIso8601String(),
         "estado": estado,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        // "createdAt": createdAt.toIso8601String(),
+        // "updatedAt": updatedAt.toIso8601String(),
         "idFinca": idFinca,
-        "finca": finca.toMap(),
+        //"finca": finca.toMap(),
       };
 }

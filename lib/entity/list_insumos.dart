@@ -7,8 +7,6 @@ class ListInsumos {
     required this.idPlanificacion,
     required this.unidad,
     required this.estado,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   String idlistadeInsumos;
@@ -16,8 +14,6 @@ class ListInsumos {
   String idPlanificacion;
   String unidad;
   int estado;
-  DateTime createdAt;
-  DateTime updatedAt;
 
   factory ListInsumos.fromJson(String str) =>
       ListInsumos.fromMap(json.decode(str));
@@ -30,8 +26,6 @@ class ListInsumos {
         idPlanificacion: json["idPlanificacion"],
         unidad: json["unidad"],
         estado: json["estado"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toMap() => {
@@ -39,8 +33,6 @@ class ListInsumos {
         "idInsumo": idInsumo,
         "idPlanificacion": idPlanificacion,
         "unidad": unidad,
-        "estado": estado,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "estado": estado, 
       };
 }

@@ -13,9 +13,10 @@ import 'package:tesis_karina/utils/util_view.dart';
 class PlanificacionProvider extends ChangeNotifier {
   List<Insumos> listInsumo = [];
   List<Terreno> listTerrenos = [];
+  List<Terreno> listTerrenosTemp = [];
   List<Finca> listFincas = [];
   List<Persona> listPersonas = [];
-  List<Finca> listFincasSelect = [];
+  Finca? fincasSelect;
   List<Terreno> listTerrenosSelect = [];
   List<Insumos> listInsumoSelect = [];
   List<Persona> listPersonasSelect = [];
@@ -52,6 +53,7 @@ class PlanificacionProvider extends ChangeNotifier {
   getListTerrenos() async {
     final resp = await _api.getApiTerrenos();
     listTerrenos = resp;
+    listTerrenosTemp = resp;
     //notifyListeners();
   }
 
@@ -69,16 +71,18 @@ class PlanificacionProvider extends ChangeNotifier {
 
 // #endregion
   inializacion() async {
-    await getListInsumos();
-    await getListTerrenos();
-    await getListfincas();
-    await getListPersonas();
-    listFincasSelect = [];
-    listTerrenosSelect = [];
-    listInsumoSelect = [];
-    listPersonasSelect = [];
+    try {
+      await getListInsumos();
+      await getListTerrenos();
+      await getListfincas();
+      await getListPersonas();
+      fincasSelect = null;
+      listTerrenosSelect = [];
+      listInsumoSelect = [];
+      listPersonasSelect = [];
 
-    notifyListeners();
+      notifyListeners();
+    } catch (e) {}
   }
 
   Future<bool> grabar() async {
@@ -86,13 +90,17 @@ class PlanificacionProvider extends ChangeNotifier {
       var referenciaTask = UtilView.numberRandonUid();
       var uidInsumos = "";
 
-      String idFinca = listFincasSelect[0].idfinca;
+      String idFinca = fincasSelect!.idfinca;
       // insumos
       for (var e in listInsumoSelect) {
         uidInsumos = UtilView.numberRandonUid();
 
-        /*  await _api.postApiListInsumo(ListInsumos(
-            uid: uidInsumos, referencia: referenciaTask, idinsumo: e.uid)); */
+        await _api.postApiListInsumo(ListInsumos(
+            idlistadeInsumos: uidInsumos,
+            idPlanificacion: referenciaTask,
+            idInsumo: e.idinsumos,
+            estado: 1,
+            unidad: ''));
       }
 
       var uidPersonal = "";
@@ -101,8 +109,11 @@ class PlanificacionProvider extends ChangeNotifier {
       for (var e in listPersonasSelect) {
         uidPersonal = UtilView.numberRandonUid();
 
-        /*    await _api.postApiListPersonal(ListPersonal(
-            uid: uidPersonal, referencia: referenciaTask, idUsuario: usuario)); */
+        await _api.postApiListPersonal(ListPersonal(
+            idlistadepersonal: uidPersonal,
+            idPlanificacion: referenciaTask,
+            idPersonal: usuario,
+            estado: 1));
       }
 
       var uidTerrenos = "";
@@ -124,22 +135,23 @@ class PlanificacionProvider extends ChangeNotifier {
       var fechaInicio = DateTime.parse(dateController.text);
       var fechafin = DateTime.parse(dateFinController.text);
 
-      /*  Task tarea = Task(
-          uid: referenciaTask,
+      Planificacion tarea = Planificacion(
+          idplanificacion: referenciaTask,
           idFinca: idFinca,
-          idTerreno: uidTerrenos,
-          disponible: disponible,
+          // idTerreno: uidTerrenos,
+          // disponible: disponible,
           humedad: humedad,
           temperatura: temperatura,
-          idInsumos: uidInsumos,
-          idPersonal: uidPersonal,
+          idListInsumo: uidInsumos,
+          idListPersonal: uidPersonal,
           idUsuario: usuario,
           observacion: observacio,
-          start: fechaInicio,
-          end: fechafin,
-          estado: estado); */
+          observacion2: observacio,
+          fechaI: fechaInicio,
+          fechaF: fechafin,
+          estado: true);
 
-      //await _api.postApiTask(tarea);
+      await _api.postApiTask(tarea);
       return true;
     } catch (e) {
       print("Error al guardar task ${e.toString()}");
