@@ -1,10 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tesis_karina/api/solicitud_api.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 
 class TerrenoProvider extends ChangeNotifier {
   List<Terreno> listTerreno = [];
   final _api = SolicitudApi();
+  final Map<MarkerId, Marker> markers = {};
+
+  final controller = Completer();
+  final CameraPosition kGooglePlex = const CameraPosition(
+    target: LatLng(-2.190095, -79.890241),
+    zoom: 14.4746,
+  );
+
+  Set<Marker> get getMarkers => markers.values.toSet();
 
   getListInt() async {
     final resp = await _api.getApiTerrenos();
@@ -15,6 +27,13 @@ class TerrenoProvider extends ChangeNotifier {
   newObjeto(Terreno e) async {
     final resp = await _api.postApiTerreno(e);
     listTerreno.add(e);
+    notifyListeners();
+  }
+
+  void onTap(LatLng position) {
+    final markeId = MarkerId(markers.length.toString());
+    final marker = Marker(markerId: markeId, position: position);
+    markers[markeId] = marker;
     notifyListeners();
   }
 

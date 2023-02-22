@@ -41,6 +41,7 @@ dependencies:
   fluttertoast: ^8.1.2
   font_awesome_flutter: ^10.3.0
   google_fonts: ^3.0.1
+  google_maps_flutter: ^2.2.3
   http: ^0.13.5
   intl: ^0.17.0
   open_file: ^3.2.1

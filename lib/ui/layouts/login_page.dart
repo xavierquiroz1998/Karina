@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tesis_karina/provider/user_form_provider.dart';
 import 'package:tesis_karina/provider/usuario_provider.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
@@ -12,7 +11,6 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<UserFormProvider>(context);
     final providerUsuario = Provider.of<UsuarioProvider>(context);
     final txtEmail = TextEditingController();
     final txtPass = TextEditingController();
@@ -33,6 +31,7 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 30.0),
                   TextFormField(
                       controller: txtEmail,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                           labelText: 'Correo electrónico o teléfono')),
                   const SizedBox(height: 20.0),
@@ -68,7 +67,6 @@ class LoginPage extends StatelessWidget {
                           Navigator.pushNamed(context, '/dashboard');
                         }
                       }
-                      Navigator.pushNamed(context, '/dashboard');
                     },
                   ),
                   Expanded(child: Container()),

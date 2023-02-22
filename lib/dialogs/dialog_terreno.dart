@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tesis_karina/dialogs/dialog_ubi.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/provider/terreno_provider.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
@@ -66,7 +67,8 @@ Future showDialogViewTerreno(BuildContext context, String title,
                   return Colors.transparent;
                 })),
                 onPressed: () {
-                  terrenoProvider.newObjeto(Terreno(
+                  //showDialogViewMaps(context, "HOLA AGG RUTA");
+                  /*     terrenoProvider.newObjeto(Terreno(
                       idterreno: UtilView.numberRandonUid(),
                       idFinca: "",
                       ubicacion: txtUbicacion.text,
@@ -78,8 +80,10 @@ Future showDialogViewTerreno(BuildContext context, String title,
                       longitud: '',
                       latitud: '',
                       createdAt: DateTime.now(),
-                      updatedAt: DateTime.now()));
+                      updatedAt: DateTime.now())); */
+
                   Navigator.of(context).pop();
+                  Navigator.pushNamed(context, '/dashboard/selectMapa');
                 },
                 child: const Text('Aceptar', style: TextStyle(fontSize: 14))),
             TextButton(
