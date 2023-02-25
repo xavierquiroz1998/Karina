@@ -26,8 +26,6 @@ class DetailPlanDataSource extends DataGridSource {
               DataGridCell<String>(
                   columnName: 'fechaF',
                   value: UtilView.convertDateToString(e.fin)),
-              DataGridCell<Detalleplanificacion>(
-                  columnName: 'acciones', value: e),
             ]))
         .toList();
   }
@@ -49,32 +47,38 @@ class DetailPlanDataSource extends DataGridSource {
             alignment: Alignment.centerLeft,
             child: Text(row.getCells()[2].value.toString())),
         Container(
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                InkWell(
-                    onTap: () async {},
-                    child: const Icon(Icons.edit_outlined,
-                        color: Colors.blueGrey)),
-                const SizedBox(width: 5),
-                InkWell(
-                    onTap: () async {
-                      final respuesta = await dialogAcepCanc(
-                          context,
-                          "Seguro que deseas eliminar?",
-                          Icons.delete,
-                          Colors.red);
+            padding: const EdgeInsets.only(left: 7),
+            alignment: Alignment.centerLeft,
+            child: Text(row.getCells()[3].value.toString())),
 
-                      if (respuesta) {
-                        // ignore: use_build_context_synchronously
-                      }
-                    },
-                    child: const Icon(Icons.delete, color: Colors.red))
-              ],
-            )),
+        // Container(
+        //   alignment: Alignment.center,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     mainAxisSize: MainAxisSize.min,
+        //     children: [
+        //       InkWell(
+        //           onTap: () async {},
+        //           child:
+        //               const Icon(Icons.edit_outlined, color: Colors.blueGrey)),
+        //       const SizedBox(width: 5),
+        //       InkWell(
+        //           onTap: () async {
+        //             final respuesta = await dialogAcepCanc(
+        //                 context,
+        //                 "Seguro que deseas eliminar?",
+        //                 Icons.delete,
+        //                 Colors.red);
+
+        //             if (respuesta) {
+        //               // ignore: use_build_context_synchronously
+        //             }
+        //           },
+        //           child: const Icon(Icons.delete, color: Colors.red))
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

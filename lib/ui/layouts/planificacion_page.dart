@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tesis_karina/datasource/detail_plan_datasource.dart';
+import 'package:tesis_karina/entity/detalle_planificacion.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
@@ -469,7 +470,6 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 10),
                       Row(
                         children: [
@@ -523,7 +523,6 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 10),
                       Row(
                         children: [
@@ -578,78 +577,69 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                           ),
                         ],
                       ),
-                      // const Padding(
-                      //   padding: EdgeInsets.only(top: 10, bottom: 5),
-                      //   child: Text("Es una tarea de sembrar?",
-                      //       textAlign: TextAlign.center,
-                      //       style: TextStyle(fontWeight: FontWeight.bold)),
-                      // ),
-                      // const Padding(
-                      //   padding: EdgeInsets.only(top: 10, bottom: 5),
-                      //   child: Text("Lista de Actividades",
-                      //       textAlign: TextAlign.center,
-                      //       style: TextStyle(fontWeight: FontWeight.bold)),
-                      // ),
-                      // SfDataGridTheme(
-                      //   data: SfDataGridThemeData(
-                      //       headerColor: CustomColors.azulCielo),
-                      //   child: SizedBox(
-                      //     height: MediaQuery.of(context).size.height - 500,
-                      //     child: SfDataGrid(
-                      //         headerRowHeight: 35.0,
-                      //         rowHeight: 35.0,
-                      //         columns: <GridColumn>[
-                      //           GridColumn(
-                      //             columnWidthMode: ColumnWidthMode.fill,
-                      //             columnName: 'actividad',
-                      //             label: Center(
-                      //               child: Text('Actividad',
-                      //                   style: CustomLabels.h4
-                      //                       .copyWith(color: Colors.white)),
-                      //             ),
-                      //           ),
-                      //           GridColumn(
-                      //             columnWidthMode:
-                      //                 ColumnWidthMode.fitByColumnName,
-                      //             columnName: 'terreno',
-                      //             label: Center(
-                      //               child: Text('Terreno',
-                      //                   style: CustomLabels.h4
-                      //                       .copyWith(color: Colors.white)),
-                      //             ),
-                      //           ),
-                      //           GridColumn(
-                      //             columnWidthMode: ColumnWidthMode.fill,
-                      //             columnName: 'fechaI',
-                      //             label: Center(
-                      //               child: Text('F.Inico',
-                      //                   style: CustomLabels.h4
-                      //                       .copyWith(color: Colors.white)),
-                      //             ),
-                      //           ),
-                      //           GridColumn(
-                      //             columnWidthMode: ColumnWidthMode.fill,
-                      //             columnName: 'fechaF',
-                      //             label: Center(
-                      //               child: Text('F.Fin',
-                      //                   style: CustomLabels.h4
-                      //                       .copyWith(color: Colors.white)),
-                      //             ),
-                      //           ),
-                      //           GridColumn(
-                      //             columnName: 'acciones',
-                      //             label: Center(
-                      //               child: Text('Acciones',
-                      //                   style: CustomLabels.h4
-                      //                       .copyWith(color: Colors.white)),
-                      //             ),
-                      //           ),
-                      //         ],
-                      //         source: DetailPlanDataSource(
-                      //             provider: provPlanificacion, cxt: context)),
-                      //   ),
-                      // ),
-
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 5),
+                        child: Text("Es una tarea de sembrar?",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 5),
+                        child: Text("Lista de Actividades",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      SfDataGridTheme(
+                        data: SfDataGridThemeData(
+                            headerColor: CustomColors.azulCielo),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height - 500,
+                          child: SfDataGrid(
+                              headerRowHeight: 35.0,
+                              rowHeight: 35.0,
+                              columns: <GridColumn>[
+                                GridColumn(
+                                  columnWidthMode: ColumnWidthMode.fill,
+                                  columnName: 'actividad',
+                                  label: Center(
+                                    child: Text('Actividad',
+                                        style: CustomLabels.h4
+                                            .copyWith(color: Colors.white)),
+                                  ),
+                                ),
+                                GridColumn(
+                                  columnWidthMode:
+                                      ColumnWidthMode.fitByColumnName,
+                                  columnName: 'terreno',
+                                  label: Center(
+                                    child: Text('Terreno',
+                                        style: CustomLabels.h4
+                                            .copyWith(color: Colors.white)),
+                                  ),
+                                ),
+                                GridColumn(
+                                  columnWidthMode: ColumnWidthMode.fill,
+                                  columnName: 'fechaI',
+                                  label: Center(
+                                    child: Text('F.Inico',
+                                        style: CustomLabels.h4
+                                            .copyWith(color: Colors.white)),
+                                  ),
+                                ),
+                                GridColumn(
+                                  columnWidthMode: ColumnWidthMode.fill,
+                                  columnName: 'fechaF',
+                                  label: Center(
+                                    child: Text('F.Fin',
+                                        style: CustomLabels.h4
+                                            .copyWith(color: Colors.white)),
+                                  ),
+                                ),
+                              ],
+                              source: DetailPlanDataSource(
+                                  provider: provPlanificacion, cxt: context)),
+                        ),
+                      ),
                       const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -663,9 +653,26 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                           const SizedBox(width: 10),
                           ElevatedButton.icon(
                               onPressed: () {
-                                provPlanificacion.setIsDetail = true;
+                                var temp = DateFormat('yyyy-MM-dd')
+                                    .parse(provPlanificacion.txtFin.text);
+                                provPlanificacion.listDetailPlanificacion.add(
+                                  Detalleplanificacion(
+                                      actividad: provPlanificacion.txtName.text,
+                                      estado: true,
+                                      fin: DateFormat('yyyy-MM-dd')
+                                          .parse(provPlanificacion.txtFin.text),
+                                      idPlanificacion: "",
+                                      idTerreno: "",
+                                      iddetalleplanificacion: "",
+                                      idtipograminea: "",
+                                      inicio: DateFormat('yyyy-MM-dd').parse(
+                                          provPlanificacion.txtInicio.text),
+                                      observacion2: "",
+                                      observacion: ""),
+                                );
+                                // provPlanificacion.setIsDetail = true;
                               },
-                              label: const Text('Guardar'),
+                              label: const Text('Agregar'),
                               icon: const Icon(Icons.save))
                         ],
                       ),

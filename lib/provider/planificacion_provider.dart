@@ -192,20 +192,22 @@ class PlanificacionProvider extends ChangeNotifier {
 
       bool saveCab = await _api.postApiTask(tarea);
       if (saveCab) {
-        var referenciaDetTask = UtilView.numberRandonUid();
-        Detalleplanificacion detalle = Detalleplanificacion(
-            iddetalleplanificacion: referenciaDetTask,
-            idPlanificacion: referenciaTask,
-            estado: true,
-            inicio: fechaInicio,
-            fin: fechafin,
-            observacion: "obs1",
-            observacion2: "obs2",
-            actividad: txtName.text,
-            idTerreno: "",
-            idtipograminea: "");
+        for (var element in listDetailPlanificacion) {
+          var referenciaDetTask = UtilView.numberRandonUid();
+          Detalleplanificacion detalle = Detalleplanificacion(
+              iddetalleplanificacion: referenciaDetTask,
+              idPlanificacion: referenciaTask,
+              estado: true,
+              inicio: element.inicio,
+              fin: element.fin,
+              observacion: "obs1",
+              observacion2: "obs2",
+              actividad: element.actividad,
+              idTerreno: "",
+              idtipograminea: "");
 
-        var detResult = await _api.postApiTaskDet(detalle);
+          var detResult = await _api.postApiTaskDet(detalle);
+        }
       }
 
       return true;
