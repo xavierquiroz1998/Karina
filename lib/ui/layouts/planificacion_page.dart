@@ -1,4 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tesis_karina/datasource/detail_plan_datasource.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/insumo.dart';
+import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/entity/personas.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/provider/planificacion_provider.dart';
@@ -82,26 +84,30 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                               width: 100,
                               child: Text("Finca", style: CustomLabels.h11)),
                           Expanded(
-                              child: DropdownButton<Finca>(
-                            hint: Text(provPlanificacion.fincasSelect == null
-                                ? ""
-                                : provPlanificacion.fincasSelect!.nombre),
-                            onChanged: (Finca? value) async {
-                              provPlanificacion.fincasSelect = value;
-                              provPlanificacion.getListTerrenos();
-                              provPlanificacion.listTerrenos = provPlanificacion
-                                  .listTerrenosTemp
-                                  .where((e) => e.idFinca == value!.idfinca)
-                                  .toList();
-                            },
-                            items: provPlanificacion.listFincas
-                                .map<DropdownMenuItem<Finca>>((Finca value) {
-                              return DropdownMenuItem<Finca>(
-                                value: value,
-                                child: Text(value.nombre),
-                              );
-                            }).toList(),
-                          )),
+                            child: DropdownButton<Finca>(
+                              isExpanded: true,
+                              hint: Text(provPlanificacion.fincasSelect == null
+                                  ? ""
+                                  : provPlanificacion.fincasSelect!.nombre),
+                              onChanged: (Finca? value) async {
+                                provPlanificacion.fincasSelect = value;
+                                provPlanificacion.getListTerrenos();
+                                provPlanificacion.listTerrenos =
+                                    provPlanificacion
+                                        .listTerrenosTemp
+                                        .where(
+                                            (e) => e.idFinca == value!.idfinca)
+                                        .toList();
+                              },
+                              items: provPlanificacion.listFincas
+                                  .map<DropdownMenuItem<Finca>>((Finca value) {
+                                return DropdownMenuItem<Finca>(
+                                  value: value,
+                                  child: Text(value.nombre),
+                                );
+                              }).toList(),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 10),
@@ -311,6 +317,18 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                           ),
                         ],
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text("Actividad Aplicada a un Terreno"),
+                          Switch(
+                            value: provPlanificacion.isTerreno,
+                            onChanged: (value) {
+                              provPlanificacion.isChangeTerreno(value);
+                            },
+                          )
+                        ],
+                      ),
                       const Padding(
                         padding: EdgeInsets.only(top: 10, bottom: 5),
                         child: Text("Nombre de la Actividad",
@@ -336,77 +354,299 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                                       provPlanificacion.txtName.text.length),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 5),
-                        child: Text("Es una tarea de sembrar?",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 5),
-                        child: Text("Lista de Actividades",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                      SfDataGridTheme(
-                        data: SfDataGridThemeData(
-                            headerColor: CustomColors.azulCielo),
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height - 500,
-                          child: SfDataGrid(
-                              headerRowHeight: 35.0,
-                              rowHeight: 35.0,
-                              columns: <GridColumn>[
-                                GridColumn(
-                                  columnWidthMode: ColumnWidthMode.fill,
-                                  columnName: 'actividad',
-                                  label: Center(
-                                    child: Text('Actividad',
-                                        style: CustomLabels.h4
-                                            .copyWith(color: Colors.white)),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnWidthMode:
-                                      ColumnWidthMode.fitByColumnName,
-                                  columnName: 'terreno',
-                                  label: Center(
-                                    child: Text('Terreno',
-                                        style: CustomLabels.h4
-                                            .copyWith(color: Colors.white)),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnWidthMode: ColumnWidthMode.fill,
-                                  columnName: 'fechaI',
-                                  label: Center(
-                                    child: Text('F.Inico',
-                                        style: CustomLabels.h4
-                                            .copyWith(color: Colors.white)),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnWidthMode: ColumnWidthMode.fill,
-                                  columnName: 'fechaF',
-                                  label: Center(
-                                    child: Text('F.Fin',
-                                        style: CustomLabels.h4
-                                            .copyWith(color: Colors.white)),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'acciones',
-                                  label: Center(
-                                    child: Text('Acciones',
-                                        style: CustomLabels.h4
-                                            .copyWith(color: Colors.white)),
+                      provPlanificacion.isTerreno
+                          ? Row(
+                              children: [
+                                SizedBox(
+                                    width: 80,
+                                    child: Text("Terrenos",
+                                        style: CustomLabels.h11)),
+                                Expanded(
+                                  child: DropdownSearch<Terreno>.multiSelection(
+                                    items: provPlanificacion.listTerrenos,
+                                    compareFn: (i, s) => i.isEqual(s),
+                                    onChanged: (value) {
+                                      provPlanificacion.listTerrenosSelect =
+                                          value;
+                                    },
+                                    popupProps: PopupPropsMultiSelection
+                                        .modalBottomSheet(
+                                      showSearchBox: true,
+                                      itemBuilder:
+                                          _customPopupItemBuilderExample2,
+                                      favoriteItemProps: FavoriteItemProps(
+                                        showFavoriteItems: true,
+                                        favoriteItems: (us) {
+                                          return us
+                                              .where((e) =>
+                                                  e.observacion.contains("Mrs"))
+                                              .toList();
+                                        },
+                                        favoriteItemBuilder:
+                                            (context, item, isSelected) {
+                                          return Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 6),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "${item.observacion}",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.indigo),
+                                                ),
+                                                Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 8)),
+                                                isSelected
+                                                    ? Icon(Icons
+                                                        .check_box_outlined)
+                                                    : SizedBox.shrink(),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
-                              source: DetailPlanDataSource(
-                                  provider: provPlanificacion, cxt: context)),
-                        ),
+                            )
+                          : Container(),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          SizedBox(
+                              width: 80,
+                              child: Text("Insumos", style: CustomLabels.h11)),
+                          Expanded(
+                            child: DropdownSearch<Insumos>.multiSelection(
+                              items: provPlanificacion.listInsumo,
+                              compareFn: (i, s) => i.isEqual(s),
+                              onChanged: (value) {
+                                provPlanificacion.listInsumoSelect = value;
+                              },
+                              popupProps:
+                                  PopupPropsMultiSelection.modalBottomSheet(
+                                showSearchBox: true,
+                                itemBuilder: _customPopupItemBuilderInsumos,
+                                favoriteItemProps: FavoriteItemProps(
+                                  showFavoriteItems: true,
+                                  favoriteItems: (us) {
+                                    return us
+                                        .where((e) => e.nombre.contains("Mrs"))
+                                        .toList();
+                                  },
+                                  favoriteItemBuilder:
+                                      (context, item, isSelected) {
+                                    return Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 6),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "${item.nombre}",
+                                            textAlign: TextAlign.center,
+                                            style:
+                                                TextStyle(color: Colors.indigo),
+                                          ),
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 8)),
+                                          isSelected
+                                              ? Icon(Icons.check_box_outlined)
+                                              : SizedBox.shrink(),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          SizedBox(
+                              width: 80,
+                              child: Text("Personas", style: CustomLabels.h11)),
+                          Expanded(
+                            child: DropdownSearch<Persona>.multiSelection(
+                              items: provPlanificacion.listPersonas,
+                              compareFn: (i, s) => i.isEqual(s),
+                              onChanged: (value) {
+                                provPlanificacion.listPersonasSelect = value;
+                              },
+                              popupProps:
+                                  PopupPropsMultiSelection.modalBottomSheet(
+                                showSearchBox: true,
+                                itemBuilder: _customPopupItemBuilderPersona,
+                                favoriteItemProps: FavoriteItemProps(
+                                  showFavoriteItems: true,
+                                  favoriteItems: (us) {
+                                    return us
+                                        .where((e) => e.nombre.contains("Mrs"))
+                                        .toList();
+                                  },
+                                  favoriteItemBuilder:
+                                      (context, item, isSelected) {
+                                    return Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 6),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "${item.nombre}",
+                                            textAlign: TextAlign.center,
+                                            style:
+                                                TextStyle(color: Colors.indigo),
+                                          ),
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 8)),
+                                          isSelected
+                                              ? Icon(Icons.check_box_outlined)
+                                              : SizedBox.shrink(),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          SizedBox(
+                              width: 80,
+                              child:
+                                  Text("Maquinarias", style: CustomLabels.h11)),
+                          Expanded(
+                            child: DropdownSearch<Maquinaria>.multiSelection(
+                              items: provPlanificacion.listMaquinarias,
+                              compareFn: (i, s) => i.isEqual(s),
+                              onChanged: (value) {
+                                provPlanificacion.listMaquinariasSelect = value;
+                              },
+                              popupProps:
+                                  PopupPropsMultiSelection.modalBottomSheet(
+                                showSearchBox: true,
+                                itemBuilder: _customPopupItemBuilderMaquinarias,
+                                favoriteItemProps: FavoriteItemProps(
+                                  showFavoriteItems: true,
+                                  favoriteItems: (us) {
+                                    return us
+                                        .where((e) => e.nombre.contains("Mrs"))
+                                        .toList();
+                                  },
+                                  favoriteItemBuilder:
+                                      (context, item, isSelected) {
+                                    return Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 6),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "${item.nombre}",
+                                            textAlign: TextAlign.center,
+                                            style:
+                                                TextStyle(color: Colors.indigo),
+                                          ),
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 8)),
+                                          isSelected
+                                              ? Icon(Icons.check_box_outlined)
+                                              : SizedBox.shrink(),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // const Padding(
+                      //   padding: EdgeInsets.only(top: 10, bottom: 5),
+                      //   child: Text("Es una tarea de sembrar?",
+                      //       textAlign: TextAlign.center,
+                      //       style: TextStyle(fontWeight: FontWeight.bold)),
+                      // ),
+                      // const Padding(
+                      //   padding: EdgeInsets.only(top: 10, bottom: 5),
+                      //   child: Text("Lista de Actividades",
+                      //       textAlign: TextAlign.center,
+                      //       style: TextStyle(fontWeight: FontWeight.bold)),
+                      // ),
+                      // SfDataGridTheme(
+                      //   data: SfDataGridThemeData(
+                      //       headerColor: CustomColors.azulCielo),
+                      //   child: SizedBox(
+                      //     height: MediaQuery.of(context).size.height - 500,
+                      //     child: SfDataGrid(
+                      //         headerRowHeight: 35.0,
+                      //         rowHeight: 35.0,
+                      //         columns: <GridColumn>[
+                      //           GridColumn(
+                      //             columnWidthMode: ColumnWidthMode.fill,
+                      //             columnName: 'actividad',
+                      //             label: Center(
+                      //               child: Text('Actividad',
+                      //                   style: CustomLabels.h4
+                      //                       .copyWith(color: Colors.white)),
+                      //             ),
+                      //           ),
+                      //           GridColumn(
+                      //             columnWidthMode:
+                      //                 ColumnWidthMode.fitByColumnName,
+                      //             columnName: 'terreno',
+                      //             label: Center(
+                      //               child: Text('Terreno',
+                      //                   style: CustomLabels.h4
+                      //                       .copyWith(color: Colors.white)),
+                      //             ),
+                      //           ),
+                      //           GridColumn(
+                      //             columnWidthMode: ColumnWidthMode.fill,
+                      //             columnName: 'fechaI',
+                      //             label: Center(
+                      //               child: Text('F.Inico',
+                      //                   style: CustomLabels.h4
+                      //                       .copyWith(color: Colors.white)),
+                      //             ),
+                      //           ),
+                      //           GridColumn(
+                      //             columnWidthMode: ColumnWidthMode.fill,
+                      //             columnName: 'fechaF',
+                      //             label: Center(
+                      //               child: Text('F.Fin',
+                      //                   style: CustomLabels.h4
+                      //                       .copyWith(color: Colors.white)),
+                      //             ),
+                      //           ),
+                      //           GridColumn(
+                      //             columnName: 'acciones',
+                      //             label: Center(
+                      //               child: Text('Acciones',
+                      //                   style: CustomLabels.h4
+                      //                       .copyWith(color: Colors.white)),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //         source: DetailPlanDataSource(
+                      //             provider: provPlanificacion, cxt: context)),
+                      //   ),
+                      // ),
+
                       const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -432,4 +672,88 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
       ),
     );
   }
+}
+
+Widget _customPopupItemBuilderExample2(
+  BuildContext context,
+  Terreno? item,
+  bool isSelected,
+) {
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 8),
+    decoration: !isSelected
+        ? null
+        : BoxDecoration(
+            border: Border.all(color: Theme.of(context).primaryColor),
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
+          ),
+    child: ListTile(
+      selected: isSelected,
+      title: Text(item?.observacion ?? ''),
+    ),
+  );
+}
+
+Widget _customPopupItemBuilderPersona(
+  BuildContext context,
+  Persona? item,
+  bool isSelected,
+) {
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 8),
+    decoration: !isSelected
+        ? null
+        : BoxDecoration(
+            border: Border.all(color: Theme.of(context).primaryColor),
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
+          ),
+    child: ListTile(
+      selected: isSelected,
+      title: Text(item?.nombre ?? ''),
+    ),
+  );
+}
+
+Widget _customPopupItemBuilderMaquinarias(
+  BuildContext context,
+  Maquinaria? item,
+  bool isSelected,
+) {
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 8),
+    decoration: !isSelected
+        ? null
+        : BoxDecoration(
+            border: Border.all(color: Theme.of(context).primaryColor),
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
+          ),
+    child: ListTile(
+      selected: isSelected,
+      title: Text(item?.nombre ?? ''),
+    ),
+  );
+}
+
+Widget _customPopupItemBuilderInsumos(
+  BuildContext context,
+  Insumos? item,
+  bool isSelected,
+) {
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 8),
+    decoration: !isSelected
+        ? null
+        : BoxDecoration(
+            border: Border.all(color: Theme.of(context).primaryColor),
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
+          ),
+    child: ListTile(
+      selected: isSelected,
+      title: Text(item?.nombre ?? ''),
+    ),
+  );
 }

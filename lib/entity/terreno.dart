@@ -68,4 +68,14 @@ class Terreno {
         "updatedAt": updatedAt.toIso8601String(),
         "finca": finca.toMap(),
       };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return observacion;
+  }
+
+  bool isEqual(Terreno model) {
+    return this.idterreno == model.idterreno;
+  }
 }

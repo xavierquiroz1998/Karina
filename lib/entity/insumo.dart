@@ -56,4 +56,9 @@ class Insumos {
     // TODO: implement toString
     return nombre;
   }
+
+  bool isEqual(Insumos model) {
+    // TODO: implement toString
+    return this.idinsumos == model.idinsumos;
+  }
 }

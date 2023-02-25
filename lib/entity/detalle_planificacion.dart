@@ -12,8 +12,6 @@ class Detalleplanificacion {
     required this.observacion,
     required this.observacion2,
     required this.estado,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   String iddetalleplanificacion;
@@ -26,8 +24,6 @@ class Detalleplanificacion {
   String observacion;
   String observacion2;
   bool estado;
-  DateTime createdAt;
-  DateTime updatedAt;
 
   factory Detalleplanificacion.fromJson(String str) =>
       Detalleplanificacion.fromMap(json.decode(str));
@@ -46,8 +42,6 @@ class Detalleplanificacion {
         observacion: json["observacion"],
         observacion2: json["observacion2"],
         estado: json["estado"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toMap() => {
@@ -61,7 +55,5 @@ class Detalleplanificacion {
         "observacion": observacion,
         "observacion2": observacion2,
         "estado": estado,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
       };
 }

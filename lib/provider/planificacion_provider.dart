@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tesis_karina/api/solicitud_api.dart';
 import 'package:tesis_karina/entity/detalle_planificacion.dart';
+import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/entity/planificacion.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/insumo.dart';
@@ -18,11 +19,15 @@ class PlanificacionProvider extends ChangeNotifier {
   List<Terreno> listTerrenosTemp = [];
   List<Finca> listFincas = [];
   List<Persona> listPersonas = [];
+  List<Maquinaria> listMaquinarias = [];
   Finca? fincasSelect;
   List<Terreno> listTerrenosSelect = [];
   List<Insumos> listInsumoSelect = [];
   List<Persona> listPersonasSelect = [];
+  List<Maquinaria> listMaquinariasSelect = [];
   List<Detalleplanificacion> listDetailPlanificacion = [];
+
+  bool isTerreno = false;
 
   TextEditingController _dateController = TextEditingController();
   TextEditingController _dateFinController = TextEditingController();
@@ -31,6 +36,7 @@ class PlanificacionProvider extends ChangeNotifier {
   TextEditingController humedadFinController = TextEditingController();
   TextEditingController temperaturaFinController = TextEditingController();
   TextEditingController observacionFinController = TextEditingController();
+  TextEditingController ctrSearch = TextEditingController();
 
   //DETALLE
   TextEditingController txtName = TextEditingController();
@@ -66,6 +72,12 @@ class PlanificacionProvider extends ChangeNotifier {
     //notifyListeners();
   }
 
+  void isChangeTerreno(bool value) {
+    isTerreno = value;
+
+    notifyListeners();
+  }
+
   getListTerrenos() async {
     listTerrenos.clear();
     listTerrenosTemp.clear();
@@ -81,6 +93,12 @@ class PlanificacionProvider extends ChangeNotifier {
     //notifyListeners();
   }
 
+  getListMaquinarias() async {
+    final resp = await _api.getApiMaquinarias();
+    listMaquinarias = resp;
+    //notifyListeners();
+  }
+
   getListPersonas() async {
     final resp = await _api.getApiPersonas();
     listPersonas = resp;
@@ -93,10 +111,12 @@ class PlanificacionProvider extends ChangeNotifier {
       await getListInsumos();
       await getListfincas();
       await getListPersonas();
+      await getListMaquinarias();
       fincasSelect = null;
       listTerrenosSelect = [];
       listInsumoSelect = [];
       listPersonasSelect = [];
+      listMaquinariasSelect = [];
 
       notifyListeners();
     } catch (e) {
@@ -114,7 +134,7 @@ class PlanificacionProvider extends ChangeNotifier {
       for (var e in listInsumoSelect) {
         uidInsumos = UtilView.numberRandonUid();
 
-        await _api.postApiListInsumo(ListInsumos(
+        var resultado = await _api.postApiListInsumo(ListInsumos(
             idlistadeInsumos: uidInsumos,
             idPlanificacion: referenciaTask,
             idInsumo: e.idinsumos,
@@ -127,10 +147,10 @@ class PlanificacionProvider extends ChangeNotifier {
       for (var e in listPersonasSelect) {
         uidPersonal = UtilView.numberRandonUid();
 
-        await _api.postApiListPersonal(ListPersonal(
+        var resultado = await _api.postApiListPersonal(ListPersonal(
             idlistadepersonal: uidPersonal,
             idPlanificacion: referenciaTask,
-            idPersonal: UtilView.usuarioUtil.idusuarios,
+            idPersonal: e.idpersonas,
             estado: 1));
       }
 
@@ -139,7 +159,7 @@ class PlanificacionProvider extends ChangeNotifier {
       for (var e in listTerrenosSelect) {
         uidTerrenos = UtilView.numberRandonUid();
 
-        await _api.postApiListTerrenos(ListTerrenos(
+        var resultado = await _api.postApiListTerrenos(ListTerrenos(
             uid: uidTerrenos,
             referencia: referenciaTask,
             idTerreno: e.idterreno));
@@ -148,7 +168,8 @@ class PlanificacionProvider extends ChangeNotifier {
       var observacio = observacionFinController.text;
       var temperatura = temperaturaFinController.text;
       var humedad = humedadFinController.text;
-      var disponible = int.parse(disponibleController.text);
+      var disponible = int.parse(
+          disponibleController.text == "" ? "0" : disponibleController.text);
       var estado = 1;
       var fechaInicio = DateTime.parse(dateController.text);
       var fechafin = DateTime.parse(dateFinController.text);
@@ -169,7 +190,24 @@ class PlanificacionProvider extends ChangeNotifier {
           fechaF: fechafin,
           estado: true);
 
-      await _api.postApiTask(tarea);
+      bool saveCab = await _api.postApiTask(tarea);
+      if (saveCab) {
+        var referenciaDetTask = UtilView.numberRandonUid();
+        Detalleplanificacion detalle = Detalleplanificacion(
+            iddetalleplanificacion: referenciaDetTask,
+            idPlanificacion: referenciaTask,
+            estado: true,
+            inicio: fechaInicio,
+            fin: fechafin,
+            observacion: "obs1",
+            observacion2: "obs2",
+            actividad: txtName.text,
+            idTerreno: "",
+            idtipograminea: "");
+
+        var detResult = await _api.postApiTaskDet(detalle);
+      }
+
       return true;
     } catch (e) {
       print("Error al guardar task ${e.toString()}");
