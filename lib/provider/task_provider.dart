@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tesis_karina/api/solicitud_api.dart';
 import 'package:tesis_karina/entity/detalle_planificacion.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
 class TaskProvider extends ChangeNotifier {
   List<Detalleplanificacion> listTask = [];
@@ -13,7 +14,8 @@ class TaskProvider extends ChangeNotifier {
   }
 
   getListTaskUsuer() async {
-    final resp = await _api.getApiListUserTask("U-01", "1");
+    final resp =
+        await _api.getApiListUserTask(UtilView.usuarioUtil.idusuarios, "1");
     listTask = resp;
     notifyListeners();
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/provider/finca_provider.dart';
+import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
@@ -10,8 +11,6 @@ Future showDialogViewFinca(BuildContext context, String title,
       TextEditingController(text: finca == null ? "" : finca.nombre);
   final txtDimension =
       TextEditingController(text: finca == null ? "" : finca.dimension);
-  final txtUbicacion =
-      TextEditingController(text: finca == null ? "" : finca.ubicacion);
   final txtReferencia =
       TextEditingController(text: finca == null ? "" : finca.referencia);
 
@@ -37,26 +36,38 @@ Future showDialogViewFinca(BuildContext context, String title,
                   style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(height: 10),
-                TextFormField(
-                  controller: txtDimension,
-                  decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Dimension',
-                      label: 'Dimension',
-                      icon: Icons.new_releases_outlined),
-                  style: const TextStyle(color: Colors.black),
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller: txtUbicacion,
-                  decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Ubicacion',
-                      label: 'Ubicacion',
-                      icon: Icons.new_releases_outlined),
-                  style: const TextStyle(color: Colors.black),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: txtDimension,
+                        decoration: CustomInputs.boxInputDecoration(
+                            hint: 'Dimension',
+                            label: 'Dimension',
+                            icon: Icons.new_releases_outlined),
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith((states) {
+                          // If the button is pressed, return green, otherwise blue
+                          if (states.contains(MaterialState.pressed)) {
+                            return Colors.red;
+                          }
+                          return CustomColors.customDefaut;
+                        }),
+                      ),
+                      child: Text('Ubicacion'),
+                    )
+                  ],
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: txtReferencia,
+                  maxLines: 2,
                   decoration: CustomInputs.boxInputDecoration(
                       hint: 'Referencia',
                       label: 'Referencia',
@@ -82,7 +93,7 @@ Future showDialogViewFinca(BuildContext context, String title,
                         idfinca: UtilView.numberRandonUid(),
                         nombre: txtNombre.text,
                         dimension: txtDimension.text,
-                        ubicacion: txtUbicacion.text,
+                        ubicacion: "",
                         referencia: txtReferencia.text,
                         estado: "1",
                         createdAt: DateTime.now(),
@@ -91,7 +102,7 @@ Future showDialogViewFinca(BuildContext context, String title,
                     finca.dimension = txtDimension.text;
                     finca.nombre = txtNombre.text;
                     finca.referencia = txtReferencia.text;
-                    finca.ubicacion = txtUbicacion.text;
+                    finca.ubicacion = "";
 
                     provider.updateObjeto(finca);
                   }

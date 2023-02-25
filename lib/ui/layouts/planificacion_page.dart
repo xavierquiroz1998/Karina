@@ -653,24 +653,23 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                           const SizedBox(width: 10),
                           ElevatedButton.icon(
                               onPressed: () {
-                                var temp = DateFormat('yyyy-MM-dd')
-                                    .parse(provPlanificacion.txtFin.text);
                                 provPlanificacion.listDetailPlanificacion.add(
                                   Detalleplanificacion(
                                       actividad: provPlanificacion.txtName.text,
                                       estado: true,
-                                      fin: DateFormat('yyyy-MM-dd')
-                                          .parse(provPlanificacion.txtFin.text),
+                                      fin: UtilView.convertStringToDate(
+                                          provPlanificacion.txtFin.text),
                                       idPlanificacion: "",
                                       idTerreno: "",
                                       iddetalleplanificacion: "",
                                       idtipograminea: "",
-                                      inicio: DateFormat('yyyy-MM-dd').parse(
+                                      inicio: UtilView.convertStringToDate(
                                           provPlanificacion.txtInicio.text),
                                       observacion2: "",
                                       observacion: ""),
                                 );
                                 // provPlanificacion.setIsDetail = true;
+                                setState(() {});
                               },
                               label: const Text('Agregar'),
                               icon: const Icon(Icons.save))
