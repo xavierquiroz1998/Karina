@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tesis_karina/dialogs/dialog_ubi.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/provider/terreno_provider.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
@@ -45,13 +44,24 @@ Future showDialogViewTerreno(BuildContext context, String title,
                   style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(height: 10),
-                TextFormField(
-                  controller: txtUnidad,
-                  decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Unidad',
-                      label: 'Unidad',
-                      icon: Icons.new_releases_outlined),
-                  style: const TextStyle(color: Colors.black),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: txtUnidad,
+                        decoration: CustomInputs.boxInputDecoration(
+                            hint: 'Unidad',
+                            label: 'Unidad',
+                            icon: Icons.new_releases_outlined),
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/dashboard/selectMapa');
+                        },
+                        child: const Icon(Icons.map_outlined))
+                  ],
                 )
               ],
             ),
@@ -67,8 +77,7 @@ Future showDialogViewTerreno(BuildContext context, String title,
                   return Colors.transparent;
                 })),
                 onPressed: () {
-                  //showDialogViewMaps(context, "HOLA AGG RUTA");
-                  /*     terrenoProvider.newObjeto(Terreno(
+                  terrenoProvider.newObjeto(Terreno(
                       idterreno: UtilView.numberRandonUid(),
                       idFinca: "",
                       ubicacion: txtUbicacion.text,
@@ -79,11 +88,11 @@ Future showDialogViewTerreno(BuildContext context, String title,
                       disponibilidad: '',
                       longitud: '',
                       latitud: '',
+                      finca: terrenoProvider.selectFinca,
                       createdAt: DateTime.now(),
-                      updatedAt: DateTime.now())); */
+                      updatedAt: DateTime.now()));
 
                   Navigator.of(context).pop();
-                  Navigator.pushNamed(context, '/dashboard/selectMapa');
                 },
                 child: const Text('Aceptar', style: TextStyle(fontSize: 14))),
             TextButton(

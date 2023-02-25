@@ -42,12 +42,13 @@ class EnfermedadProvider extends ChangeNotifier {
     final resp = await _api.putApiEnfermedad(e);
     try {
       this.listEnfermedad = this.listEnfermedad.map((en) {
-        if (en.idenfermedades != e.idenfermedades) return e;
+        if (en.idenfermedades != e.idenfermedades) return en;
         en.nombre = e.nombre;
         en.plagasTipoId = isSelectP;
         en.enfermedadTipoId = isSelectE;
         en.observacion = e.observacion;
-        return e;
+
+        return en;
       }).toList();
       notifyListeners();
     } catch (e) {

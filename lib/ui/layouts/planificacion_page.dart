@@ -1,13 +1,21 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:tesis_karina/datasource/detail_plan_datasource.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/personas.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/provider/planificacion_provider.dart';
+import 'package:tesis_karina/style/colors/custom_colors.dart';
+import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
+import 'package:tesis_karina/utils/date_formatter.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/input_form.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
@@ -29,504 +37,397 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
   Widget build(BuildContext context) {
     var provPlanificacion = Provider.of<PlanificacionProvider>(context);
 
+    void selectDate(String cadena) async {
+      DateTime fecha = UtilView.convertStringToDate(cadena == 'init'
+          ? provPlanificacion.txtInicio.text
+          : provPlanificacion.txtFin.text);
+      final DateTime? picked = await showDatePicker(
+          context: context,
+          initialDate: fecha,
+          firstDate: DateTime(2015),
+          lastDate: DateTime(2025),
+          initialEntryMode: DatePickerEntryMode.input,
+          //initialDatePickerMode: DatePickerMode.year,
+          helpText: "Seleccionar Fecha",
+          errorInvalidText: "Rango fecha [2015-2025]");
+      if (fecha.isAfter(picked!)) {
+        setState(() {
+          switch (cadena) {
+            case 'init':
+              provPlanificacion.txtInicio.text =
+                  UtilView.dateFormatDMY(picked.toString());
+              break;
+            case 'finish':
+              provPlanificacion.txtFin.text =
+                  UtilView.dateFormatDMY(picked.toString());
+              break;
+            default:
+          }
+        });
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text('Crear Planificacion')),
       body: SingleChildScrollView(
         child: WhiteCard(
             // ignore: sort_child_properties_last
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                        width: 100,
-                        child: Text("Finca", style: CustomLabels.h11)),
-                    Expanded(
-                        child: DropdownButton<Finca>(
-                      //  value: dropdownValue,
+            child: provPlanificacion.isDetail
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                              width: 100,
+                              child: Text("Finca", style: CustomLabels.h11)),
+                          Expanded(
+                              child: DropdownButton<Finca>(
+                            hint: Text(provPlanificacion.fincasSelect == null
+                                ? ""
+                                : provPlanificacion.fincasSelect!.nombre),
+                            onChanged: (Finca? value) async {
+                              provPlanificacion.fincasSelect = value;
+                              provPlanificacion.getListTerrenos();
+                              provPlanificacion.listTerrenos = provPlanificacion
+                                  .listTerrenosTemp
+                                  .where((e) => e.idFinca == value!.idfinca)
+                                  .toList();
+                            },
+                            items: provPlanificacion.listFincas
+                                .map<DropdownMenuItem<Finca>>((Finca value) {
+                              return DropdownMenuItem<Finca>(
+                                value: value,
+                                child: Text(value.nombre),
+                              );
+                            }).toList(),
+                          )),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          SizedBox(
+                              width: 100,
+                              child: Text("Humedad", style: CustomLabels.h11)),
+                          Expanded(
+                              child: InputForm(
+                            controller: provPlanificacion.humedadFinController,
+                            hint: "",
+                            icon: Icons.assignment,
+                            length: 6,
+                            textInputType: TextInputType.number,
+                          )),
+                          Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
+                              child: Text("Temp", style: CustomLabels.h11)),
+                          Expanded(
+                              child: InputForm(
+                            controller:
+                                provPlanificacion.temperaturaFinController,
+                            hint: "",
+                            icon: Icons.assignment,
+                            length: 6,
+                            textInputType: TextInputType.number,
+                          )),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          SizedBox(
+                              width: 100,
+                              child:
+                                  Text("Observación", style: CustomLabels.h11)),
+                          Expanded(
+                              child: InputForm(
+                            controller:
+                                provPlanificacion.observacionFinController,
+                            hint: "",
+                            icon: Icons.assignment,
+                            maxLines: 3,
+                            length: 200,
+                            textInputType: TextInputType.text,
+                          )),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                                onPressed: () {
+                                  provPlanificacion.setIsDetail = false;
+                                },
+                                icon: const Icon(Icons.assignment_add),
+                                label: const Text('Agregar Actividades')),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                                controller: provPlanificacion
+                                    .dateController, //editing controller of this TextField
+                                decoration: CustomInputs.boxInputDecoration3(
+                                    label: "Fecha de inicio de planificacion",
+                                    icon: Icons.calendar_today),
+                                readOnly:
+                                    true, // when true user cannot edit text
+                                onTap: () async {
+                                  //when click we have to show the datepicker
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate:
+                                          DateTime.now(), //get today's date
+                                      firstDate: DateTime(
+                                          2020), //DateTime.now() - not to allow to choose before today.
+                                      lastDate: DateTime(2101));
+                                  if (pickedDate != null) {
+                                    String formattedDate =
+                                        DateFormat('yyyy-MM-dd').format(
+                                            pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
 
-                      hint: Text(provPlanificacion.fincasSelect == null
-                          ? ""
-                          : provPlanificacion.fincasSelect!.nombre),
+                                    setState(() {
+                                      provPlanificacion.dateController.text =
+                                          formattedDate; //set foratted date to TextField value.
+                                    });
+                                  }
+                                }),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                                controller: provPlanificacion
+                                    .dateFinController, //editing controller of this TextField
+                                decoration: const InputDecoration(
+                                    icon: Icon(Icons
+                                        .calendar_today), //icon of text field
+                                    labelText:
+                                        "Fecha de fin de planificacion" //label text of field
+                                    ),
+                                readOnly:
+                                    true, // when true user cannot edit text
+                                onTap: () async {
+                                  //when click we have to show the datepicker
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate:
+                                          DateTime.now(), //get today's date
+                                      firstDate: DateTime(
+                                          2020), //DateTime.now() - not to allow to choose before today.
+                                      lastDate: DateTime(2101));
+                                  if (pickedDate != null) {
+                                    String formattedDate =
+                                        DateFormat('yyyy-MM-dd').format(
+                                            pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
 
-                      onChanged: (Finca? value) async {
-                        // This is called when the user selects an item.
-
-                        setState(() {
-                          provPlanificacion.fincasSelect = value!;
-
-                          provPlanificacion.listTerrenos = provPlanificacion
-                              .listTerrenosTemp
-                              .where((e) => e.idFinca == value!.idfinca)
-                              .toList();
-                        });
-                      },
-                      items: provPlanificacion.listFincas
-                          .map<DropdownMenuItem<Finca>>((Finca value) {
-                        return DropdownMenuItem<Finca>(
-                          value: value,
-                          child: Text(value.nombre),
-                        );
-                      }).toList(),
-                    )),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: 100,
-                        child: Text("Terreno", style: CustomLabels.h11)),
-                    Expanded(
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2(
-                          isExpanded: true,
-                          hint: Align(
-                            alignment: AlignmentDirectional.center,
-                            child: Text(
-                              'Select Items',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).hintColor,
+                                    setState(() {
+                                      provPlanificacion.dateFinController.text =
+                                          formattedDate; //set foratted date to TextField value.
+                                    });
+                                  }
+                                }),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () async {
+                              provPlanificacion.grabar();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Guardar", style: CustomLabels.h11),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Cancelar", style: CustomLabels.h11),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 5),
+                        child: Text("Rango fecha de la actividad",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: TextFormField(
+                                controller: provPlanificacion.txtInicio,
+                                decoration:
+                                    CustomInputs.boxInputDecorationDatePicker(
+                                        labelText: 'Inicio',
+                                        fc: () => selectDate('init')),
+                                inputFormatters: [DateFormatter()],
+                                onChanged: (value) {},
+                                onTap: () {
+                                  provPlanificacion.txtInicio.selection =
+                                      TextSelection(
+                                          baseOffset: 0,
+                                          extentOffset: provPlanificacion
+                                              .txtInicio.text.length);
+                                },
                               ),
                             ),
                           ),
-                          items: provPlanificacion.listTerrenos.map((item) {
-                            return DropdownMenuItem<Terreno>(
-                              value: item,
-                              //disable default onTap to avoid closing menu when selecting an item
-                              enabled: false,
-                              child: StatefulBuilder(
-                                builder: (context, menuSetState) {
-                                  final _isSelected = provPlanificacion
-                                      .listTerrenosSelect
-                                      .contains(item);
-                                  return InkWell(
-                                    onTap: () {
-                                      _isSelected
-                                          ? provPlanificacion.listTerrenosSelect
-                                              .remove(item)
-                                          : provPlanificacion.listTerrenosSelect
-                                              .add(item);
-                                      //This rebuilds the StatefulWidget to update the button's text
-                                      setState(() {});
-                                      //This rebuilds the dropdownMenu Widget to update the check mark
-                                      menuSetState(() {});
-                                    },
-                                    child: Container(
-                                      height: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: Row(
-                                        children: [
-                                          _isSelected
-                                              ? const Icon(
-                                                  Icons.check_box_outlined)
-                                              : const Icon(Icons
-                                                  .check_box_outline_blank),
-                                          const SizedBox(width: 16),
-                                          Text(
-                                            item.ubicacion,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: TextFormField(
+                                controller: provPlanificacion.txtFin,
+                                decoration:
+                                    CustomInputs.boxInputDecorationDatePicker(
+                                        labelText: 'Fin',
+                                        fc: () => selectDate('finish')),
+                                inputFormatters: [DateFormatter()],
+                                onTap: () {
+                                  provPlanificacion.txtFin.selection =
+                                      TextSelection(
+                                          baseOffset: 0,
+                                          extentOffset: provPlanificacion
+                                              .txtFin.text.length);
                                 },
-                              ),
-                            );
-                          }).toList(),
-                          //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
-                          value: provPlanificacion.listTerrenosSelect.isEmpty
-                              ? null
-                              : provPlanificacion.listTerrenosSelect.last,
-                          onChanged: (value) {},
-                          buttonHeight: 40,
-                          buttonWidth: 140,
-                          itemHeight: 40,
-                          itemPadding: EdgeInsets.zero,
-                          selectedItemBuilder: (context) {
-                            return provPlanificacion.listTerrenos.map(
-                              (item) {
-                                return Container(
-                                  alignment: AlignmentDirectional.center,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: Text(
-                                    provPlanificacion.listTerrenosSelect
-                                        .join(', '),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    maxLines: 1,
-                                  ),
-                                );
-                              },
-                            ).toList();
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: 100,
-                        child: Text("Personal", style: CustomLabels.h11)),
-                    Expanded(
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2(
-                          isExpanded: true,
-                          hint: Align(
-                            alignment: AlignmentDirectional.center,
-                            child: Text(
-                              'Select Items',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).hintColor,
                               ),
                             ),
                           ),
-                          items: provPlanificacion.listPersonas.map((item) {
-                            return DropdownMenuItem<Persona>(
-                              value: item,
-                              //disable default onTap to avoid closing menu when selecting an item
-                              enabled: false,
-                              child: StatefulBuilder(
-                                builder: (context, menuSetState) {
-                                  final _isSelected = provPlanificacion
-                                      .listPersonasSelect
-                                      .contains(item);
-                                  return InkWell(
-                                    onTap: () {
-                                      _isSelected
-                                          ? provPlanificacion.listPersonasSelect
-                                              .remove(item)
-                                          : provPlanificacion.listPersonasSelect
-                                              .add(item);
-                                      //This rebuilds the StatefulWidget to update the button's text
-                                      setState(() {});
-                                      //This rebuilds the dropdownMenu Widget to update the check mark
-                                      menuSetState(() {});
-                                    },
-                                    child: Container(
-                                      height: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: Row(
-                                        children: [
-                                          _isSelected
-                                              ? const Icon(
-                                                  Icons.check_box_outlined)
-                                              : const Icon(Icons
-                                                  .check_box_outline_blank),
-                                          const SizedBox(width: 16),
-                                          Text(
-                                            item.nombre,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          }).toList(),
-                          //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
-                          value: provPlanificacion.listPersonasSelect.isEmpty
-                              ? null
-                              : provPlanificacion.listPersonasSelect.last,
-                          onChanged: (value) {},
-                          buttonHeight: 40,
-                          buttonWidth: 140,
-                          itemHeight: 40,
-                          itemPadding: EdgeInsets.zero,
-                          selectedItemBuilder: (context) {
-                            return provPlanificacion.listPersonas.map(
-                              (item) {
-                                return Container(
-                                  alignment: AlignmentDirectional.center,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: Text(
-                                    provPlanificacion.listPersonasSelect
-                                        .join(', '),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    maxLines: 1,
-                                  ),
-                                );
-                              },
-                            ).toList();
-                          },
+                        ],
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 5),
+                        child: Text("Nombre de la Actividad",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: TextFormField(
+                          controller: provPlanificacion.txtName,
+                          decoration: CustomInputs.boxInputDecoration2(
+                              hint: 'Ingresar Actividad',
+                              icon: Icons.menu_open_sharp),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'(^[0-9]*$)')),
+                            LengthLimitingTextInputFormatter(13),
+                          ],
+                          onTap: () => provPlanificacion.txtName.selection =
+                              TextSelection(
+                                  baseOffset: 0,
+                                  extentOffset:
+                                      provPlanificacion.txtName.text.length),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: 100,
-                        child: Text("Insumos", style: CustomLabels.h11)),
-                    Expanded(
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2(
-                          isExpanded: true,
-                          hint: Align(
-                            alignment: AlignmentDirectional.center,
-                            child: Text(
-                              'Select Items',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).hintColor,
-                              ),
-                            ),
-                          ),
-                          items: provPlanificacion.listInsumo.map((item) {
-                            return DropdownMenuItem<Insumos>(
-                              value: item,
-                              //disable default onTap to avoid closing menu when selecting an item
-                              enabled: false,
-                              child: StatefulBuilder(
-                                builder: (context, menuSetState) {
-                                  var _isSelected = provPlanificacion
-                                      .listInsumoSelect
-                                      .contains(item);
-                                  return InkWell(
-                                    onTap: () {
-                                      _isSelected
-                                          ? provPlanificacion.listInsumoSelect
-                                              .remove(item)
-                                          : provPlanificacion.listInsumoSelect
-                                              .add(item);
-                                      //This rebuilds the StatefulWidget to update the button's text
-                                      setState(() {});
-                                      //This rebuilds the dropdownMenu Widget to update the check mark
-                                      menuSetState(() {});
-                                    },
-                                    child: Container(
-                                      height: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: Row(
-                                        children: [
-                                          _isSelected
-                                              ? const Icon(
-                                                  Icons.check_box_outlined)
-                                              : const Icon(Icons
-                                                  .check_box_outline_blank),
-                                          const SizedBox(width: 16),
-                                          Text(
-                                            item.nombre,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          }).toList(),
-                          //Use last selected item as the current value so if we've limited menu height, it scroll to last item.
-                          value: provPlanificacion.listInsumoSelect.isEmpty
-                              ? null
-                              : provPlanificacion.listInsumoSelect.last,
-                          onChanged: (value) {},
-                          buttonHeight: 40,
-                          buttonWidth: 140,
-                          itemHeight: 40,
-                          itemPadding: EdgeInsets.zero,
-                          selectedItemBuilder: (context) {
-                            return provPlanificacion.listInsumo.map(
-                              (item) {
-                                return Container(
-                                  alignment: AlignmentDirectional.center,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: Text(
-                                    provPlanificacion.listInsumoSelect
-                                        .join(', '),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    maxLines: 1,
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 5),
+                        child: Text("Es una tarea de sembrar?",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 5),
+                        child: Text("Lista de Actividades",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      SfDataGridTheme(
+                        data: SfDataGridThemeData(
+                            headerColor: CustomColors.azulCielo),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height - 500,
+                          child: SfDataGrid(
+                              headerRowHeight: 35.0,
+                              rowHeight: 35.0,
+                              columns: <GridColumn>[
+                                GridColumn(
+                                  columnWidthMode: ColumnWidthMode.fill,
+                                  columnName: 'actividad',
+                                  label: Center(
+                                    child: Text('Actividad',
+                                        style: CustomLabels.h4
+                                            .copyWith(color: Colors.white)),
                                   ),
-                                );
-                              },
-                            ).toList();
-                          },
+                                ),
+                                GridColumn(
+                                  columnWidthMode:
+                                      ColumnWidthMode.fitByColumnName,
+                                  columnName: 'terreno',
+                                  label: Center(
+                                    child: Text('Terreno',
+                                        style: CustomLabels.h4
+                                            .copyWith(color: Colors.white)),
+                                  ),
+                                ),
+                                GridColumn(
+                                  columnWidthMode: ColumnWidthMode.fill,
+                                  columnName: 'fechaI',
+                                  label: Center(
+                                    child: Text('F.Inico',
+                                        style: CustomLabels.h4
+                                            .copyWith(color: Colors.white)),
+                                  ),
+                                ),
+                                GridColumn(
+                                  columnWidthMode: ColumnWidthMode.fill,
+                                  columnName: 'fechaF',
+                                  label: Center(
+                                    child: Text('F.Fin',
+                                        style: CustomLabels.h4
+                                            .copyWith(color: Colors.white)),
+                                  ),
+                                ),
+                                GridColumn(
+                                  columnName: 'acciones',
+                                  label: Center(
+                                    child: Text('Acciones',
+                                        style: CustomLabels.h4
+                                            .copyWith(color: Colors.white)),
+                                  ),
+                                ),
+                              ],
+                              source: DetailPlanDataSource(
+                                  provider: provPlanificacion, cxt: context)),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: 100,
-                        child: Text("Humedad", style: CustomLabels.h11)),
-                    Expanded(
-                        child: InputForm(
-                      controller: provPlanificacion.humedadFinController,
-                      hint: "",
-                      icon: Icons.assignment,
-                      length: 6,
-                      textInputType: TextInputType.number,
-                    )),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: 100,
-                        child: Text("Temperatura", style: CustomLabels.h11)),
-                    Expanded(
-                        child: InputForm(
-                      controller: provPlanificacion.temperaturaFinController,
-                      hint: "",
-                      icon: Icons.assignment,
-                      length: 6,
-                      textInputType: TextInputType.number,
-                    )),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: 100,
-                        child: Text("Observación", style: CustomLabels.h11)),
-                    Expanded(
-                        child: InputForm(
-                      controller: provPlanificacion.observacionFinController,
-                      hint: "",
-                      icon: Icons.assignment,
-                      maxLines: 3,
-                      length: 200,
-                      textInputType: TextInputType.text,
-                    )),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: 100,
-                        child: Text("Agregar Act.", style: CustomLabels.h11)),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.assignment_add),
-                          label: const Text('Actividades')),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                          controller: provPlanificacion
-                              .dateController, //editing controller of this TextField
-                          decoration: const InputDecoration(
-                              icon: Icon(
-                                  Icons.calendar_today), //icon of text field
-                              labelText:
-                                  "Fecha de inicio de planificacion" //label text of field
-                              ),
-                          readOnly: true, // when true user cannot edit text
-                          onTap: () async {
-                            //when click we have to show the datepicker
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(), //get today's date
-                                firstDate: DateTime(
-                                    2020), //DateTime.now() - not to allow to choose before today.
-                                lastDate: DateTime(2101));
-                            if (pickedDate != null) {
-                              String formattedDate = DateFormat('yyyy-MM-dd')
-                                  .format(
-                                      pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
-
-                              setState(() {
-                                provPlanificacion.dateController.text =
-                                    formattedDate; //set foratted date to TextField value.
-                              });
-                            }
-                          }),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                          controller: provPlanificacion
-                              .dateFinController, //editing controller of this TextField
-                          decoration: const InputDecoration(
-                              icon: Icon(
-                                  Icons.calendar_today), //icon of text field
-                              labelText:
-                                  "Fecha de fin de planificacion" //label text of field
-                              ),
-                          readOnly: true, // when true user cannot edit text
-                          onTap: () async {
-                            //when click we have to show the datepicker
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(), //get today's date
-                                firstDate: DateTime(
-                                    2020), //DateTime.now() - not to allow to choose before today.
-                                lastDate: DateTime(2101));
-                            if (pickedDate != null) {
-                              String formattedDate = DateFormat('yyyy-MM-dd')
-                                  .format(
-                                      pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
-
-                              setState(() {
-                                provPlanificacion.dateFinController.text =
-                                    formattedDate; //set foratted date to TextField value.
-                              });
-                            }
-                          }),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () async {
-                        provPlanificacion.grabar();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Guardar", style: CustomLabels.h11),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton.icon(
+                              onPressed: () {
+                                provPlanificacion.setIsDetail = true;
+                              },
+                              label: const Text('Regresar'),
+                              icon: const Icon(Icons.arrow_back)),
+                          const SizedBox(width: 10),
+                          ElevatedButton.icon(
+                              onPressed: () {
+                                provPlanificacion.setIsDetail = true;
+                              },
+                              label: const Text('Guardar'),
+                              icon: const Icon(Icons.save))
+                        ],
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Cancelar", style: CustomLabels.h11),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  ),
             acciones: const Icon(Icons.emoji_objects_rounded)),
       ),
     );

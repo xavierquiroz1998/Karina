@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tesis_karina/api/solicitud_api.dart';
+import 'package:tesis_karina/entity/detalle_planificacion.dart';
 import 'package:tesis_karina/entity/planificacion.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/insumo.dart';
@@ -20,6 +22,7 @@ class PlanificacionProvider extends ChangeNotifier {
   List<Terreno> listTerrenosSelect = [];
   List<Insumos> listInsumoSelect = [];
   List<Persona> listPersonasSelect = [];
+  List<Detalleplanificacion> listDetailPlanificacion = [];
 
   TextEditingController _dateController = TextEditingController();
   TextEditingController _dateFinController = TextEditingController();
@@ -29,8 +32,21 @@ class PlanificacionProvider extends ChangeNotifier {
   TextEditingController temperaturaFinController = TextEditingController();
   TextEditingController observacionFinController = TextEditingController();
 
+  //DETALLE
+  TextEditingController txtName = TextEditingController();
+  final txtInicio = TextEditingController(
+      text: DateFormat("dd/MM/yyyy").format(DateTime.now()));
+  final txtFin = TextEditingController(text: UtilView.dateSumDay(60));
+
+  bool isDetail = true;
+
   final _api = SolicitudApi();
 // #region get and set
+
+  set setIsDetail(bool value) {
+    isDetail = value;
+    notifyListeners();
+  }
 
   TextEditingController get dateFinController => _dateFinController;
 
@@ -51,10 +67,12 @@ class PlanificacionProvider extends ChangeNotifier {
   }
 
   getListTerrenos() async {
-    final resp = await _api.getApiTerrenos();
+    listTerrenos.clear();
+    listTerrenosTemp.clear();
+    final resp = await _api.getApiFincaAndTerreno(fincasSelect!.idfinca);
     listTerrenos = resp;
     listTerrenosTemp = resp;
-    //notifyListeners();
+    notifyListeners();
   }
 
   getListfincas() async {
@@ -73,7 +91,6 @@ class PlanificacionProvider extends ChangeNotifier {
   inializacion() async {
     try {
       await getListInsumos();
-      await getListTerrenos();
       await getListfincas();
       await getListPersonas();
       fincasSelect = null;
@@ -82,7 +99,9 @@ class PlanificacionProvider extends ChangeNotifier {
       listPersonasSelect = [];
 
       notifyListeners();
-    } catch (e) {}
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<bool> grabar() async {
@@ -105,14 +124,13 @@ class PlanificacionProvider extends ChangeNotifier {
 
       var uidPersonal = "";
       // personal
-      var usuario = "c1723e00-a30f-11ed-af67-7dd6fbeb535b";
       for (var e in listPersonasSelect) {
         uidPersonal = UtilView.numberRandonUid();
 
         await _api.postApiListPersonal(ListPersonal(
             idlistadepersonal: uidPersonal,
             idPlanificacion: referenciaTask,
-            idPersonal: usuario,
+            idPersonal: UtilView.usuarioUtil.idusuarios,
             estado: 1));
       }
 
@@ -144,7 +162,7 @@ class PlanificacionProvider extends ChangeNotifier {
           temperatura: temperatura,
           idListInsumo: uidInsumos,
           idListPersonal: uidPersonal,
-          idUsuario: usuario,
+          idUsuario: UtilView.usuarioUtil.idusuarios,
           observacion: observacio,
           observacion2: observacio,
           fechaI: fechaInicio,

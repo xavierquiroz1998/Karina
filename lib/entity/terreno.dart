@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:tesis_karina/entity/finca.dart';
+
 class Terreno {
   Terreno({
     required this.idterreno,
@@ -14,6 +16,7 @@ class Terreno {
     required this.estado,
     required this.createdAt,
     required this.updatedAt,
+    required this.finca,
   });
 
   String idterreno;
@@ -28,6 +31,7 @@ class Terreno {
   bool estado;
   DateTime createdAt;
   DateTime updatedAt;
+  Finca finca;
 
   factory Terreno.fromJson(String str) => Terreno.fromMap(json.decode(str));
 
@@ -46,6 +50,7 @@ class Terreno {
         estado: json["estado"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        finca: Finca.fromMap(json["finca"]),
       );
 
   Map<String, dynamic> toMap() => {
@@ -61,11 +66,6 @@ class Terreno {
         "estado": estado,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+        "finca": finca.toMap(),
       };
-
-  @override
-  String toString() {
-    // TODO: implement toString
-    return observacion;
-  }
 }

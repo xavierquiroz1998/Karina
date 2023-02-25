@@ -174,13 +174,13 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
                             idenfermedades: id!,
                             nombre: nombre,
                             observacion: observacion,
-                            enfermedadTipoId: enfermedadProvider.isSelectE,
+                            enfermedadTipoId: enfermedadProvider.isSelectE
+                                .split("/")[0]
+                                .trim(),
                             plagasTipoId: enfermedadProvider.isSelectP
                                 .split("/")[0]
                                 .trim(),
-                            fotografia: widget.enfermedad!.fotografia
-                                .split("/")[0]
-                                .trim(),
+                            fotografia: widget.enfermedad!.fotografia,
                             tratamiento: widget.enfermedad!.tratamiento,
                             especificaciones:
                                 widget.enfermedad!.especificaciones,

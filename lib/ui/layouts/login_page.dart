@@ -6,8 +6,27 @@ import 'package:provider/provider.dart';
 import 'package:tesis_karina/provider/usuario_provider.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late FocusNode myFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    myFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    myFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +34,18 @@ class LoginPage extends StatelessWidget {
     final txtEmail = TextEditingController();
     final txtPass = TextEditingController();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+    void guardar() async {
+      if (formKey.currentState!.validate()) {
+        final user =
+            await providerUsuario.getUsuarioLogin(txtEmail.text, txtPass.text);
+
+        if (user != null) {
+          UtilView.usuarioUtil = user;
+          Navigator.pushNamed(context, '/dashboard');
+        }
+      }
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -31,12 +62,16 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 30.0),
                   TextFormField(
                       controller: txtEmail,
+                      onEditingComplete: () =>
+                          FocusScope.of(context).requestFocus(myFocusNode),
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                           labelText: 'Correo electrónico o teléfono')),
                   const SizedBox(height: 20.0),
                   TextFormField(
+                    focusNode: myFocusNode,
                     controller: txtPass,
+                    onEditingComplete: () => guardar(),
                     obscureText: true,
                     decoration: const InputDecoration(labelText: 'Contraseña'),
                     keyboardType: TextInputType.visiblePassword,
@@ -57,17 +92,7 @@ class LoginPage extends StatelessWidget {
                           style: TextStyle(fontSize: 14.0),
                           textAlign: TextAlign.center,
                         )),
-                    onTap: () async {
-                      if (formKey.currentState!.validate()) {
-                        final user = await providerUsuario.getUsuarioLogin(
-                            txtEmail.text, txtPass.text);
-
-                        if (user != null) {
-                          UtilView.usuarioUtil = user;
-                          Navigator.pushNamed(context, '/dashboard');
-                        }
-                      }
-                    },
+                    onTap: () => guardar(),
                   ),
                   Expanded(child: Container()),
                   Row(
@@ -80,7 +105,6 @@ class LoginPage extends StatelessWidget {
                       FaIcon(Icons.arrow_circle_right_outlined, size: 20.0),
                     ],
                   ),
-                  const SizedBox(height: 20.0),
                 ]),
               ))
         ],
