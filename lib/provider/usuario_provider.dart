@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tesis_karina/api/solicitud_api.dart';
 import 'package:tesis_karina/entity/usuario.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
 class UsuarioProvider extends ChangeNotifier {
   List<Usuario> listUsuario = [];
@@ -45,6 +46,11 @@ class UsuarioProvider extends ChangeNotifier {
     } catch (e) {
       throw 'Error al actualizar el usuario';
     }
+  }
+
+  singleUpdateObjeto(Usuario usuario) async {
+    final resp = await _api.putApiUsuario(usuario);
+    UtilView.messageAccess(resp ? "EXITO" : "ERROR", Colors.green);
   }
 
   deleteObjeto(Usuario e) async {

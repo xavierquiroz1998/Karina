@@ -22,8 +22,8 @@ import 'dart:convert';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class SolicitudApi {
-  static String baseUrl = "http://192.168.100.73:8000/api";
-  //static String baseUrl = "http://192.168.100.4:8000/api";
+  //static String baseUrl = "http://192.168.100.73:8000/api";
+  static String baseUrl = "http://192.168.100.4:8000/api";
 
 // #region BLOQUE DE USUARIOS Y PERSONAS
 
@@ -607,7 +607,7 @@ class SolicitudApi {
   }
 
   Future<bool> postApiTerreno(Terreno datos) async {
-    var url = Uri.parse("$baseUrl/terrenos");
+    var url = Uri.parse("$baseUrl/terreno");
     final resquet = await http.post(url,
         body: datos.toJson(),
         headers: {"Content-type": "application/json;charset=UTF-8"});
@@ -721,7 +721,7 @@ class SolicitudApi {
 // #region BLOQUE TASK INICIO
 
   Future<List<Planificacion>> getApiTask() async {
-    var url = Uri.parse("$baseUrl/task");
+    var url = Uri.parse("$baseUrl/planificacion");
     print(url.toString());
 
     try {
@@ -807,7 +807,7 @@ class SolicitudApi {
   }
 
   Future<bool> deleteApiTask(String uid) async {
-    var url = Uri.parse("$baseUrl/task/$uid");
+    var url = Uri.parse("$baseUrl/planificacion/$uid");
     final respuesta = await http.delete(url,
         headers: {"Content-type": "application/json;charset=UTF-8"});
 
@@ -824,7 +824,7 @@ class SolicitudApi {
   }
 
   Future<bool> postApiTask(Planificacion datos) async {
-    var url = Uri.parse("$baseUrl/task");
+    var url = Uri.parse("$baseUrl/planificacion");
     var data = datos.toJson();
 
     final resquet = await http.post(url,
@@ -844,7 +844,7 @@ class SolicitudApi {
 
 // #endregion
 
-//
+// GUARDADO DE HISTORIAL QUE ES EL SEGUIMIENTO DEL CULTIVO
 
   Future<bool> postApiHist(Historial datos) async {
     var url = Uri.parse("$baseUrl/historial");
@@ -865,7 +865,7 @@ class SolicitudApi {
     }
   }
 
-//
+// FIN DEL SEGUIMIENTO DEL CULTIVO
 
 // #region BLOQUE DE PERSONAS INCIO
   Future<Persona?> getApiPersona(String uid) async {
@@ -963,6 +963,25 @@ class SolicitudApi {
   Future<bool> postApiListInsumo(ListInsumos insumos) async {
     var url = Uri.parse("$baseUrl/listinsumo");
     var data = insumos.toJson();
+
+    final resquet = await http.post(url,
+        body: data,
+        headers: {"Content-type": "application/json;charset=UTF-8"});
+
+    try {
+      if (resquet.statusCode != 200) {
+        throw Exception('${resquet.statusCode}');
+      } else {
+        return true;
+      }
+    } catch (e) {
+      throw ('$e');
+    }
+  }
+
+  Future<bool> postApiListMaquinaria(Maquinaria maquinaria) async {
+    var url = Uri.parse("$baseUrl/listmaquinarias");
+    var data = maquinaria.toJson();
 
     final resquet = await http.post(url,
         body: data,

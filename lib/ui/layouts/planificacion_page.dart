@@ -68,7 +68,10 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Crear Planificacion')),
+      appBar: AppBar(
+        title: const Text('Crear Planificacion'),
+        backgroundColor: CustomColors.customDefaut,
+      ),
       body: SingleChildScrollView(
         child: WhiteCard(
             // ignore: sort_child_properties_last

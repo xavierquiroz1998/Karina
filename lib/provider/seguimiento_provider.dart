@@ -46,8 +46,7 @@ class SeguimientoProvider extends ChangeNotifier {
         referencia: selectTerreno.idterreno,
         observacion: txtNovedad.text,
         observacion2:
-            "OBSERVACION REGISTRADA :: ${UtilView.convertDateToString(DateTime.now())} ACTUAL PROCESO DE EVOLUCION $porcentajeProgreso% "
-            "INGRESADA POR EL USUARIO :: U-01 ",
+            "ACTUAL PROCESO DE EVOLUCION $porcentajeProgreso% INGRESADA POR EL USUARIO :: ${UtilView.usuarioUtil.idusuarios}",
         evaluar: valoracion.toInt(),
         carga: imgBs4);
     txtNovedad.clear();

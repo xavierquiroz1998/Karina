@@ -1,11 +1,14 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/entity/tipos_plagas.dart';
 import 'package:tesis_karina/provider/seguimiento_provider.dart';
+import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
 import 'package:tesis_karina/utils/util_view.dart';
+import 'package:tesis_karina/widgets/camara.dart';
 import 'package:tesis_karina/widgets/input_form.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
@@ -23,7 +26,10 @@ class _ObservacionPageState extends State<ObservacionPage> {
     final provider = Provider.of<SeguimientoProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Ingresar novedad')),
+      appBar: AppBar(
+        title: const Text('Ingresar novedad'),
+        backgroundColor: CustomColors.customDefaut,
+      ),
       body: ListView(
         children: [
           WhiteCard(
@@ -131,21 +137,22 @@ class _ObservacionPageState extends State<ObservacionPage> {
                       ),
                       FloatingActionButton(
                         onPressed: () async {
-                          /*  FilePickerResult? result =
-                              await FilePicker.platform.pickFiles(
-                            type: FileType.custom,
-                            allowedExtensions: ['jpg', 'png', 'jpeg'],
-                          );
+                          final cameras = await availableCameras();
+                          // Get a specific camera from the list of available cameras.
+                          final firstCamera = cameras.first;
 
-                          if (result != null) {
-                            provider.imgBs4 = "";
-                            Navigator.of(context).pop();
-                          } else {
-                            //Cancelar la busqueda de la imagen
-                          } */
+                          // ignore: use_build_context_synchronously
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  TakePictureScreen(camera: firstCamera),
+                            ),
+                          );
                         },
                         elevation: 0,
-                        backgroundColor: Colors.indigo,
+                        backgroundColor: provider.imgBs4 == ""
+                            ? Colors.indigo
+                            : Colors.green[700],
                         child: const Icon(
                           Icons.camera_alt_outlined,
                           size: 20,

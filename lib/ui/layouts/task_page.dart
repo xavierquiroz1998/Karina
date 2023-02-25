@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
 import 'package:tesis_karina/dialogs/dialog_comentario.dart';
 import 'package:tesis_karina/provider/task_provider.dart';
+import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
@@ -25,7 +26,10 @@ class _TaskPageState extends State<TaskPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<TaskProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Tareas')),
+      appBar: AppBar(
+        title: const Text('Tareas'),
+        backgroundColor: CustomColors.customDefaut,
+      ),
       body: ListView(
         children: [
           WhiteCard(

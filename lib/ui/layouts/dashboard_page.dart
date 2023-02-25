@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -8,7 +9,10 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime anio = DateTime.now();
     return Scaffold(
-        appBar: AppBar(title: const Text('Inicio')),
+        appBar: AppBar(
+          title: const Text('Inicio'),
+          backgroundColor: CustomColors.customDefaut,
+        ),
         drawer: const MenuLateral(),
         body: Column(
           children: [

@@ -8,11 +8,13 @@ import 'package:tesis_karina/entity/terreno.dart';
 
 class TerrenoProvider extends ChangeNotifier {
   List<Terreno> listTerreno = [];
+  List<Finca> listFincas = [];
   late Finca selectFinca;
   final _api = SolicitudApi();
   final Map<MarkerId, Marker> markers = {};
 
-  final controller = Completer();
+  Completer controller = Completer();
+
   final CameraPosition kGooglePlex = const CameraPosition(
     target: LatLng(-2.190095, -79.890241),
     zoom: 14.4746,
@@ -23,10 +25,19 @@ class TerrenoProvider extends ChangeNotifier {
   getListInt() async {
     final resp = await _api.getApiTerrenos();
     listTerreno = resp;
+    getListInt2();
     notifyListeners();
   }
 
+  getListInt2() async {
+    final resp = await _api.getApiFincas();
+    listFincas = resp;
+  }
+
   newObjeto(Terreno e) async {
+    var objTEmp = markers.values.first;
+    e.longitud = "${objTEmp.position.longitude}";
+    e.latitud = "${objTEmp.position.latitude}";
     final resp = await _api.postApiTerreno(e);
     listTerreno.add(e);
     notifyListeners();

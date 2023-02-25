@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/provider/reporte_provider.dart';
+import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
@@ -17,7 +18,10 @@ class _ReportPageState extends State<ReportPage> {
     final provider = Provider.of<ReporteProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Generacion de reportes')),
+      appBar: AppBar(
+        title: const Text('Generacion de reportes'),
+        backgroundColor: CustomColors.customDefaut,
+      ),
       body: WhiteCard(
         title: 'Tipos de reporte',
         acciones: const Text(''),

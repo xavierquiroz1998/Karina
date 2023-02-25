@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/ui/view/enfermedades_view.dart';
 import 'package:tesis_karina/ui/view/finca_view.dart';
 import 'package:tesis_karina/ui/view/insumos_view.dart';
@@ -16,6 +17,7 @@ class MatenimientoPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.grey[600],
         appBar: AppBar(
+          backgroundColor: CustomColors.customDefaut,
           bottom: const TabBar(
             isScrollable: true,
             indicatorSize: TabBarIndicatorSize.label,

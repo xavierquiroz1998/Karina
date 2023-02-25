@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/provider/seguimiento_provider.dart';
+import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
 class SeguiminentoPage2 extends StatefulWidget {
@@ -15,7 +16,10 @@ class _SeguiminentoPage2State extends State<SeguiminentoPage2> {
   Widget build(BuildContext context) {
     final provider = Provider.of<SeguimientoProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Seguimiento')),
+      appBar: AppBar(
+        title: const Text('Seguimiento'),
+        backgroundColor: CustomColors.customDefaut,
+      ),
       body: WhiteCard(
         title: 'Lista de terrenos ${provider.selectFinca}',
         acciones: const Text(''),
