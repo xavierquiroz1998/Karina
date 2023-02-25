@@ -56,4 +56,8 @@ class Persona {
     // TODO: implement toString
     return nombre;
   }
+
+  bool isEqual(Persona model) {
+    return this.idpersonas == model.idpersonas;
+  }
 }
