@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/provider/insumo_provider.dart';
@@ -44,65 +45,69 @@ Future showDialogViewInsumo(BuildContext context, String title,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20))),
           content: SizedBox(
-            height: 200,
+            height: 220,
             width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: txtNombre,
-                  decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Nombre del Insumo',
-                      label: 'Insumo',
-                      icon: Icons.new_releases_outlined),
-                  style: const TextStyle(color: Colors.black),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 40,
-                  child: DropdownButtonFormField<String>(
-                    value: insumoProvider.isTpInsumo,
-                    onChanged: (value) {
-                      insumoProvider.isTpInsumo = value!;
-                    },
-                    dropdownColor: Colors.blueGrey,
-                    items: insumoProvider.tipoInsumo.map((item) {
-                      return DropdownMenuItem(
-                        value: item,
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              item,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
-                            )),
-                      );
-                    }).toList(),
-                    decoration: CustomInputs.boxInputDecorationDialogSearch(
-                        label: 'Tipo de plagas', hint: 'Tipo de plagas'),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: txtNombre,
+                    decoration: CustomInputs.boxInputDecoration(
+                        hint: 'Nombre del Insumo',
+                        label: 'Insumo',
+                        icon: Icons.new_releases_outlined),
+                    style: const TextStyle(color: Colors.black),
                   ),
-                ),
-                SizedBox(
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 40,
-                    child: TextFormField(
-                      controller: txtCritFI,
-                      decoration: CustomInputs.boxInputDecorationDatePicker(
-                          labelText: 'Fecha de caducidad',
-                          fc: () => selectDate(context, 'init')),
-                      inputFormatters: [DateFormatter()],
-                      onChanged: (value) {},
-                    )),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller: txtUnidades,
-                  keyboardType: TextInputType.number,
-                  decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Unidades',
-                      label: 'Unidad',
-                      icon: Icons.new_releases_outlined),
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ],
+                    child: DropdownButtonFormField<String>(
+                      value: insumoProvider.isTpInsumo,
+                      onChanged: (value) {
+                        insumoProvider.isTpInsumo = value!;
+                      },
+                      dropdownColor: Colors.blueGrey,
+                      items: insumoProvider.tipoInsumo.map((item) {
+                        return DropdownMenuItem(
+                          value: item,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                item,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold),
+                              )),
+                        );
+                      }).toList(),
+                      decoration: CustomInputs.boxInputDecorationDialogSearch(
+                          label: 'Tipo de plagas', hint: 'Tipo de plagas'),
+                    ),
+                  ),
+                  SizedBox(
+                      height: 40,
+                      child: TextFormField(
+                        controller: txtCritFI,
+                        decoration: CustomInputs.boxInputDecorationDatePicker(
+                            labelText: 'Fecha de caducidad',
+                            fc: () => selectDate(context, 'init')),
+                        inputFormatters: [DateFormatter()],
+                      )),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: txtUnidades,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'(^[0-9]*$)')),
+                    ],
+                    decoration: CustomInputs.boxInputDecoration(
+                        hint: 'Unidades',
+                        label: 'Unidad',
+                        icon: Icons.new_releases_outlined),
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
             ),
           ),
           actions: [
@@ -122,7 +127,7 @@ Future showDialogViewInsumo(BuildContext context, String title,
                       nombre: txtNombre.text,
                       insumoTipoId:
                           insumoProvider.isTpInsumo.split("/")[0].trim(),
-                      unidades: "",
+                      unidades: txtUnidades.text == "" ? "0" : txtUnidades.text,
                       fechaCaducidad:
                           UtilView.convertStringToDate(txtCritFI.text),
                       createdAt: DateTime.now(),

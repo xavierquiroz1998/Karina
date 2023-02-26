@@ -208,18 +208,16 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           Expanded(
                             child: TextField(
                                 controller: provPlanificacion
                                     .dateFinController, //editing controller of this TextField
-                                decoration: const InputDecoration(
-                                    icon: Icon(Icons
-                                        .calendar_today), //icon of text field
-                                    labelText:
-                                        "Fecha de fin de planificacion" //label text of field
-                                    ),
+                                decoration: CustomInputs.boxInputDecoration3(
+                                    label: "Fecha de fin de planificacion",
+                                    icon: Icons.calendar_today),
                                 readOnly:
                                     true, // when true user cannot edit text
                                 onTap: () async {
@@ -349,7 +347,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
                                 RegExp(r'(^[A-Z a-z 0-9]*$)')),
-                            LengthLimitingTextInputFormatter(13),
+                            LengthLimitingTextInputFormatter(100),
                           ],
                           onTap: () => provPlanificacion.txtName.selection =
                               TextSelection(
@@ -389,12 +387,12 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                                         favoriteItemBuilder:
                                             (context, item, isSelected) {
                                           return Container(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 horizontal: 8, vertical: 6),
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  "${item.observacion}",
+                                                  "NUEVA",
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       color: Colors.indigo),
@@ -693,7 +691,7 @@ Widget _customPopupItemBuilderExample2(
           ),
     child: ListTile(
       selected: isSelected,
-      title: Text(item?.observacion ?? ''),
+      title: Text(item?.ubicacion ?? ''),
     ),
   );
 }

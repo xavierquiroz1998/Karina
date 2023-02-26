@@ -14,6 +14,8 @@ Future showDialogViewFinca(BuildContext context, String title,
   final txtReferencia =
       TextEditingController(text: finca == null ? "" : finca.referencia);
 
+  provider.limpiar();
+
   await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -49,7 +51,9 @@ Future showDialogViewFinca(BuildContext context, String title,
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/dashboard/selectMapa2');
+                      },
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.resolveWith((states) {
@@ -87,9 +91,9 @@ Future showDialogViewFinca(BuildContext context, String title,
                   }
                   return Colors.transparent;
                 })),
-                onPressed: () {
+                onPressed: () async {
                   if (finca == null) {
-                    provider.newObjeto(Finca(
+                    final resp = await provider.newObjeto(Finca(
                         idfinca: UtilView.numberRandonUid(),
                         nombre: txtNombre.text,
                         dimension: txtDimension.text,
@@ -98,6 +102,13 @@ Future showDialogViewFinca(BuildContext context, String title,
                         estado: "1",
                         createdAt: DateTime.now(),
                         updatedAt: DateTime.now()));
+
+                    if (resp) {
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context).pop();
+                    } else {
+                      UtilView.messageDanger("Ingresar ubicacion");
+                    }
                   } else {
                     finca.dimension = txtDimension.text;
                     finca.nombre = txtNombre.text;
@@ -106,7 +117,6 @@ Future showDialogViewFinca(BuildContext context, String title,
 
                     provider.updateObjeto(finca);
                   }
-                  Navigator.of(context).pop();
                 },
                 child: const Text('Aceptar', style: TextStyle(fontSize: 14))),
             TextButton(

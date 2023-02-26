@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/provider/terreno_provider.dart';
@@ -13,6 +16,8 @@ Future showDialogViewTerreno(BuildContext context, String title,
       TextEditingController(text: terreno == null ? "" : terreno.dimension);
   final txtUnidad =
       TextEditingController(text: terreno == null ? "" : terreno.unidad);
+
+  terrenoProvider.limpiar();
 
   await showDialog(
       context: context,
@@ -49,6 +54,10 @@ Future showDialogViewTerreno(BuildContext context, String title,
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: txtUnidad,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'(^[0-9]*$)')),
+                    ],
                     decoration: CustomInputs.boxInputDecoration(
                         hint: 'Unidad',
                         label: 'Unidad',
@@ -107,13 +116,13 @@ Future showDialogViewTerreno(BuildContext context, String title,
                   }
                   return Colors.transparent;
                 })),
-                onPressed: () {
-                  terrenoProvider.newObjeto(Terreno(
+                onPressed: () async {
+                  final resp = await terrenoProvider.newObjeto(Terreno(
                       idterreno: UtilView.numberRandonUid(),
                       idFinca: terrenoProvider.selectFinca.idfinca,
                       ubicacion: txtUbicacion.text,
                       dimension: txtDimension.text,
-                      unidad: txtUnidad.text,
+                      unidad: txtUnidad.text == "" ? "0" : txtUnidad.text,
                       observacion: "",
                       estado: true,
                       disponibilidad: 'SI',
@@ -123,7 +132,11 @@ Future showDialogViewTerreno(BuildContext context, String title,
                       createdAt: DateTime.now(),
                       updatedAt: DateTime.now()));
 
-                  Navigator.of(context).pop();
+                  if (resp) {
+                    Navigator.of(context).pop();
+                  } else {
+                    UtilView.messageDanger("Ingresar ubicacion");
+                  }
                 },
                 child: const Text('Aceptar', style: TextStyle(fontSize: 14))),
             TextButton(

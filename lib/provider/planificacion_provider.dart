@@ -112,6 +112,7 @@ class PlanificacionProvider extends ChangeNotifier {
       await getListfincas();
       await getListPersonas();
       await getListMaquinarias();
+      isTerreno = false;
       fincasSelect = null;
       listTerrenosSelect = [];
       listInsumoSelect = [];

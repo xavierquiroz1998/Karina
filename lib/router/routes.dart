@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tesis_karina/ui/layouts/mapa_page.dart';
+import 'package:tesis_karina/ui/layouts/mapa_page2.dart';
 import 'package:tesis_karina/ui/layouts/observaciones_page.dart';
 import 'package:tesis_karina/ui/layouts/planificacion_page.dart';
 import 'package:tesis_karina/ui/layouts/dashboard_page.dart';
@@ -31,4 +32,5 @@ final routes = <String, WidgetBuilder>{
   '/dashboard/usuario': (context) => const UsuarioPage(),
   '/dashboard/controlObservaciones': (context) => const ObservacionPage(),
   '/dashboard/selectMapa': (context) => const MapaPage(),
+  '/dashboard/selectMapa2': (context) => const MapaPage2(),
 };

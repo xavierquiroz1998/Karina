@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/provider/maquinaria_provider.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
@@ -24,63 +25,68 @@ Future showDialogViewMaquinaria(BuildContext context, String title,
           content: SizedBox(
             height: 220,
             width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: txtNonbre,
-                  decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Nombre',
-                      label: 'Nombre',
-                      icon: Icons.new_releases_outlined),
-                  style: const TextStyle(color: Colors.black),
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller: txtCapacidad,
-                  keyboardType: TextInputType.number,
-                  decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Capacidad',
-                      label: 'Capacidad',
-                      icon: Icons.new_releases_outlined),
-                  style: const TextStyle(color: Colors.black),
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller: txtIdentificacion,
-                  decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Identificación',
-                      label: 'Identificación',
-                      icon: Icons.new_releases_outlined),
-                  style: const TextStyle(color: Colors.black),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 40,
-                  child: DropdownButtonFormField<String>(
-                    value: maquinariaProvider.isSelect,
-                    onChanged: (value) {
-                      maquinariaProvider.isSelect = value!;
-                    },
-                    dropdownColor: Colors.blueGrey,
-                    items: maquinariaProvider.tipoMaquinaria.map((item) {
-                      return DropdownMenuItem(
-                        value: item,
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              item,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
-                            )),
-                      );
-                    }).toList(),
-                    decoration: CustomInputs.boxInputDecorationDialogSearch(
-                        label: 'Tipo de maquinaria',
-                        hint: 'Tipo de maquinaria'),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: txtNonbre,
+                    decoration: CustomInputs.boxInputDecoration(
+                        hint: 'Nombre',
+                        label: 'Nombre',
+                        icon: Icons.new_releases_outlined),
+                    style: const TextStyle(color: Colors.black),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: txtCapacidad,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'(^[0-9]*$)')),
+                    ],
+                    decoration: CustomInputs.boxInputDecoration(
+                        hint: 'Capacidad',
+                        label: 'Capacidad',
+                        icon: Icons.new_releases_outlined),
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: txtIdentificacion,
+                    decoration: CustomInputs.boxInputDecoration(
+                        hint: 'Identificación',
+                        label: 'Identificación',
+                        icon: Icons.new_releases_outlined),
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 40,
+                    child: DropdownButtonFormField<String>(
+                      value: maquinariaProvider.isSelect,
+                      onChanged: (value) {
+                        maquinariaProvider.isSelect = value!;
+                      },
+                      dropdownColor: Colors.blueGrey,
+                      items: maquinariaProvider.tipoMaquinaria.map((item) {
+                        return DropdownMenuItem(
+                          value: item,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                item,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold),
+                              )),
+                        );
+                      }).toList(),
+                      decoration: CustomInputs.boxInputDecorationDialogSearch(
+                          label: 'Tipo de maquinaria',
+                          hint: 'Tipo de maquinaria'),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           actions: [

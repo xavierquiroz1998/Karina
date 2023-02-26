@@ -67,7 +67,7 @@ class _SeguiminentoPage2State extends State<SeguiminentoPage2> {
                               padding: const EdgeInsets.all(8.0),
                               constraints: const BoxConstraints(maxWidth: 200),
                               child: Text(
-                                item.observacion.toUpperCase(),
+                                item.ubicacion.toUpperCase(),
                                 textAlign: TextAlign.center,
                                 maxLines: 3,
                                 style: const TextStyle(

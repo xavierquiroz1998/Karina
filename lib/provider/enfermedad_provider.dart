@@ -9,8 +9,8 @@ class EnfermedadProvider extends ChangeNotifier {
   List<String> tiposEnfermedad = [];
   List<String> tiposPlagas = [];
 
-  String isSelectE = "TPE-01 / TIPOENFERMEDAD1";
-  String isSelectP = "TPP-01 / TIPOPLAGA";
+  String isSelectE = "";
+  String isSelectP = "";
 
   getListInt() async {
     final resp = await _api.getApiEnfermedades();
@@ -28,8 +28,8 @@ class EnfermedadProvider extends ChangeNotifier {
     tiposPlagas = resp2.map((en) {
       return "${en.idtiposplagas} / ${en.observacion}";
     }).toList();
-    print(tiposEnfermedad);
-    print(tiposPlagas);
+    isSelectE = tiposEnfermedad[0];
+    isSelectP = tiposPlagas[0];
   }
 
   newObjeto(Enfermedades e) async {

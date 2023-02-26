@@ -24,7 +24,7 @@ import 'package:tesis_karina/utils/util_view.dart';
 
 class SolicitudApi {
   //static String baseUrl = "http://192.168.100.4:8000/api";
-  static String baseUrl = "http://192.168.1.37:8000/api";
+  static String baseUrl = "http://192.168.100.111:8000/api";
   //static String baseUrl = "http://192.168.100.4:8000/api";
 
 // #region BLOQUE DE USUARIOS Y PERSONAS
@@ -576,7 +576,7 @@ class SolicitudApi {
   }
 
   Future<bool> deleteApiTerreno(String uid) async {
-    var url = Uri.parse("$baseUrl/terrenos/$uid");
+    var url = Uri.parse("$baseUrl/terreno/$uid");
     final respuesta = await http.delete(url,
         headers: {"Content-type": "application/json;charset=UTF-8"});
 

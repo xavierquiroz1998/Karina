@@ -5,7 +5,7 @@ import 'package:tesis_karina/entity/insumo.dart';
 class InsumoProvider extends ChangeNotifier {
   List<Insumos> listInsumo = [];
   List<String> tipoInsumo = [];
-  String isTpInsumo = "TPI-01 / NOMBRE DE INSUMO";
+  String isTpInsumo = "T";
   final _api = SolicitudApi();
 
   getListInt() async {
@@ -20,7 +20,7 @@ class InsumoProvider extends ChangeNotifier {
     tipoInsumo = resp1.map((en) {
       return "${en.idtiposinsumos} / ${en.observacion}";
     }).toList();
-    print(tipoInsumo.length);
+    isTpInsumo = tipoInsumo[0];
   }
 
   Future<bool> newObjeto(Insumos insumo) async {
