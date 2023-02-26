@@ -4,6 +4,7 @@ import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/historial.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/list_insumos.dart';
+import 'package:tesis_karina/entity/list_maquinaria.dart';
 import 'package:tesis_karina/entity/list_personal.dart';
 import 'package:tesis_karina/entity/list_terrenos.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
@@ -22,7 +23,8 @@ import 'dart:convert';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class SolicitudApi {
-  static String baseUrl = "http://192.168.100.73:8000/api";
+  //static String baseUrl = "http://192.168.100.4:8000/api";
+  static String baseUrl = "http://192.168.1.37:8000/api";
   //static String baseUrl = "http://192.168.100.4:8000/api";
 
 // #region BLOQUE DE USUARIOS Y PERSONAS
@@ -998,7 +1000,7 @@ class SolicitudApi {
     }
   }
 
-  Future<bool> postApiListMaquinaria(Maquinaria maquinaria) async {
+  Future<bool> postApiListMaquinaria(ListMaquinarias maquinaria) async {
     var url = Uri.parse("$baseUrl/listmaquinarias");
     var data = maquinaria.toJson();
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
+import 'package:tesis_karina/dialogs/dialog_adiciones.dart';
 import 'package:tesis_karina/dialogs/dialog_comentario.dart';
 import 'package:tesis_karina/provider/task_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
@@ -19,6 +20,7 @@ class _TaskPageState extends State<TaskPage> {
   @override
   void initState() {
     Provider.of<TaskProvider>(context, listen: false).getListTaskUsuer();
+
     super.initState();
   }
 
@@ -234,7 +236,22 @@ class _TaskPageState extends State<TaskPage> {
                                                     }
                                                   },
                                                   child: const Icon(Icons.check,
-                                                      color: Colors.green)))
+                                                      color: Colors.green))),
+                                          Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              child: InkWell(
+                                                  onTap: () async {
+                                                    provider.inializacion();
+                                                    dialogAdiciones(
+                                                        context,
+                                                        provider,
+                                                        provider.listTask[i]);
+                                                  },
+                                                  child: const Icon(
+                                                      Icons.assignment_add,
+                                                      color: Colors.black54)))
                                         ],
                                       ),
                                     )

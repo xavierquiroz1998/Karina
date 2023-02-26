@@ -324,7 +324,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text("Actividad Aplicada a un Terreno"),
+                          const Text("Actividad Aplicada a un Terreno"),
                           Switch(
                             value: provPlanificacion.isTerreno,
                             onChanged: (value) {
@@ -348,7 +348,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                               icon: Icons.menu_open_sharp),
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
-                                RegExp(r'(^[0-9]*$)')),
+                                RegExp(r'(^[A-Z a-z 0-9]*$)')),
                             LengthLimitingTextInputFormatter(13),
                           ],
                           onTap: () => provPlanificacion.txtName.selection =
@@ -579,12 +579,6 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 10, bottom: 5),
-                        child: Text("Es una tarea de sembrar?",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 5),
                         child: Text("Lista de Actividades",
                             textAlign: TextAlign.center,
                             style: TextStyle(fontWeight: FontWeight.bold)),
@@ -665,7 +659,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                                       idtipograminea: "",
                                       inicio: UtilView.convertStringToDate(
                                           provPlanificacion.txtInicio.text),
-                                      observacion2: "",
+                                      observacion2: "-",
                                       observacion: ""),
                                 );
                                 // provPlanificacion.setIsDetail = true;

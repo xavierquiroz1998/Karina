@@ -21,7 +21,7 @@ class DashboardPage extends StatelessWidget {
               child: Image(
                 width: 250.0,
                 height: 250.0,
-                image: AssetImage('assets/no-image.jpg'),
+                image: AssetImage('assets/logoArroz.png'),
               ),
             ),
             const Spacer(),
@@ -50,21 +50,21 @@ class MenuLateral extends StatelessWidget {
               //decoration: const BoxDecoration(color: Palette.cojapanColor),
               child: Column(
                 children: [
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
                   const CircleAvatar(
                     backgroundColor: Colors.transparent,
                     radius: 50,
                     child: Image(
                       height: 100,
                       width: 100,
-                      image: AssetImage('assets/no-image.jpg'),
+                      image: AssetImage('assets/user.png'),
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    "ADMIN",
+                  const SizedBox(height: 2),
+                  Text(
+                    UtilView.usuarioUtil.rol.toUpperCase(),
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 14, color: Colors.black),
+                    style: const TextStyle(fontSize: 14, color: Colors.black),
                   ),
                   const SizedBox(height: 4),
                   Text(

@@ -200,8 +200,8 @@ class PlanificacionProvider extends ChangeNotifier {
               estado: true,
               inicio: element.inicio,
               fin: element.fin,
-              observacion: "obs1",
-              observacion2: "obs2",
+              observacion: "",
+              observacion2: "-",
               actividad: element.actividad,
               idTerreno: "",
               idtipograminea: "");

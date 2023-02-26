@@ -18,7 +18,7 @@ import 'package:tesis_karina/services/notifications_service.dart';
 import 'provider/planificacion_provider.dart';
 
 void main() {
-  runApp(const AppState());
+  runApp(const AppState()); //nuevo
 }
 
 class AppState extends StatelessWidget {
