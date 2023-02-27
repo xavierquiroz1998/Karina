@@ -83,6 +83,16 @@ Future showDialogViewUsuario(
                           style: const TextStyle(color: Colors.black),
                         ),
                       ),
+                      Expanded(
+                        child: TextFormField(
+                          controller: usuarioProvider.txtClave,
+                          decoration: CustomInputs.boxInputDecoration(
+                              hint: 'Password',
+                              label: 'Password',
+                              icon: Icons.new_releases_outlined),
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                      ),
                       Checkbox(
                         value: usuarioProvider.estado,
                         onChanged: (value) {
@@ -119,10 +129,10 @@ Future showDialogViewUsuario(
                           idusuarios: UtilView.numberRandonUid(),
                           estado: true,
                           rol: "1",
-                          clave: "",
+                          correo: usuarioProvider.txtEmail.text,
+                          clave: usuarioProvider.txtClave.text,
                           createdAt: DateTime.now(),
-                          updatedAt: DateTime.now(),
-                          correo: usuarioProvider.txtEmail.text));
+                          updatedAt: DateTime.now()));
                       Navigator.of(context).pop();
                     },
                     child:
