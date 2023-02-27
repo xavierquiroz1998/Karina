@@ -381,7 +381,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                                         favoriteItems: (us) {
                                           return us
                                               .where((e) =>
-                                                  e.observacion.contains("Mrs"))
+                                                  e.ubicacion.contains("Mrs"))
                                               .toList();
                                         },
                                         favoriteItemBuilder:

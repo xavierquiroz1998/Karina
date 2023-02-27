@@ -72,7 +72,7 @@ class Terreno {
   @override
   String toString() {
     // TODO: implement toString
-    return observacion;
+    return ubicacion;
   }
 
   bool isEqual(Terreno model) {
