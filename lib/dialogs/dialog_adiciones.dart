@@ -6,8 +6,8 @@ import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/entity/personas.dart';
 import 'package:tesis_karina/provider/task_provider.dart';
 
-Future<bool> dialogAdiciones(BuildContext context, TaskProvider provider,
-    Detalleplanificacion detalle) async {
+Future<bool> dialogAdiciones(
+    BuildContext context, TaskProvider provider) async {
   bool op = false;
 
   await showDialog(

@@ -244,10 +244,14 @@ class _TaskPageState extends State<TaskPage> {
                                               child: InkWell(
                                                   onTap: () async {
                                                     provider.inializacion();
-                                                    dialogAdiciones(
-                                                        context,
-                                                        provider,
-                                                        provider.listTask[i]);
+                                                    final resp =
+                                                        await dialogAdiciones(
+                                                            context, provider);
+                                                    if (resp) {
+                                                      provider.saveList(provider
+                                                          .listTask[i]
+                                                          .iddetalleplanificacion);
+                                                    }
                                                   },
                                                   child: const Icon(
                                                       Icons.assignment_add,
