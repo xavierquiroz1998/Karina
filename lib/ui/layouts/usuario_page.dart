@@ -95,6 +95,23 @@ class _UsuarioPageForm extends StatelessWidget {
                   return null;
                 },
               ),
+              const SizedBox(height: 10),
+              TextFormField(
+                initialValue: user.clave,
+                decoration: CustomInputs.boxInputDecoration(
+                    hint: 'Contraseña',
+                    label: 'Contraseña',
+                    icon: Icons.password),
+                onChanged: (value) =>
+                    userFormProvider.copyUserWith(correo: value),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'No puede ir vacio';
+                  }
+
+                  return null;
+                },
+              ),
               const SizedBox(height: 20),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 120),
@@ -120,7 +137,7 @@ class _UsuarioPageForm extends StatelessWidget {
                       children: const [
                         Icon(Icons.save_outlined, size: 20),
                         Text(
-                          'Guardar',
+                          ' Actualizar',
                           textAlign: TextAlign.center,
                         )
                       ],

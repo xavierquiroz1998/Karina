@@ -31,7 +31,6 @@ class PlanificacionProvider extends ChangeNotifier {
 
   TextEditingController _dateController = TextEditingController();
   TextEditingController _dateFinController = TextEditingController();
-
   TextEditingController disponibleController = TextEditingController();
   TextEditingController humedadFinController = TextEditingController();
   TextEditingController temperaturaFinController = TextEditingController();
@@ -45,7 +44,6 @@ class PlanificacionProvider extends ChangeNotifier {
   final txtFin = TextEditingController(text: UtilView.dateSumDay(60));
 
   bool isDetail = true;
-
   final _api = SolicitudApi();
 // #region get and set
 
@@ -125,6 +123,29 @@ class PlanificacionProvider extends ChangeNotifier {
     }
   }
 
+  limpiar() {
+    isTerreno = false;
+    fincasSelect = null;
+    listTerrenosSelect = [];
+    listInsumoSelect = [];
+    listPersonasSelect = [];
+    listMaquinariasSelect = [];
+    _dateController.text = DateFormat("dd/MM/yyyy").format(DateTime.now());
+    _dateFinController.text = DateFormat("dd/MM/yyyy").format(DateTime.now());
+
+    txtName.clear();
+    txtInicio.text = DateFormat("dd/MM/yyyy").format(DateTime.now());
+    txtFin.text = UtilView.dateSumDay(60);
+
+    disponibleController.clear();
+    humedadFinController.clear();
+    temperaturaFinController.clear();
+    observacionFinController.clear();
+    //ctrSearch
+
+    notifyListeners();
+  }
+
   Future<bool> grabar() async {
     try {
       var referenciaTask = UtilView.numberRandonUid();
@@ -161,8 +182,12 @@ class PlanificacionProvider extends ChangeNotifier {
         uidTerrenos = UtilView.numberRandonUid();
 
         var resultado = await _api.postApiListTerrenos(ListTerrenos(
-            uid: uidTerrenos,
-            referencia: referenciaTask,
+            idlistadeterrenos: uidTerrenos,
+            idPlanificacion: referenciaTask,
+            estado: true,
+            idenfermedad: "",
+            idGramineas: "",
+            ocupado: true,
             idTerreno: e.idterreno));
       }
 
@@ -185,7 +210,7 @@ class PlanificacionProvider extends ChangeNotifier {
           idListInsumo: uidInsumos,
           idListPersonal: uidPersonal,
           idUsuario: UtilView.usuarioUtil.idusuarios,
-          observacion: observacio,
+          observacion: "-",
           observacion2: observacio,
           fechaI: fechaInicio,
           fechaF: fechafin,
@@ -210,7 +235,7 @@ class PlanificacionProvider extends ChangeNotifier {
           var detResult = await _api.postApiTaskDet(detalle);
         }
       }
-
+      limpiar();
       return true;
     } catch (e) {
       print("Error al guardar task ${e.toString()}");

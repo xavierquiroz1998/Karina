@@ -24,7 +24,8 @@ class _ReportPageState extends State<ReportPage> {
       ),
       body: WhiteCard(
         title: 'Tipos de reporte',
-        acciones: const Text(''),
+        acciones:
+            InkWell(onTap: () {}, child: const Icon(Icons.calendar_month)),
         child: Center(
           child: SizedBox(
             height: MediaQuery.of(context).size.height - 220,

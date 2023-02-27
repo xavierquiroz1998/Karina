@@ -391,19 +391,19 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                                                 horizontal: 8, vertical: 6),
                                             child: Row(
                                               children: [
-                                                Text(
+                                                const Text(
                                                   "NUEVA",
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       color: Colors.indigo),
                                                 ),
-                                                Padding(
+                                                const Padding(
                                                     padding: EdgeInsets.only(
                                                         left: 8)),
                                                 isSelected
-                                                    ? Icon(Icons
+                                                    ? const Icon(Icons
                                                         .check_box_outlined)
-                                                    : SizedBox.shrink(),
+                                                    : const SizedBox.shrink(),
                                               ],
                                             ),
                                           );

@@ -2,14 +2,22 @@ import 'dart:convert';
 
 class ListTerrenos {
   ListTerrenos({
-    required this.uid,
-    required this.referencia,
+    required this.idlistadeterrenos,
     required this.idTerreno,
+    required this.idGramineas,
+    required this.idenfermedad,
+    required this.idPlanificacion,
+    required this.ocupado,
+    required this.estado,
   });
 
-  String uid;
-  String referencia;
+  String idlistadeterrenos;
   String idTerreno;
+  String idGramineas;
+  String idenfermedad;
+  String idPlanificacion;
+  bool ocupado;
+  bool estado;
 
   factory ListTerrenos.fromJson(String str) =>
       ListTerrenos.fromMap(json.decode(str));
@@ -17,14 +25,21 @@ class ListTerrenos {
   String toJson() => json.encode(toMap());
 
   factory ListTerrenos.fromMap(Map<String, dynamic> json) => ListTerrenos(
-        uid: json["uid"],
-        referencia: json["referencia"],
-        idTerreno: json["idTerreno"],
-      );
+      idlistadeterrenos: json["idlistadeterrenos"],
+      idTerreno: json["idTerreno"],
+      idGramineas: json["idGramineas"],
+      idenfermedad: json["idenfermedad"],
+      idPlanificacion: json["idPlanificacion"],
+      ocupado: json["ocupado"],
+      estado: json["estado"]);
 
   Map<String, dynamic> toMap() => {
-        "uid": uid,
-        "referencia": referencia,
+        "idlistadeterrenos": idlistadeterrenos,
         "idTerreno": idTerreno,
+        "idGramineas": idGramineas,
+        "idenfermedad": idenfermedad,
+        "idPlanificacion": idPlanificacion,
+        "ocupado": ocupado,
+        "estado": estado
       };
 }

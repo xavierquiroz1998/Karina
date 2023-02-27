@@ -14,6 +14,7 @@ class UsuarioProvider extends ChangeNotifier {
   final txtEmail = TextEditingController();
   final txtCedula = TextEditingController();
   final txtFecha = TextEditingController();
+  bool estado = false;
 
   getListInt() async {
     final resp = await _api.getApiUsuarios();
