@@ -98,8 +98,7 @@ class TaskProvider extends ChangeNotifier {
   }
 
   getListTaskUsuer() async {
-    final resp =
-        await _api.getApiListUserTask(UtilView.usuarioUtil.idusuarios, "1");
+    final resp = await _api.getApiListUserTask("P-01", "1");
     listTask = resp;
     notifyListeners();
   }
