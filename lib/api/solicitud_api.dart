@@ -24,9 +24,9 @@ import 'package:tesis_karina/utils/util_view.dart';
 
 class SolicitudApi {
   //static String baseUrl = "http://192.168.100.4:8000/api";
-  //static String baseUrl = "http://192.168.100.111:8000/api";
+  static String baseUrl = "http://192.168.100.111:8000/api";
   //static String baseUrl = "http://192.168.100.4:8000/api";
-  static String baseUrl = "http://192.168.100.73:8000/api";
+  //static String baseUrl = "http://192.168.100.73:8000/api";
   //static String baseUrl = "http://192.168.100.4:8000/api";
 
 // #region BLOQUE DE USUARIOS Y PERSONAS
@@ -742,7 +742,9 @@ class SolicitudApi {
 
   Future<List<Detalleplanificacion>> getApiListUserTask(
       String user, String estado) async {
-    var url = Uri.parse("$baseUrl/detalleplanificacion/tareas/");
+    var url = Uri.parse("$baseUrl/detalleplanificacion/tareas");
+
+    print(url.toString());
 
     var data = {"obs": estado, "referencia": user};
 
@@ -751,8 +753,10 @@ class SolicitudApi {
           headers: {"Content-type": "application/json;charset=UTF-8"},
           body: json.encode(data));
       if (respuesta.statusCode == 200) {
-        return parseJsonToListDetalleplanificacion(
-            utf8.decode(respuesta.bodyBytes));
+        return utf8.decode(respuesta.bodyBytes) == ""
+            ? []
+            : parseJsonToListDetalleplanificacion(
+                utf8.decode(respuesta.bodyBytes));
       } else {
         throw Exception('Excepcion ${respuesta.statusCode}');
       }

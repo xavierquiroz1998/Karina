@@ -9,6 +9,7 @@ class EnfermedadProvider extends ChangeNotifier {
   List<Enfermedades> listEnfermedad = [];
   List<String> tiposEnfermedad = [];
   List<String> tiposPlagas = [];
+  String imgBs4 = "";
 
   String isSelectE = "";
   String isSelectP = "";

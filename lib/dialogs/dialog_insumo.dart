@@ -81,7 +81,7 @@ Future showDialogViewInsumo(BuildContext context, String title,
                         );
                       }).toList(),
                       decoration: CustomInputs.boxInputDecorationDialogSearch(
-                          label: 'Tipo de plagas', hint: 'Tipo de plagas'),
+                          label: 'Tipo de insumo', hint: 'Tipo de insumo'),
                     ),
                   ),
                   SizedBox(
