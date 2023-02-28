@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -58,8 +60,14 @@ class UsuariosDataSource extends DataGridSource {
                       /* Provider.of<UsuarioProvider>(context, listen: false)
                           .getUserById(row.getCells()[4].value.uid); */
 
+                      final opt = await usuarioProvider
+                          .getPersonById(row.getCells()[3].value.idusuarios);
+
                       Provider.of<UserFormProvider>(context, listen: false)
                           .user = row.getCells()[3].value;
+
+                      Provider.of<UserFormProvider>(context, listen: false)
+                          .person = opt;
 
                       Navigator.pushNamed(context, '/dashboard/usuario');
                     },

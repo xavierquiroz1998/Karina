@@ -1,7 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/entity/usuario.dart';
 import 'package:tesis_karina/provider/user_form_provider.dart';
@@ -11,6 +14,7 @@ import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
 class UsuarioPage extends StatefulWidget {
@@ -70,6 +74,7 @@ class _UsuarioPageForm extends StatelessWidget {
     final userFormProvider = Provider.of<UserFormProvider>(context);
     final usuarioProvider = Provider.of<UsuarioProvider>(context);
     final user = userFormProvider.user!;
+    final person = userFormProvider.person!;
 
     return WhiteCard(
         title: 'Información general',
@@ -91,7 +96,6 @@ class _UsuarioPageForm extends StatelessWidget {
                   if (!EmailValidator.validate(value ?? '')) {
                     return 'Email no válido';
                   }
-
                   return null;
                 },
               ),
@@ -112,20 +116,75 @@ class _UsuarioPageForm extends StatelessWidget {
                   return null;
                 },
               ),
+              const SizedBox(height: 10),
+              Text('Información adicional',
+                  style: GoogleFonts.roboto(
+                      fontSize: 15, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10),
+              TextFormField(
+                initialValue: person.nombre,
+                decoration: CustomInputs.boxInputDecoration(
+                    hint: 'Nombre', label: 'Nombre', icon: Icons.person),
+                onChanged: (value) =>
+                    userFormProvider.copyUserWith2(nombre: value),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'No puede ir vacio';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                initialValue: person.apellido,
+                decoration: CustomInputs.boxInputDecoration(
+                    hint: 'Apellido', label: 'Apellido', icon: Icons.person),
+                onChanged: (value) =>
+                    userFormProvider.copyUserWith2(apellido: value),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                initialValue: person.direccion,
+                decoration: CustomInputs.boxInputDecoration(
+                    hint: 'Direccion',
+                    label: 'Direccion',
+                    icon: Icons.directions),
+                onChanged: (value) =>
+                    userFormProvider.copyUserWith2(direccion: value),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'No puede ir vacio';
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(height: 20),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 120),
                 child: ElevatedButton(
                     onPressed: () async {
-                      final saved = await usuarioProvider
-                          .updateObjeto(userFormProvider.user!);
-                      if (saved) {
-                        NotificationsService.showSnackbar(
-                            'Usuario actualizado');
-                        Navigator.of(context).pop();
+                      if (user.idusuarios == "") {
+                        usuarioProvider.newObjeto(Usuario(
+                            idusuarios: UtilView.numberRandonUid(),
+                            estado: true,
+                            rol: "1",
+                            correo: usuarioProvider.txtEmail.text,
+                            clave: usuarioProvider.txtClave.text,
+                            createdAt: DateTime.now(),
+                            updatedAt: DateTime.now()));
+
+                        //Provider.of<>(context).
                       } else {
-                        NotificationsService.showSnackbarError(
-                            'No se pudo guardar');
+                        final saved = await usuarioProvider.updateObjeto(
+                            userFormProvider.user!, person);
+                        if (saved) {
+                          NotificationsService.showSnackbar(
+                              'Usuario actualizado');
+                          Navigator.of(context).pop();
+                        } else {
+                          NotificationsService.showSnackbarError(
+                              'No se pudo guardar');
+                        }
                       }
                     },
                     style: ButtonStyle(
@@ -202,6 +261,8 @@ class _AvatarContainer extends StatelessWidget {
 
                             if (result != null) {
                               NotificationsService.showBusyIndicator(context);
+                              user.img = base64Encode(
+                                  result.files[0].bytes as List<int>);
 
                               Provider.of<UsuarioProvider>(context,
                                       listen: false)

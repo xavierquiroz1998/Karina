@@ -892,7 +892,7 @@ class SolicitudApi {
 
 // #region BLOQUE DE PERSONAS INCIO
   Future<Persona?> getApiPersona(String uid) async {
-    var url = Uri.parse("$baseUrl/personas/id=$uid");
+    var url = Uri.parse("$baseUrl/personas/usuario/$uid");
 
     try {
       http.Response respuesta = await http.get(url);

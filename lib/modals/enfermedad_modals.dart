@@ -152,7 +152,7 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
               alignment: Alignment.center,
               child: CustomOutlinedButton(
                   onPressed: () async {
-                    try {
+                    /* try {
                       if (id == null) {
                         await enfermedadProvider.newObjeto(Enfermedades(
                             idenfermedades: UtilView.numberRandonUid(),
@@ -194,7 +194,7 @@ class _EnfermedadModalsState extends State<EnfermedadModals> {
                       //Navigator.of(context).pop();
                       NotificationsService.showSnackbarError(
                           'Error no se pudo completar la tarea');
-                    }
+                    } */
                   },
                   text: 'Guardar'),
             )

@@ -16,6 +16,9 @@ class UsuarioProvider extends ChangeNotifier {
   final txtClave = TextEditingController();
   final txtCedula = TextEditingController();
   final txtFecha = TextEditingController();
+
+  String isImg = "";
+  String idPersona = "";
   bool estado = false;
 
   getListInt() async {
@@ -51,12 +54,15 @@ class UsuarioProvider extends ChangeNotifier {
     print(resp);
   }
 
-  updateObjeto(Usuario usuario) async {
+  updateObjeto(Usuario usuario, Persona p) async {
     final resp = await _api.putApiUsuario(usuario);
+    p.idpersonas = idPersona;
+    final resp2 = await _api.putApiPersonas(p);
     try {
       this.listUsuario = this.listUsuario.map((e) {
         if (usuario.idusuarios != e.idusuarios) return e;
-
+        e.correo = usuario.correo;
+        e.clave = usuario.clave;
         return e;
       }).toList();
       notifyListeners();
@@ -67,8 +73,12 @@ class UsuarioProvider extends ChangeNotifier {
   }
 
   singleUpdateObjeto(Usuario usuario) async {
-    final resp = await _api.putApiUsuario(usuario);
-    UtilView.messageAccess(resp ? "EXITO" : "ERROR", Colors.green);
+    if (usuario.idusuarios == "") {
+      final resp = await _api.putApiUsuario(usuario);
+      UtilView.messageAccess(resp ? "EXITO" : "ERROR", Colors.green);
+    } else {
+      isImg = usuario.img;
+    }
   }
 
   deleteObjeto(Usuario e) async {
@@ -80,6 +90,12 @@ class UsuarioProvider extends ChangeNotifier {
 
   Future<Usuario?> getUserById(int idusuarios) async {
     final usuario = await _api.getApiUsuario(idusuarios);
+    return usuario;
+  }
+
+  Future<Persona?> getPersonById(String idusuarios) async {
+    final usuario = await _api.getApiPersona(idusuarios);
+    idPersona = usuario!.idpersonas;
     return usuario;
   }
 }

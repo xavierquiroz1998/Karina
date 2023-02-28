@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tesis_karina/datasource/usuario_datasource.dart';
-import 'package:tesis_karina/dialogs/dialog_usuario.dart';
+import 'package:tesis_karina/entity/personas.dart';
+import 'package:tesis_karina/entity/usuario.dart';
+import 'package:tesis_karina/provider/user_form_provider.dart';
 import 'package:tesis_karina/provider/usuario_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
@@ -31,7 +33,29 @@ class _UsuariosViewState extends State<UsuariosView> {
         title: 'Lista de Usuarios',
         acciones: InkWell(
             onTap: () {
-              showDialogViewUsuario(context, "Nuevo usuario", provider);
+              Provider.of<UserFormProvider>(context, listen: false).user =
+                  Usuario(
+                      idusuarios: "",
+                      correo: "",
+                      rol: "",
+                      estado: true,
+                      clave: "",
+                      createdAt: DateTime.now(),
+                      updatedAt: DateTime.now());
+
+              Provider.of<UserFormProvider>(context, listen: false).person =
+                  Persona(
+                      idpersonas: "",
+                      cedula: "",
+                      nombre: "",
+                      apellido: "",
+                      direccion: "",
+                      celular: "",
+                      nacimiento: DateTime.now(),
+                      estado: true,
+                      idUsuario: "");
+
+              Navigator.pushNamed(context, '/dashboard/usuario');
             },
             child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
         child: SfDataGridTheme(

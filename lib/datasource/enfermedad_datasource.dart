@@ -46,12 +46,15 @@ class EnfermedadesDataSource extends DataGridSource {
               children: [
                 InkWell(
                     onTap: () {
-                      showModalBottomSheet(
+                      enfermedadProvider.isTipo = false;
+                      enfermedadProvider.mergerObjeto(row.getCells()[2].value);
+                      Navigator.pushNamed(context, '/dashboard/enfermedad');
+                      /*  showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
                           backgroundColor: Colors.transparent,
                           builder: (_) => EnfermedadModals(
-                              enfermedad: row.getCells()[2].value));
+                              enfermedad: row.getCells()[2].value)); */
                     },
                     child: const Icon(Icons.edit_outlined,
                         color: Colors.blueGrey)),

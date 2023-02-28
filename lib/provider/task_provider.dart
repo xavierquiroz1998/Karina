@@ -24,6 +24,8 @@ class TaskProvider extends ChangeNotifier {
   bool valueP = false;
   bool valueM = false;
 
+  String codigoPersona = "";
+
   final _api = SolicitudApi();
 
   getListInt() async {
@@ -98,10 +100,20 @@ class TaskProvider extends ChangeNotifier {
   }
 
   getListTaskUsuer() async {
-    final resp =
-        await _api.getApiListUserTask(UtilView.usuarioUtil.idusuarios, "1");
+    await getIdPersona();
+    final resp = await _api.getApiListUserTask(codigoPersona, "1");
     listTask = resp;
     notifyListeners();
+  }
+
+  getIdPersona() async {
+    await getListPersonas();
+
+    for (var e in listPersonas) {
+      if (e.idUsuario == UtilView.usuarioUtil.idusuarios) {
+        codigoPersona = e.idpersonas;
+      }
+    }
   }
 
   closeTask(Detalleplanificacion detalle) async {

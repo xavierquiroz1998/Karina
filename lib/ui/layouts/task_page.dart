@@ -101,7 +101,8 @@ class _TaskPageState extends State<TaskPage> {
                                                                 .fin));
 
                                                 provider.listTask[i]
-                                                    .observacion = 'U-01';
+                                                        .observacion =
+                                                    provider.codigoPersona;
 
                                                 provider.userTask(
                                                     provider.listTask[i]);
@@ -259,7 +260,7 @@ class _TaskPageState extends State<TaskPage> {
                                         ],
                                       ),
                                     )
-                                  : Text('')
+                                  : const Text('')
                             ],
                           ),
                         );

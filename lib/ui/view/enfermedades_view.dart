@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tesis_karina/datasource/enfermedad_datasource.dart';
-import 'package:tesis_karina/modals/enfermedad_modals.dart';
 import 'package:tesis_karina/provider/enfermedad_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
@@ -31,11 +30,13 @@ class _EnfermedadesViewState extends State<EnfermedadesView> {
         title: 'Lista de enfermedades',
         acciones: InkWell(
             onTap: () {
-              showModalBottomSheet(
+              provider.clearObjeto();
+              Navigator.pushNamed(context, '/dashboard/enfermedad');
+              /*  showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
                   backgroundColor: Colors.transparent,
-                  builder: (_) => const EnfermedadModals(enfermedad: null));
+                  builder: (_) => const EnfermedadModals(enfermedad: null)); */
             },
             child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
         child: SfDataGridTheme(
