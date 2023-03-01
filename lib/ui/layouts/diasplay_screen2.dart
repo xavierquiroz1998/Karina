@@ -41,15 +41,16 @@ class DisplayPictureScreen2 extends StatelessWidget {
                     File file = File(imagePath);
                     Uint8List imgbytes = file.readAsBytesSync();
                     provider.imgBs4 = base64Encode(imgbytes);
+                    provider.fileBs4 = imagePath;
                     await Navigator.of(context)
-                        .pushReplacementNamed("/dashboard/mantenimientos");
+                        .pushReplacementNamed("/dashboard/enfermedad");
                   },
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Guardar')),
               const SizedBox(width: 8),
               ElevatedButton.icon(
                   onPressed: () async => Navigator.pushReplacementNamed(
-                      context, '/dashboard/mantenimientos'),
+                      context, '/dashboard/enfermedad'),
                   icon: const Icon(Icons.cancel),
                   label: const Text('Cancelar'))
             ],

@@ -10,6 +10,7 @@ class EnfermedadProvider extends ChangeNotifier {
   List<String> tiposEnfermedad = [];
   List<String> tiposPlagas = [];
   String imgBs4 = "";
+  String fileBs4 = "";
 
   String isSelectE = "";
   String isSelectP = "";
@@ -19,7 +20,6 @@ class EnfermedadProvider extends ChangeNotifier {
   TextEditingController txtEspecificaciones = TextEditingController();
   TextEditingController txtTratamiento = TextEditingController();
   TextEditingController txtObservaciones = TextEditingController();
-  String fotografia = "";
 
   getListInt() async {
     final resp = await _api.getApiEnfermedades();
@@ -48,12 +48,13 @@ class EnfermedadProvider extends ChangeNotifier {
         observacion: txtObservaciones.text,
         enfermedadTipoId: isSelectE.split("/")[0].trim(),
         plagasTipoId: isSelectP.split("/")[0].trim(),
-        fotografia: fotografia,
+        fotografia: imgBs4,
         tratamiento: txtTratamiento.text,
         especificaciones: txtEspecificaciones.text,
         estado: 1);
     final resp = await _api.postApiEnfermedad(e);
     listEnfermedad.add(e);
+    clearObjeto();
     notifyListeners();
   }
 
@@ -71,6 +72,7 @@ class EnfermedadProvider extends ChangeNotifier {
 
         return en;
       }).toList();
+      clearObjeto();
       notifyListeners();
     } catch (e) {
       throw 'Error al actualizar la enfermedad';
@@ -98,11 +100,12 @@ class EnfermedadProvider extends ChangeNotifier {
   }
 
   mergerObjeto(Enfermedades e) {
+    isSelectEnfermedad = e;
     txtNombre.text = e.nombre;
     txtEspecificaciones.text = e.especificaciones;
     txtTratamiento.text = e.tratamiento;
     txtObservaciones.text = e.observacion;
-    fotografia = e.fotografia.length > 2 ? e.fotografia : "";
+    imgBs4 = e.fotografia.length > 2 ? e.fotografia : "";
     isSelectP = searchList2(e.plagasTipoId);
     isSelectE = searchList1(e.enfermedadTipoId);
   }
@@ -112,7 +115,7 @@ class EnfermedadProvider extends ChangeNotifier {
     txtEspecificaciones.text = "";
     txtTratamiento.text = "";
     txtObservaciones.text = "";
-    fotografia = "";
+    imgBs4 = "";
     isSelectE = tiposEnfermedad[0];
     isSelectP = tiposPlagas[0];
   }

@@ -71,27 +71,22 @@ class _UsuarioPageForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userFormProvider = Provider.of<UserFormProvider>(context);
     final usuarioProvider = Provider.of<UsuarioProvider>(context);
-    final user = userFormProvider.user!;
-    final person = userFormProvider.person!;
 
     return WhiteCard(
         title: 'Información general',
         acciones: const Text(''),
         child: Form(
-          key: userFormProvider.formKey,
+          key: usuarioProvider.formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
             children: [
               TextFormField(
-                initialValue: user.correo,
+                controller: usuarioProvider.txtEmail,
                 decoration: CustomInputs.boxInputDecoration(
                     hint: 'Correo del usuario',
                     label: 'Correo',
                     icon: Icons.mark_email_read_outlined),
-                onChanged: (value) =>
-                    userFormProvider.copyUserWith(correo: value),
                 validator: (value) {
                   if (!EmailValidator.validate(value ?? '')) {
                     return 'Email no válido';
@@ -101,13 +96,11 @@ class _UsuarioPageForm extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               TextFormField(
-                initialValue: user.clave,
+                controller: usuarioProvider.txtClave,
                 decoration: CustomInputs.boxInputDecoration(
                     hint: 'Contraseña',
                     label: 'Contraseña',
                     icon: Icons.password),
-                onChanged: (value) =>
-                    userFormProvider.copyUserWith(correo: value),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'No puede ir vacio';
@@ -122,11 +115,9 @@ class _UsuarioPageForm extends StatelessWidget {
                       fontSize: 15, fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
               TextFormField(
-                initialValue: person.nombre,
+                controller: usuarioProvider.txtNombre,
                 decoration: CustomInputs.boxInputDecoration(
                     hint: 'Nombre', label: 'Nombre', icon: Icons.person),
-                onChanged: (value) =>
-                    userFormProvider.copyUserWith2(nombre: value),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'No puede ir vacio';
@@ -136,21 +127,17 @@ class _UsuarioPageForm extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               TextFormField(
-                initialValue: person.apellido,
+                controller: usuarioProvider.txtApellido,
                 decoration: CustomInputs.boxInputDecoration(
                     hint: 'Apellido', label: 'Apellido', icon: Icons.person),
-                onChanged: (value) =>
-                    userFormProvider.copyUserWith2(apellido: value),
               ),
               const SizedBox(height: 10),
               TextFormField(
-                initialValue: person.direccion,
+                controller: usuarioProvider.txtDireccion,
                 decoration: CustomInputs.boxInputDecoration(
                     hint: 'Direccion',
                     label: 'Direccion',
                     icon: Icons.directions),
-                onChanged: (value) =>
-                    userFormProvider.copyUserWith2(direccion: value),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'No puede ir vacio';
@@ -163,20 +150,18 @@ class _UsuarioPageForm extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: 120),
                 child: ElevatedButton(
                     onPressed: () async {
-                      if (user.idusuarios == "") {
+                      if (usuarioProvider.user.idusuarios == "") {
                         usuarioProvider.newObjeto(Usuario(
                             idusuarios: UtilView.numberRandonUid(),
-                            estado: true,
-                            rol: "1",
                             correo: usuarioProvider.txtEmail.text,
+                            rol: "obrero",
+                            estado: true,
                             clave: usuarioProvider.txtClave.text,
                             createdAt: DateTime.now(),
                             updatedAt: DateTime.now()));
-
                         //Provider.of<>(context).
                       } else {
-                        final saved = await usuarioProvider.updateObjeto(
-                            userFormProvider.user!, person);
+                        final saved = await usuarioProvider.updateObjeto();
                         if (saved) {
                           NotificationsService.showSnackbar(
                               'Usuario actualizado');
@@ -186,6 +171,9 @@ class _UsuarioPageForm extends StatelessWidget {
                               'No se pudo guardar');
                         }
                       }
+
+                      Navigator.pushReplacementNamed(
+                          context, '/dashboard/mantenimientos');
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.indigo),
@@ -211,9 +199,9 @@ class _UsuarioPageForm extends StatelessWidget {
 class _AvatarContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final userFormProvider = Provider.of<UserFormProvider>(context);
+    final userFormProvider = Provider.of<UsuarioProvider>(context);
 
-    final user = userFormProvider.user!;
+    final user = userFormProvider.user;
 
     final image = (user.img == "")
         ? const Image(image: AssetImage('assets/no-image.jpg'))

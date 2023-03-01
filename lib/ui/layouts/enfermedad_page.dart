@@ -1,7 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +15,7 @@ import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
 import 'package:tesis_karina/utils/util_view.dart';
+import 'package:tesis_karina/widgets/camara2.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
 class EnfermedadPage extends StatefulWidget {
@@ -185,7 +188,8 @@ class _EnfermedadPageForm extends StatelessWidget {
                             '${enfermedadProvider.txtNombre.text} creado!');
                       } else {
                         await enfermedadProvider.updateObjeto(Enfermedades(
-                            idenfermedades: UtilView.numberRandonUid(),
+                            idenfermedades: enfermedadProvider
+                                .isSelectEnfermedad.idenfermedades,
                             nombre: enfermedadProvider.txtNombre.text,
                             observacion:
                                 enfermedadProvider.txtObservaciones.text,
@@ -195,12 +199,13 @@ class _EnfermedadPageForm extends StatelessWidget {
                             plagasTipoId: enfermedadProvider.isSelectP
                                 .split("/")[0]
                                 .trim(),
-                            fotografia: enfermedadProvider.fotografia,
+                            fotografia: enfermedadProvider.imgBs4,
                             tratamiento: enfermedadProvider.txtTratamiento.text,
                             especificaciones:
                                 enfermedadProvider.txtEspecificaciones.text,
                             estado: 1));
                       }
+                      Navigator.pushNamed(context, '/dashboard/mantenimientos');
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.indigo),
@@ -230,11 +235,9 @@ class _ImagenContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final enfermedadProvider = Provider.of<EnfermedadProvider>(context);
 
-    final image = (enfermedadProvider.fotografia == "")
+    final image = (enfermedadProvider.imgBs4 == "")
         ? const Image(image: AssetImage('assets/no-image.jpg'))
-        : FadeInImage.assetNetwork(
-            placeholder: 'assets/loader.gif',
-            image: enfermedadProvider.fotografia);
+        : Image.file(File(enfermedadProvider.fileBs4));
 
     return WhiteCard(
       width: 250,
@@ -266,6 +269,17 @@ class _ImagenContainer extends StatelessWidget {
                             border: Border.all(color: Colors.white, width: 5)),
                         child: FloatingActionButton(
                           onPressed: () async {
+                            final cameras = await availableCameras();
+                            // Get a specific camera from the list of available cameras.
+                            final firstCamera = cameras.first;
+
+                            // ignore: use_build_context_synchronously
+                            await Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    TakePictureScreen2(camera: firstCamera),
+                              ),
+                            );
                             /*  FilePickerResult? result =
                                 await FilePicker.platform.pickFiles(
                               type: FileType.custom,

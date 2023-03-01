@@ -161,7 +161,7 @@ Future<bool> dialogAdiciones(
                               },
                               favoriteItemBuilder: (context, item, isSelected) {
                                 return Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 6),
                                   child: Row(
                                     children: [
@@ -214,7 +214,7 @@ Future<bool> dialogAdiciones(
                               },
                               favoriteItemBuilder: (context, item, isSelected) {
                                 return Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 6),
                                   child: Row(
                                     children: [

@@ -61,7 +61,7 @@ class TakePictureScreen2State extends State<TakePictureScreen2> {
             final image = await _controller.takePicture();
 
             if (!mounted) return;
-            await Navigator.of(context).push(
+            await Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => DisplayPictureScreen2(
                   imagePath: image.path,

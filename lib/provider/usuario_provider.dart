@@ -6,16 +6,40 @@ import 'package:tesis_karina/utils/util_view.dart';
 
 class UsuarioProvider extends ChangeNotifier {
   List<Usuario> listUsuario = [];
+  List<Persona> listPersona = [];
   final _api = SolicitudApi();
+  Usuario user = Usuario(
+      idusuarios: "",
+      correo: "",
+      rol: "",
+      estado: true,
+      clave: "",
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now());
+  Persona persona = Persona(
+      idpersonas: "",
+      cedula: "",
+      nombre: "",
+      apellido: "",
+      direccion: "",
+      celular: "",
+      nacimiento: DateTime.now(),
+      estado: true,
+      idUsuario: "");
+  //usuario
+  final txtUsuario = TextEditingController();
+  final txtClave = TextEditingController();
+  //PERSONA
 
   final txtNombre = TextEditingController();
   final txtApellido = TextEditingController();
   final txtDireccion = TextEditingController();
   final txtCelular = TextEditingController();
   final txtEmail = TextEditingController();
-  final txtClave = TextEditingController();
   final txtCedula = TextEditingController();
   final txtFecha = TextEditingController();
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String isImg = "";
   String idPersona = "";
@@ -27,6 +51,12 @@ class UsuarioProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  getListIntP() async {
+    final resp = await _api.getApiPersonas();
+    listPersona = resp;
+    notifyListeners();
+  }
+
   getUsuarioLogin(String x, String y) async {
     final resp = await _api.getApiLogin(x, y);
     return resp;
@@ -34,6 +64,7 @@ class UsuarioProvider extends ChangeNotifier {
 
   newObjeto(Usuario e) async {
     final resp = await _api.postApiUsuario(e);
+
     newPersonaObjeto(Persona(
         idpersonas: UtilView.numberRandonUid(),
         cedula: txtCedula.text,
@@ -54,15 +85,21 @@ class UsuarioProvider extends ChangeNotifier {
     print(resp);
   }
 
-  updateObjeto(Usuario usuario, Persona p) async {
-    final resp = await _api.putApiUsuario(usuario);
-    p.idpersonas = idPersona;
-    final resp2 = await _api.putApiPersonas(p);
+  updateObjeto() async {
+    user.correo = txtEmail.text;
+    user.clave = txtClave.text;
+    final resp = await _api.putApiUsuario(user);
+
+    persona.nombre = txtNombre.text;
+    persona.apellido = txtApellido.text;
+    persona.direccion = txtDireccion.text;
+
+    final resp2 = await _api.putApiPersonas(persona);
     try {
       this.listUsuario = this.listUsuario.map((e) {
-        if (usuario.idusuarios != e.idusuarios) return e;
-        e.correo = usuario.correo;
-        e.clave = usuario.clave;
+        if (user.idusuarios != e.idusuarios) return e;
+        e.correo = user.correo;
+        e.clave = user.clave;
         return e;
       }).toList();
       notifyListeners();
@@ -95,7 +132,8 @@ class UsuarioProvider extends ChangeNotifier {
 
   Future<Persona?> getPersonById(String idusuarios) async {
     final usuario = await _api.getApiPersona(idusuarios);
-    idPersona = usuario!.idpersonas;
+    persona = usuario!;
+    idPersona = usuario.idpersonas;
     return usuario;
   }
 }

@@ -84,6 +84,34 @@ Future showDialogViewInsumo(BuildContext context, String title,
                           label: 'Tipo de insumo', hint: 'Tipo de insumo'),
                     ),
                   ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 40,
+                    child: DropdownButtonFormField<String>(
+                      value: insumoProvider.isTpPrv,
+                      onChanged: (value) {
+                        insumoProvider.isTpPrv = value!;
+                        insumoProvider.selectObjeto(value.split("/")[0].trim());
+                      },
+                      dropdownColor: Colors.blueGrey,
+                      items: insumoProvider.provedoresList.map((item) {
+                        return DropdownMenuItem(
+                          value: item,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                item,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold),
+                              )),
+                        );
+                      }).toList(),
+                      decoration: CustomInputs.boxInputDecorationDialogSearch(
+                          label: 'Proveedor', hint: 'Proveedor'),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   SizedBox(
                       height: 40,
                       child: TextFormField(
@@ -125,6 +153,8 @@ Future showDialogViewInsumo(BuildContext context, String title,
                     insumoProvider.newObjeto(Insumos(
                       idinsumos: UtilView.numberRandonUid(),
                       nombre: txtNombre.text,
+                      idProveedor: insumoProvider.isTpPrv.split("/")[0].trim(),
+                      proveedore: insumoProvider.isProveedor,
                       insumoTipoId:
                           insumoProvider.isTpInsumo.split("/")[0].trim(),
                       unidades: txtUnidades.text == "" ? "0" : txtUnidades.text,

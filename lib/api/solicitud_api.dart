@@ -10,6 +10,7 @@ import 'package:tesis_karina/entity/list_terrenos.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/entity/personas.dart';
 import 'package:tesis_karina/entity/planificacion.dart';
+import 'package:tesis_karina/entity/proveedor.dart';
 import 'package:tesis_karina/entity/response/respuesta.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/entity/tipos_enfermedades.dart';
@@ -24,9 +25,9 @@ import 'package:tesis_karina/utils/util_view.dart';
 
 class SolicitudApi {
   //static String baseUrl = "http://192.168.100.4:8000/api";
-  static String baseUrl = "http://192.168.100.111:8000/api";
+  //static String baseUrl = "http://192.168.100.111:8000/api";
   //static String baseUrl = "http://192.168.100.4:8000/api";
-  //static String baseUrl = "http://192.168.100.73:8000/api";
+  static String baseUrl = "http://192.168.100.73:8000/api";
   //static String baseUrl = "http://192.168.100.4:8000/api";
 
 // #region BLOQUE DE USUARIOS Y PERSONAS
@@ -353,6 +354,27 @@ class SolicitudApi {
     return parseo
         .map<TiposInsumos>((json) => TiposInsumos.fromMap(json))
         .toList();
+  }
+
+  Future<List<Proveedor>> getApiProveedores() async {
+    var url = Uri.parse("$baseUrl/proveedor");
+    print(url.toString());
+
+    try {
+      var respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListProveedor(utf8.decode(respuesta.bodyBytes));
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  List<Proveedor> parseJsonToListProveedor(String respuesta) {
+    final parseo = jsonDecode(respuesta);
+    return parseo.map<Proveedor>((json) => Proveedor.fromMap(json)).toList();
   }
 
   Future<bool> deleteApiInsumo(String uid) async {

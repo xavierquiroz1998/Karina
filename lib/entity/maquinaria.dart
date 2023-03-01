@@ -6,6 +6,8 @@ class Maquinaria {
     required this.nombre,
     required this.identificacion,
     required this.maquinariaTipoId,
+    required this.procedencia,
+    required this.fechacompra,
     required this.capacidad,
     required this.estado,
     required this.createdAt,
@@ -16,6 +18,8 @@ class Maquinaria {
   String nombre;
   String identificacion;
   String maquinariaTipoId;
+  String procedencia;
+  DateTime fechacompra;
   int capacidad;
   int estado;
   DateTime createdAt;
@@ -31,6 +35,8 @@ class Maquinaria {
         nombre: json["nombre"],
         identificacion: json["identificacion"],
         maquinariaTipoId: json["maquinariaTipoId"],
+        procedencia: json["procedencia"],
+        fechacompra: DateTime.parse(json["fechacompra"]),
         capacidad: json["capacidad"],
         estado: json["estado"],
         createdAt: DateTime.parse(json["createdAt"]),
@@ -42,17 +48,13 @@ class Maquinaria {
         "nombre": nombre,
         "identificacion": identificacion,
         "maquinariaTipoId": maquinariaTipoId,
+        "procedencia": procedencia,
+        "fechacompra": fechacompra.toIso8601String(),
         "capacidad": capacidad,
         "estado": estado,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
       };
-
-  @override
-  String toString() {
-    // TODO: implement toString
-    return nombre;
-  }
 
   bool isEqual(Maquinaria model) {
     return this.idmaquinarias == model.idmaquinarias;

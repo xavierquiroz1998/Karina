@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:tesis_karina/entity/proveedor.dart';
+
 class Insumos {
   Insumos({
     required this.idinsumos,
     required this.insumoTipoId,
+    required this.idProveedor,
     required this.nombre,
     required this.fechaCaducidad,
     required this.observacion,
@@ -11,10 +14,12 @@ class Insumos {
     required this.estado,
     required this.createdAt,
     required this.updatedAt,
+    required this.proveedore,
   });
 
   String idinsumos;
   String insumoTipoId;
+  String idProveedor;
   String nombre;
   DateTime fechaCaducidad;
   String observacion;
@@ -22,6 +27,7 @@ class Insumos {
   int estado;
   DateTime createdAt;
   DateTime updatedAt;
+  Proveedor proveedore;
 
   factory Insumos.fromJson(String str) => Insumos.fromMap(json.decode(str));
 
@@ -30,6 +36,7 @@ class Insumos {
   factory Insumos.fromMap(Map<String, dynamic> json) => Insumos(
         idinsumos: json["idinsumos"],
         insumoTipoId: json["insumoTipoId"],
+        idProveedor: json["idProveedor"],
         nombre: json["nombre"],
         fechaCaducidad: DateTime.parse(json["fechaCaducidad"]),
         observacion: json["observacion"],
@@ -37,11 +44,13 @@ class Insumos {
         estado: json["estado"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        proveedore: Proveedor.fromMap(json["proveedore"]),
       );
 
   Map<String, dynamic> toMap() => {
         "idinsumos": idinsumos,
         "insumoTipoId": insumoTipoId,
+        "idProveedor": idProveedor,
         "nombre": nombre,
         "fechaCaducidad": fechaCaducidad.toIso8601String(),
         "observacion": observacion,
@@ -49,6 +58,7 @@ class Insumos {
         "estado": estado,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+        "proveedore": proveedore.toMap(),
       };
 
   @override
