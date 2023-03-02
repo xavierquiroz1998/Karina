@@ -199,7 +199,8 @@ class ReporteProvider extends ChangeNotifier {
             e.estado == 1 ? "ACTIVO" : "INACTIVO";
         countI++;
       }
-    } else if (list[0].name == "Enfermedad" && list[0].select) {
+    }
+    if (list[0].name == "Enfermedad" && list[0].select) {
       final excel.Worksheet sheet2 =
           workbook.worksheets.addWithName('ENFERMEDAD');
       sheet2.showGridlines = false;
@@ -240,7 +241,8 @@ class ReporteProvider extends ChangeNotifier {
             e.estado == 1 ? "ACTIVO" : "INACTIVO";
         countE++;
       }
-    } else if (list[2].name == "Maquinaria" && list[2].select) {
+    }
+    if (list[2].name == "Maquinaria" && list[2].select) {
       final excel.Worksheet sheet3 =
           workbook.worksheets.addWithName('MAQUINARIA');
       sheet3.showGridlines = false;
@@ -280,7 +282,8 @@ class ReporteProvider extends ChangeNotifier {
             e.estado == 1 ? "ACTIVO" : "INACTIVO";
         countM++;
       }
-    } else if (list[3].name == "Terrenos" && list[3].select) {
+    }
+    if (list[3].name == "Terrenos" && list[3].select) {
       final excel.Worksheet sheet4 = workbook.worksheets.addWithName('TERRENO');
       sheet4.showGridlines = false;
       int countT = 3;
@@ -320,7 +323,8 @@ class ReporteProvider extends ChangeNotifier {
             e.estado ? "ACTIVO" : "INACTIVO";
         countT++;
       }
-    } else if (list[4].name == "Finca" && list[4].select) {
+    }
+    if (list[4].name == "Finca" && list[4].select) {
       final excel.Worksheet sheet5 = workbook.worksheets.addWithName('FINCA');
       sheet5.showGridlines = false;
       int countF = 3;
@@ -353,7 +357,8 @@ class ReporteProvider extends ChangeNotifier {
             e.estado == "1" ? "ACTIVO" : "INACTIVO";
         countF++;
       }
-    } else if (list[5].name == "Personal" && list[5].select) {
+    }
+    if (list[5].name == "Personal" && list[5].select) {
       final excel.Worksheet sheet6 =
           workbook.worksheets.addWithName('PERSONAL');
       sheet6.showGridlines = false;
