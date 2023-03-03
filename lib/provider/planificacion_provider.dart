@@ -228,7 +228,7 @@ class PlanificacionProvider extends ChangeNotifier {
       for (var e in listPersonasSelect) {
         await _api.postApiListPersonal(ListPersonal(
             idlistadepersonal: UtilView.numberRandonUid(),
-            idPlanificacion: deta.idPlanificacion,
+            idPlanificacion: deta.iddetalleplanificacion,
             idPersonal: e.idpersonas,
             estado: 1));
       }
