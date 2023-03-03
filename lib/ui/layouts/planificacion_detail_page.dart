@@ -516,11 +516,33 @@ class _PlanificacionDetailPageState extends State<PlanificacionDetailPage> {
                     CustomFormButton(
                         color: Colors.green,
                         onPressed: () async {
-                          final resp = await provPlanificacion.grabar();
+                          final resp = await provPlanificacion
+                              .graba2(Detalleplanificacion(
+                            iddetalleplanificacion: UtilView.numberRandonUid(),
+                            actividad:
+                                provPlanificacion.actvDetailController.text,
+                            inicio: UtilView.dateFormatNew(
+                                provPlanificacion.txtDetailInicio.text),
+                            fin: UtilView.dateFormatNew(
+                                provPlanificacion.txtDetailFin.text),
+                            tipo: "S",
+                            createdAt: DateTime.now(),
+                            updatedAt: DateTime.now(),
+                            idPlanificacion: provPlanificacion
+                                .planificacionSelect!.idplanificacion,
+                            idTerreno:
+                                provPlanificacion.terrenoSelect!.idterreno,
+                            etapa: 1,
+                            nivel: 1,
+                            idtipograminea: "",
+                            observacion: "",
+                            observacion2: "-",
+                            estado: true,
+                          ));
+
                           if (resp) {
                             UtilView.messageSnackNewAccess(
-                                "Orden de trabajo generada\ncon exito",
-                                context);
+                                "Se realizo con exito", context);
                           } else {
                             UtilView.messageSnackNewError("Error", context);
                           }
@@ -530,7 +552,7 @@ class _PlanificacionDetailPageState extends State<PlanificacionDetailPage> {
                     CustomFormButton(
                         color: Colors.red,
                         onPressed: () async {
-                          provPlanificacion.grabar();
+                          provPlanificacion.limpiar2();
                         },
                         text: "Cancelar"),
                   ],

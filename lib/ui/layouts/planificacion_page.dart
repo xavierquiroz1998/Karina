@@ -287,7 +287,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                     CustomFormButton(
                         color: Colors.red,
                         onPressed: () async {
-                          provPlanificacion.grabar();
+                          provPlanificacion.limpiar();
                         },
                         text: "Cancelar"),
                   ],
