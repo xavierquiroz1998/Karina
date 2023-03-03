@@ -19,13 +19,14 @@ class DetailPlanDataSource extends DataGridSource {
     listData = planificacionProvider.listDetailPlanificacion
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<String>(columnName: 'actividad', value: e.actividad),
-              DataGridCell<String>(columnName: 'terreno', value: e.idTerreno),
               DataGridCell<String>(
                   columnName: 'fechaI',
                   value: UtilView.convertDateToString(e.inicio)),
               DataGridCell<String>(
                   columnName: 'fechaF',
                   value: UtilView.convertDateToString(e.fin)),
+              DataGridCell<Detalleplanificacion>(
+                  columnName: 'accione', value: e),
             ]))
         .toList();
   }
@@ -49,7 +50,16 @@ class DetailPlanDataSource extends DataGridSource {
         Container(
             padding: const EdgeInsets.only(left: 7),
             alignment: Alignment.centerLeft,
-            child: Text(row.getCells()[3].value.toString())),
+            child: InkWell(
+                onTap: () {
+                  planificacionProvider.listDetailPlanificacion
+                      .remove(row.getCells()[3].value);
+                  planificacionProvider.update();
+                },
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ))),
 
         // Container(
         //   alignment: Alignment.center,

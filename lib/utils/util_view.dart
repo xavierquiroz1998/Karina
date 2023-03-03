@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:tesis_karina/entity/usuario.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class UtilView {
   static late Usuario usuarioUtil;
@@ -28,6 +31,23 @@ class UtilView {
     return DateFormat("dd/MM/yyyy").parse(cadena).add(const Duration(hours: 5));
   }
 
+  static DateTime dateFormatNew(String cadena) {
+    int? dia = 0;
+    int? mes = 0;
+    int? anio = 0;
+    if (cadena.contains("-")) {
+      dia = int.tryParse(cadena.substring(9, 10));
+      mes = int.tryParse(cadena.substring(6, 7));
+      anio = int.tryParse(cadena.substring(0, 4));
+    } else {
+      dia = int.tryParse(cadena.substring(6, 10));
+      mes = int.tryParse(cadena.substring(3, 5));
+      anio = int.tryParse(cadena.substring(0, 2));
+    }
+
+    return DateTime(anio!, mes!, dia!);
+  }
+
   static String dateFormatDMY(String cadena) {
     DateTime date = DateTime.parse(cadena);
     return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
@@ -48,6 +68,44 @@ class UtilView {
     DateTime dateFin = DateFormat("dd/MM/yyyy").parse(fin);
     return (dateFin.year >= dateInicio.year) &&
         (dateFin.month - dateInicio.month == value);
+  }
+
+  static messageNewAccess(
+      String titulo, String message, Color color, BuildContext context) {
+    final materialBanner = MaterialBanner(
+      /// need to set following properties for best effect of awesome_snackbar_content
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      forceActionsBelow: true,
+      content: AwesomeSnackbarContent(
+        title: titulo,
+        message: message,
+        contentType: ContentType.success,
+        inMaterialBanner: true,
+      ),
+      actions: const [SizedBox.shrink()],
+    );
+    ScaffoldMessenger.of(context)
+      ..hideCurrentMaterialBanner()
+      ..showMaterialBanner(materialBanner);
+  }
+
+  static messageSnackNewAccess(String mensaje, BuildContext context) {
+    showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.success(
+        message: mensaje,
+      ),
+    );
+  }
+
+  static messageSnackNewError(String mensaje, BuildContext context) {
+    showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.error(
+        message: mensaje,
+      ),
+    );
   }
 
   static messageDanger(String message) {
@@ -132,6 +190,65 @@ class UtilView {
         int.parse(cadena.substring(3, 5)), int.parse(cadena.substring(0, 2)));
     String formattedDate = DateFormat('yyyy-MM-dd').format(date);
     return formattedDate;
+  }
+
+  static String processEtapaUtil(int value) {
+    String resp = "";
+    switch (value) {
+      case 1:
+        resp = "FASE VEGETATIVA";
+        break;
+      case 2:
+        resp = "FASE REPRODUCTIVA";
+        break;
+      case 3:
+        resp = "FASE MADURACIÓN";
+        break;
+      default:
+        resp = "FINALIZACION";
+        break;
+    }
+    return resp;
+  }
+
+  static String processNivelUtil(int value) {
+    String resp = "";
+    switch (value) {
+      case 0:
+        resp = "Germinación";
+        break;
+      case 1:
+        resp = "Plántula";
+        break;
+      case 2:
+        resp = "Macollamiento";
+        break;
+      case 3:
+        resp = "Elongavion del tallo";
+        break;
+      case 4:
+        resp = "Embuchamiento";
+        break;
+      case 5:
+        resp = "Espigamiento";
+        break;
+      case 6:
+        resp = "Floración";
+        break;
+      case 7:
+        resp = "Etapa lechosa";
+        break;
+      case 8:
+        resp = "Etapa de maduración";
+        break;
+      case 9:
+        resp = "Senescencia";
+        break;
+      default:
+        resp = "";
+        break;
+    }
+    return resp;
   }
 
 /*   static Color convertColor(String color) {

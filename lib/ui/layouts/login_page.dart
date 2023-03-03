@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/provider/usuario_provider.dart';
+import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class LoginPage extends StatefulWidget {
@@ -68,8 +69,10 @@ class _LoginPageState extends State<LoginPage> {
                               onEditingComplete: () => FocusScope.of(context)
                                   .requestFocus(myFocusNode),
                               keyboardType: TextInputType.emailAddress,
-                              decoration: const InputDecoration(
-                                  labelText: 'Correo electrónico o teléfono')),
+                              decoration: CustomInputs.loginInputDecoration(
+                                  hint: "Correo electrónico",
+                                  label: "Correo electrónico",
+                                  icon: Icons.email)),
                         ),
                       ],
                     ),
@@ -82,8 +85,10 @@ class _LoginPageState extends State<LoginPage> {
                             controller: txtPass,
                             onEditingComplete: () => guardar(),
                             obscureText: true,
-                            decoration:
-                                const InputDecoration(labelText: 'Contraseña'),
+                            decoration: CustomInputs.loginInputDecoration(
+                                hint: "Contraseña",
+                                label: "Contraseña",
+                                icon: Icons.password),
                             keyboardType: TextInputType.visiblePassword,
                           ),
                         ),

@@ -73,7 +73,7 @@ class ReporteProvider extends ChangeNotifier {
   Future<void> generateEnfAndPlagExcel() async {
     final excel.Workbook workbook = excel.Workbook(0);
     final excel.Worksheet sheet1 = workbook.worksheets.addWithName('Plagas');
-
+    int x = 3;
     //Adding cell style.
     final excel.Style style1 = workbook.styles.add('Style1');
     style1.backColor = '#D9E1F2';

@@ -89,10 +89,18 @@ class MenuLateral extends StatelessWidget {
                 Navigator.pushNamed(context, '/dashboard/controlTareas'),
           ),
           ListTile(
-            leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
-            title: const Text("Planificación"),
+            leading:
+                const Icon(Icons.work_history_rounded, color: Colors.blueGrey),
+            title: const Text("Orden de trabajo"),
             onTap: () async =>
                 Navigator.pushNamed(context, '/dashboard/controlCronograma'),
+          ),
+          ListTile(
+            leading:
+                const Icon(Icons.work_history_rounded, color: Colors.blueGrey),
+            title: const Text("Detalle de orden"),
+            onTap: () async => Navigator.pushNamed(
+                context, '/dashboard/controlDetailCronograma'),
           ),
           ListTile(
             leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),

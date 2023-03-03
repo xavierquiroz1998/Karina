@@ -35,4 +35,15 @@ class TiposGraminea {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
       };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return observacion;
+  }
+
+  bool isEqual(TiposGraminea model) {
+    // TODO: implement toString
+    return this.idtipograminea == model.idtipograminea;
+  }
 }

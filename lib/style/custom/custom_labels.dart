@@ -23,7 +23,7 @@ class CustomLabels {
   static TextStyle h10 = GoogleFonts.roboto(
       fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white);
   static TextStyle h11 =
-      GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500);
+      GoogleFonts.roboto(fontSize: 12, fontWeight: FontWeight.w500);
   static TextStyle h12 =
       GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w500);
   static TextStyle h13 = GoogleFonts.roboto(

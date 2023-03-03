@@ -30,10 +30,13 @@ class WhiteCard extends StatelessWidget {
               children: [
                 FittedBox(
                   fit: BoxFit.contain,
-                  child: Text(
-                    title!,
-                    style: GoogleFonts.roboto(
-                        fontSize: 15, fontWeight: FontWeight.bold),
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 5),
+                    child: Text(
+                      title!,
+                      style: GoogleFonts.roboto(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 const Spacer(),

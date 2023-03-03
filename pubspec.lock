@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  awesome_snackbar_content:
+    dependency: "direct main"
+    description:
+      name: awesome_snackbar_content
+      sha256: dc63adf86eadb0a4e9e1d9994c3fe09a7b0552076e87152fc292705ec506c80e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
   barcode:
     dependency: transitive
     description:
@@ -41,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  bot_toast:
+    dependency: "direct main"
+    description:
+      name: bot_toast
+      sha256: "19306147033316a7873c5d261b874fca3f341c05e4e1c12be56153ad11187edd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.3"
   camera:
     dependency: "direct main"
     description:
@@ -177,6 +193,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.5"
+  estado:
+    dependency: "direct main"
+    description:
+      name: estado
+      sha256: "0483abc34e6d339bfd313038d9ec6ae9645ab8c636f2c34c86887618c4acb5bd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   excel:
     dependency: "direct main"
     description:
@@ -270,6 +294,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.0"
+  flutter_svg:
+    dependency: transitive
+    description:
+      name: flutter_svg
+      sha256: "6ff9fa12892ae074092de2fa6a9938fb21dbabfdaa2ff57dc697ff912fc8d4b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.6"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -440,6 +472,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.2"
+  path_drawing:
+    dependency: transitive
+    description:
+      name: path_drawing
+      sha256: bbb1934c0cbb03091af082a6389ca2080345291ef07a5fa6d6e078ba8682f977
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   path_parsing:
     dependency: transitive
     description:
@@ -773,6 +813,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
+  timeline_list:
+    dependency: "direct main"
+    description:
+      name: timeline_list
+      sha256: ef1dff1f1d0b9daf8350635594f2b33c52b12410771bf12a8d5976c1aac156c4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
+  top_snackbar_flutter:
+    dependency: "direct main"
+    description:
+      name: top_snackbar_flutter
+      sha256: "7d4aa8f0031ad4a597c02487b4bb9b0dbb6a8d76ce1ab6e13e9565f865c1b70c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0+1"
   typed_data:
     dependency: transitive
     description:

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/entity/objeto_view.dart';
 import 'package:tesis_karina/provider/reporte_provider.dart';
-import 'package:tesis_karina/ui/layouts/report_page.dart';
 
 Future showDialogViewMantenedores(BuildContext context) async {
   List<ObjetoView> listString = [

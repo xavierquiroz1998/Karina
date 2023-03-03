@@ -27,12 +27,15 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  awesome_snackbar_content: ^0.1.1
+  bot_toast: ^4.0.3
   camera: ^0.10.3+1
   cupertino_icons: ^1.0.2
   dio: ^4.0.6
   dropdown_button2: ^1.9.2
   dropdown_search: ^5.0.5
   email_validator: ^2.1.17
+  estado: ^0.0.3
   excel: ^2.0.1
   file_picker: ^4.6.1
   fluro: ^2.0.4
@@ -57,6 +60,8 @@ dependencies:
   syncfusion_flutter_xlsio: ^20.4.49-beta
   syncfusion_officechart: ^20.4.49-beta
   syncfusion_officecore: ^20.4.49-beta
+  timeline_list: ^0.0.6
+  top_snackbar_flutter: ^3.0.0+1
   url_launcher: ^6.1.9
   uuid: ^3.0.7
 

@@ -117,11 +117,23 @@ class TaskProvider extends ChangeNotifier {
   }
 
   closeTask(Detalleplanificacion detalle) async {
+    try {
+      final resp = await _api.putApiTask(detalle);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      throw 'Error al actualizar el insumo';
+    }
+  }
+
+  update(Detalleplanificacion detalle) async {
     final resp = await _api.putApiTask(detalle);
     try {
       this.listTask = this.listTask.map((e) {
         if (detalle.iddetalleplanificacion != e.iddetalleplanificacion)
           return e;
+        e.tipo = detalle.tipo;
+        e.nivel = detalle.nivel;
         e.observacion2 = detalle.observacion2;
         return e;
       }).toList();

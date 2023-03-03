@@ -17,21 +17,18 @@ Future<String> dialogComentario(BuildContext context, String opt) async {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Flexible(
-                  child: Padding(
-                padding: EdgeInsets.all(9),
-                child: Text("Agregar Comentario ",
-                    textAlign: TextAlign.start,
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              )),
               Flexible(
                   child: Padding(
                 padding: const EdgeInsets.all(9),
                 child: Text(opt,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold)),
               )),
+              const Flexible(
+                  child: Text("Agregar Comentario ",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(fontSize: 12, color: Colors.grey))),
               Container(
                   margin: const EdgeInsets.only(top: 15, bottom: 10),
                   width: double.infinity,
@@ -43,7 +40,7 @@ Future<String> dialogComentario(BuildContext context, String opt) async {
                       decoration: CustomInputs.boxInputDecoration2(
                           hint: "Comentario", icon: Icons.assignment))),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton.icon(
                     onPressed: () {

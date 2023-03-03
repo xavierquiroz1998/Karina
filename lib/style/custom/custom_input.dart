@@ -55,7 +55,7 @@ class CustomInputs {
       isDense: true,
       contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       prefixIcon: Icon(icon, color: Colors.grey),
-      labelStyle: const TextStyle(color: Colors.grey),
+      labelStyle: const TextStyle(color: Colors.grey, fontSize: 12),
       hintStyle: const TextStyle(color: Colors.grey),
     );
   }
@@ -185,8 +185,7 @@ class CustomInputs {
       isDense: true,
       contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       prefixIcon: Icon(icon, color: Colors.grey),
-      labelStyle: const TextStyle(color: Colors.grey),
-      hintStyle: const TextStyle(color: Colors.grey),
+      hintStyle: const TextStyle(color: Colors.grey, fontSize: 12),
     );
   }
 

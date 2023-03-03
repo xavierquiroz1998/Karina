@@ -5,6 +5,7 @@ import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
 import 'package:tesis_karina/dialogs/dialog_adiciones.dart';
 import 'package:tesis_karina/dialogs/dialog_comentario.dart';
 import 'package:tesis_karina/provider/task_provider.dart';
+import 'package:tesis_karina/style/buttons/custom_form_button.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
@@ -61,7 +62,7 @@ class _TaskPageState extends State<TaskPage> {
                                             child: Padding(
                                           padding: const EdgeInsets.all(9),
                                           child: Text(
-                                              provider.listTask[i].actividad,
+                                              "ID: ${provider.listTask[i].actividad}",
                                               textAlign: TextAlign.start,
                                               style: const TextStyle(
                                                   fontSize: 15,
@@ -74,8 +75,8 @@ class _TaskPageState extends State<TaskPage> {
                                           color: provider.listTask[i]
                                                       .observacion ==
                                                   "-"
-                                              ? Colors.amber
-                                              : Colors.green,
+                                              ? Colors.grey[600]
+                                              : Colors.orangeAccent[700],
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
@@ -90,6 +91,7 @@ class _TaskPageState extends State<TaskPage> {
                                                         Icons
                                                             .check_circle_outline_outlined,
                                                         Colors.blueGrey);
+
                                                     if (opt) {
                                                       provider.listTask[i]
                                                               .inicio =
@@ -118,7 +120,7 @@ class _TaskPageState extends State<TaskPage> {
                                                           provider.listTask[i]);
 
                                                       UtilView.messageAccess(
-                                                          "Tarea asignada",
+                                                          "Inicio del proceso ${UtilView.convertDateToString(DateTime.now())}",
                                                           Colors.green);
                                                     }
                                                   } else {
@@ -131,8 +133,7 @@ class _TaskPageState extends State<TaskPage> {
                                                               .observacion ==
                                                           "-"
                                                       ? "Pendiente"
-                                                      : provider.listTask[i]
-                                                          .observacion,
+                                                      : "En proceso",
                                                   style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold),
@@ -143,33 +144,70 @@ class _TaskPageState extends State<TaskPage> {
                                                       "-"
                                                   ? Icons.assignment_ind
                                                   : provider.listTask[i].estado
-                                                      ? Icons.check_sharp
+                                                      ? Icons.timer
                                                       : Icons.error)
                                             ],
                                           ),
                                         )
                                       ],
                                     ),
-                                    Flexible(
-                                        child: Padding(
-                                      padding: const EdgeInsets.only(left: 9),
-                                      child: Text(
-                                          "Inicio: ${UtilView.convertDateToString(provider.listTask[i].inicio)}",
-                                          textAlign: TextAlign.start,
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
-                                    )),
-                                    Flexible(
-                                        child: Padding(
-                                      padding: const EdgeInsets.only(left: 9),
-                                      child: Text(
-                                          "Finalización: ${UtilView.convertDateToString(provider.listTask[i].fin)}",
-                                          textAlign: TextAlign.start,
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
-                                    )),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                            child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 9),
+                                          child: Text(
+                                              "Etapa: ${UtilView.processEtapaUtil(provider.listTask[i].etapa).toLowerCase()}",
+                                              textAlign: TextAlign.start,
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                        )),
+                                        Flexible(
+                                            child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 9),
+                                          child: Text(
+                                              "Process: ${UtilView.processNivelUtil(provider.listTask[i].nivel)}",
+                                              textAlign: TextAlign.start,
+                                              style: const TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold)),
+                                        )),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                            child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 9),
+                                          child: Text(
+                                              "Inicio: ${UtilView.convertDateToString(provider.listTask[i].inicio)}",
+                                              textAlign: TextAlign.start,
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                        )),
+                                        Flexible(
+                                            child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 9),
+                                          child: Text(
+                                              "Fin: ${UtilView.convertDateToString(provider.listTask[i].fin)}",
+                                              textAlign: TextAlign.start,
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                        )),
+                                      ],
+                                    ),
                                     const Divider(color: Colors.black),
                                     provider.listTask[i].observacion != "-"
                                         ? Padding(
@@ -183,52 +221,28 @@ class _TaskPageState extends State<TaskPage> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Container(
-                                                    padding: const EdgeInsets
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.green,
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.3),
+                                                        ),
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                    .all(
+                                                                Radius.circular(
+                                                                    10))),
+                                                    margin: const EdgeInsets
                                                             .symmetric(
                                                         horizontal: 5),
+                                                    padding:
+                                                        const EdgeInsets.all(3),
                                                     child: InkWell(
                                                         onTap: () async {
                                                           String resp =
                                                               await dialogComentario(
                                                                   context,
-                                                                  "Se cerrara la tarea con un estado de que no se pudo completar");
-                                                          if (resp != "") {
-                                                            provider.listTask[i]
-                                                                .estado = false;
-                                                            provider.listTask[i]
-                                                                    .observacion2 =
-                                                                resp;
-                                                            provider.listTask[i]
-                                                                    .fin =
-                                                                DateTime.now();
-                                                            provider.listTask[i]
-                                                                .inicio = UtilView.convertStringToDate(DateFormat(
-                                                                    "dd/MM/yyyy")
-                                                                .format(provider
-                                                                    .listTask[i]
-                                                                    .inicio));
-                                                            provider.closeTask(
-                                                                provider
-                                                                    .listTask[i]);
-                                                            provider.listTask
-                                                                .remove(provider
-                                                                    .listTask[i]);
-                                                          }
-                                                        },
-                                                        child: const Icon(
-                                                            Icons.cancel,
-                                                            color:
-                                                                Colors.red))),
-                                                Container(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 5),
-                                                    child: InkWell(
-                                                        onTap: () async {
-                                                          String resp =
-                                                              await dialogComentario(
-                                                                  context,
-                                                                  "Se cerrara la Tarea con exito");
+                                                                  "¿Deseas Terminar el proceso?");
                                                           if (resp != "") {
                                                             provider.listTask[i]
                                                                 .inicio = UtilView.convertStringToDate(DateFormat(
@@ -236,31 +250,110 @@ class _TaskPageState extends State<TaskPage> {
                                                                 .format(provider
                                                                     .listTask[i]
                                                                     .inicio));
-                                                            provider.listTask[i]
-                                                                    .observacion2 =
-                                                                resp;
-                                                            provider.listTask[i]
-                                                                    .fin =
-                                                                DateTime.now();
-                                                            provider.listTask[i]
-                                                                .estado = false;
 
-                                                            provider.closeTask(
+                                                            provider.listTask[i]
+                                                                    .observacion =
+                                                                resp;
+
+                                                            provider.listTask[i]
+                                                                    .fin =
+                                                                DateTime.now();
+
+                                                            provider.listTask[i]
+                                                                .nivel = (provider
+                                                                    .listTask[i]
+                                                                    .nivel +
+                                                                1);
+
+                                                            if (provider.listTask[i].nivel == 4 ||
                                                                 provider
-                                                                    .listTask[i]);
-                                                            provider.listTask
-                                                                .remove(provider
-                                                                    .listTask[i]);
+                                                                        .listTask[
+                                                                            i]
+                                                                        .nivel ==
+                                                                    7 ||
+                                                                provider
+                                                                        .listTask[
+                                                                            i]
+                                                                        .nivel ==
+                                                                    10) {
+                                                              provider
+                                                                  .listTask[i]
+                                                                  .etapa = (provider
+                                                                      .listTask[
+                                                                          i]
+                                                                      .etapa +
+                                                                  1);
+                                                            }
+
+                                                            if (provider
+                                                                        .listTask[
+                                                                            i]
+                                                                        .etapa ==
+                                                                    3 &&
+                                                                provider
+                                                                        .listTask[
+                                                                            i]
+                                                                        .nivel ==
+                                                                    9) {
+                                                              provider
+                                                                  .listTask[i]
+                                                                  .observacion = "C";
+
+                                                              provider
+                                                                  .listTask[i]
+                                                                  .estado = false;
+
+                                                              provider.closeTask(
+                                                                  provider
+                                                                      .listTask[i]);
+
+                                                              provider.listTask
+                                                                  .remove(provider
+                                                                      .listTask[i]);
+                                                            } else {
+                                                              provider.update(
+                                                                  provider
+                                                                      .listTask[i]);
+                                                            }
                                                           }
                                                         },
-                                                        child: const Icon(
-                                                            Icons.check,
-                                                            color:
-                                                                Colors.green))),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: const [
+                                                            Icon(
+                                                                Icons.check_box,
+                                                                size: 20,
+                                                                color: Colors
+                                                                    .black),
+                                                            Text(
+                                                              'Sigs Proceso',
+                                                              style: TextStyle(
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            )
+                                                          ],
+                                                        ))),
                                                 Container(
-                                                    padding: const EdgeInsets
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                            Colors.amber[700],
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.3),
+                                                        ),
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                    .all(
+                                                                Radius.circular(
+                                                                    10))),
+                                                    margin: const EdgeInsets
                                                             .symmetric(
                                                         horizontal: 5),
+                                                    padding:
+                                                        const EdgeInsets.all(3),
                                                     child: InkWell(
                                                         onTap: () async {
                                                           provider
@@ -276,11 +369,26 @@ class _TaskPageState extends State<TaskPage> {
                                                                     .iddetalleplanificacion);
                                                           }
                                                         },
-                                                        child: const Icon(
-                                                            Icons
-                                                                .assignment_add,
-                                                            color: Colors
-                                                                .black54)))
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: const [
+                                                            Icon(
+                                                                Icons
+                                                                    .assignment_add,
+                                                                size: 20,
+                                                                color: Colors
+                                                                    .black),
+                                                            Text(
+                                                              'Agregar',
+                                                              style: TextStyle(
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            )
+                                                          ],
+                                                        )))
                                               ],
                                             ),
                                           )

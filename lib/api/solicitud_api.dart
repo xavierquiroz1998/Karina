@@ -14,6 +14,7 @@ import 'package:tesis_karina/entity/proveedor.dart';
 import 'package:tesis_karina/entity/response/respuesta.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/entity/tipos_enfermedades.dart';
+import 'package:tesis_karina/entity/tipos_graminea.dart';
 import 'package:tesis_karina/entity/tipos_insumos.dart';
 import 'package:tesis_karina/entity/tipos_maquinarias.dart';
 import 'package:tesis_karina/entity/tipos_plagas.dart';
@@ -648,6 +649,33 @@ class SolicitudApi {
     }
   }
 // BLOQUE DE TERRENO FIN ---------------------------------------------------------------------------------------------------------
+
+//GRAMINEA
+
+  Future<List<TiposGraminea>> getApiTipoGraminea() async {
+    var url = Uri.parse("$baseUrl/tiposgraminea");
+    print(url.toString());
+
+    try {
+      var respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListTiposGraminea(utf8.decode(respuesta.bodyBytes));
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  List<TiposGraminea> parseJsonToListTiposGraminea(String respuesta) {
+    final parseo = jsonDecode(respuesta);
+    return parseo
+        .map<TiposGraminea>((json) => TiposGraminea.fromMap(json))
+        .toList();
+  }
+
+// FIN DE GRAMINEA
 
 // #endregion
 

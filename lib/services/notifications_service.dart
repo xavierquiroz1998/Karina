@@ -1,36 +1,28 @@
 import 'package:flutter/material.dart';
 
-
-
 class NotificationsService {
+  static GlobalKey<ScaffoldMessengerState> messengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
-  static GlobalKey<ScaffoldMessengerState> messengerKey =  GlobalKey<ScaffoldMessengerState>();
-
-
-  static showSnackbarError( String message ) {
-
-    final snackBar =  SnackBar(
-      backgroundColor: Colors.red.withOpacity(0.9),
-      content: Text( message, style: const TextStyle( color: Colors.white, fontSize: 20 ) )
-    );
+  static showSnackbarError(String message) {
+    final snackBar = SnackBar(
+        backgroundColor: Colors.red.withOpacity(0.9),
+        content: Text(message,
+            style: const TextStyle(color: Colors.white, fontSize: 20)));
 
     messengerKey.currentState!.showSnackBar(snackBar);
-
   }
 
-  static showSnackbar( String message ) {
-
-    final snackBar =  SnackBar(
-      content: Text( message, style: const TextStyle( color: Colors.white, fontSize: 20 ) )
-    );
+  static showSnackbar(String message) {
+    final snackBar = SnackBar(
+        content: Text(message,
+            style: const TextStyle(color: Colors.white, fontSize: 20)));
 
     messengerKey.currentState!.showSnackBar(snackBar);
-
   }
 
-  static showBusyIndicator( BuildContext context ) {
-
-    final AlertDialog dialog = AlertDialog(
+  static showBusyIndicator(BuildContext context) {
+    const AlertDialog dialog = AlertDialog(
       content: SizedBox(
         width: 100,
         height: 100,
@@ -39,10 +31,6 @@ class NotificationsService {
         ),
       ),
     );
-
-    showDialog(context: context, builder: ( _ )=> dialog );
-
+    showDialog(context: context, builder: (_) => dialog);
   }
-
-
 }

@@ -3,6 +3,7 @@ import 'package:tesis_karina/ui/layouts/enfermedad_page.dart';
 import 'package:tesis_karina/ui/layouts/mapa_page.dart';
 import 'package:tesis_karina/ui/layouts/mapa_page2.dart';
 import 'package:tesis_karina/ui/layouts/observaciones_page.dart';
+import 'package:tesis_karina/ui/layouts/planificacion_detail_page.dart';
 import 'package:tesis_karina/ui/layouts/planificacion_page.dart';
 import 'package:tesis_karina/ui/layouts/dashboard_page.dart';
 import 'package:tesis_karina/ui/layouts/login_page.dart';
@@ -23,6 +24,8 @@ final routes = <String, WidgetBuilder>{
   //DASBOARD OPT
   '/dashboard/mantenimientos': (context) => const MatenimientoPage(),
   '/dashboard/controlCronograma': (context) => const PlanificacionPage(),
+  '/dashboard/controlDetailCronograma': (context) =>
+      const PlanificacionDetailPage(),
   '/dashboard/controlReporte': (context) => const ReportPage(),
   '/dashboard/controlSeguimiento': (context) => const SeguiminentoPage(),
   '/dashboard/controlSeguimiento2': (context) => const SeguiminentoPage2(),

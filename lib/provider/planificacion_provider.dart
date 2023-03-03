@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tesis_karina/api/solicitud_api.dart';
 import 'package:tesis_karina/entity/detalle_planificacion.dart';
+import 'package:tesis_karina/entity/list_insumos.dart';
+import 'package:tesis_karina/entity/list_personal.dart';
+import 'package:tesis_karina/entity/list_terrenos.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/entity/planificacion.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/insumo.dart';
-import 'package:tesis_karina/entity/list_insumos.dart';
-import 'package:tesis_karina/entity/list_personal.dart';
-import 'package:tesis_karina/entity/list_terrenos.dart';
 import 'package:tesis_karina/entity/personas.dart';
 import 'package:tesis_karina/entity/terreno.dart';
+import 'package:tesis_karina/entity/tipos_graminea.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class PlanificacionProvider extends ChangeNotifier {
@@ -19,61 +20,99 @@ class PlanificacionProvider extends ChangeNotifier {
   List<Terreno> listTerrenosTemp = [];
   List<Finca> listFincas = [];
   List<Persona> listPersonas = [];
+  List<TiposGraminea> listGraminea = [];
   List<Maquinaria> listMaquinarias = [];
   Finca? fincasSelect;
   List<Terreno> listTerrenosSelect = [];
   List<Insumos> listInsumoSelect = [];
+  List<TiposGraminea> listGramineaSelect = [];
   List<Persona> listPersonasSelect = [];
   List<Maquinaria> listMaquinariasSelect = [];
   List<Detalleplanificacion> listDetailPlanificacion = [];
+  List<Planificacion> listPlanificacion = [];
 
-  bool isTerreno = false;
-
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _dateFinController = TextEditingController();
+//VARIABLES DE LA CABECERA DEL DETALLE
+  TextEditingController dateController = TextEditingController(
+      text: DateFormat("dd/MM/yyyy").format(DateTime.now()));
+  TextEditingController dateFinController =
+      TextEditingController(text: UtilView.dateSumDay(60));
   TextEditingController disponibleController = TextEditingController();
   TextEditingController humedadFinController = TextEditingController();
   TextEditingController temperaturaFinController = TextEditingController();
   TextEditingController observacionFinController = TextEditingController();
+  TextEditingController nombreController = TextEditingController();
   TextEditingController ctrSearch = TextEditingController();
-
-  //DETALLE
   TextEditingController txtName = TextEditingController();
-  final txtInicio = TextEditingController(
-      text: DateFormat("dd/MM/yyyy").format(DateTime.now()));
-  final txtFin = TextEditingController(text: UtilView.dateSumDay(60));
 
+//DETALLE
+  Planificacion? planificacionSelect;
+  Terreno? terrenoSelect;
+  TextEditingController actvDetailController = TextEditingController();
+  TextEditingController obsDetailController = TextEditingController();
+  final txtDetailInicio = TextEditingController(
+      text: DateFormat("dd/MM/yyyy").format(DateTime.now()));
+  final txtDetailFin = TextEditingController();
   bool isDetail = true;
+
   final _api = SolicitudApi();
-// #region get and set
 
   set setIsDetail(bool value) {
     isDetail = value;
     notifyListeners();
   }
 
-  TextEditingController get dateFinController => _dateFinController;
-
-  set dateFinController(TextEditingController value) {
-    _dateFinController = value;
+  getIntDetail() async {
+    try {
+      final resp = await _api.getApiTask();
+      await getListInsumos();
+      await getListTerrenosDetail();
+      await getListfincas();
+      await getListPersonas();
+      await getListMaquinarias();
+      await getListGraminea();
+      planificacionSelect = null;
+      terrenoSelect = null;
+      listTerrenosSelect = [];
+      listInsumoSelect = [];
+      listPersonasSelect = [];
+      listMaquinariasSelect = [];
+      listPlanificacion = resp;
+    } catch (e) {
+      rethrow;
+    }
+    notifyListeners();
   }
 
-  TextEditingController get dateController => _dateController;
-
-  set dateController(TextEditingController value) {
-    _dateController = value;
+  getListTerrenosDetail() async {
+    final resp = await _api.getApiTerrenos();
+    listTerrenos = resp;
+//    notifyListeners();
   }
 
   getListInsumos() async {
-    final resp = await _api.getApiInsumos();
-    listInsumo = resp;
+    try {
+      final resp = await _api.getApiInsumos();
+      listInsumo = resp;
+    } catch (e) {
+      rethrow;
+    }
+
     //notifyListeners();
   }
 
-  void isChangeTerreno(bool value) {
-    isTerreno = value;
-
+  update() async {
     notifyListeners();
+  }
+
+  getListGraminea() async {
+    try {
+      final resp = await _api.getApiTipoGraminea();
+      listGraminea = resp;
+    } catch (e) {
+      rethrow;
+    }
+
+    //notifyListeners();
   }
 
   getListTerrenos() async {
@@ -106,140 +145,113 @@ class PlanificacionProvider extends ChangeNotifier {
 // #endregion
   inializacion() async {
     try {
-      await getListInsumos();
       await getListfincas();
-      await getListPersonas();
-      await getListMaquinarias();
-      isTerreno = false;
       fincasSelect = null;
-      listTerrenosSelect = [];
-      listInsumoSelect = [];
-      listPersonasSelect = [];
-      listMaquinariasSelect = [];
-
-      notifyListeners();
     } catch (e) {
       rethrow;
     }
   }
 
-  limpiar() {
-    isTerreno = false;
-    fincasSelect = null;
+  limpiar2() {
+    planificacionSelect = null;
+    terrenoSelect = null;
+
+/*     listGramineaSelect = [];
     listTerrenosSelect = [];
     listInsumoSelect = [];
     listPersonasSelect = [];
-    listMaquinariasSelect = [];
-    _dateController.text = DateFormat("dd/MM/yyyy").format(DateTime.now());
-    _dateFinController.text = DateFormat("dd/MM/yyyy").format(DateTime.now());
+    listMaquinariasSelect = []; */
 
-    txtName.clear();
-    txtInicio.text = DateFormat("dd/MM/yyyy").format(DateTime.now());
-    txtFin.text = UtilView.dateSumDay(60);
-
-    disponibleController.clear();
-    humedadFinController.clear();
-    temperaturaFinController.clear();
-    observacionFinController.clear();
-    //ctrSearch
+    actvDetailController.clear();
+    obsDetailController.clear();
+    txtDetailInicio.text = DateFormat("dd/MM/yyyy").format(DateTime.now());
+    txtDetailFin.clear();
 
     notifyListeners();
   }
 
+  limpiar() {
+    nombreController.clear();
+    fincasSelect = null;
+    humedadFinController.clear();
+    temperaturaFinController.clear();
+    observacionFinController.clear();
+    dateController.clear();
+    dateFinController.clear();
+    notifyListeners();
+  }
+
   Future<bool> grabar() async {
+    bool saveCab = false;
     try {
-      var referenciaTask = UtilView.numberRandonUid();
-      var uidInsumos = "";
-
-      String idFinca = fincasSelect!.idfinca;
-      // insumos
-      for (var e in listInsumoSelect) {
-        uidInsumos = UtilView.numberRandonUid();
-
-        var resultado = await _api.postApiListInsumo(ListInsumos(
-            idlistadeInsumos: uidInsumos,
-            idPlanificacion: referenciaTask,
-            idInsumo: e.idinsumos,
-            estado: 1,
-            unidad: ''));
-      }
-
-      var uidPersonal = "";
-      // personal
-      for (var e in listPersonasSelect) {
-        uidPersonal = UtilView.numberRandonUid();
-
-        var resultado = await _api.postApiListPersonal(ListPersonal(
-            idlistadepersonal: uidPersonal,
-            idPlanificacion: referenciaTask,
-            idPersonal: e.idpersonas,
-            estado: 1));
-      }
-
-      var uidTerrenos = "";
-      // terrenos
-      for (var e in listTerrenosSelect) {
-        uidTerrenos = UtilView.numberRandonUid();
-
-        var resultado = await _api.postApiListTerrenos(ListTerrenos(
-            idlistadeterrenos: uidTerrenos,
-            idPlanificacion: referenciaTask,
-            estado: true,
-            idenfermedad: "",
-            idGramineas: "",
-            ocupado: true,
-            idTerreno: e.idterreno));
-      }
-
-      var observacio = observacionFinController.text;
-      var temperatura = temperaturaFinController.text;
-      var humedad = humedadFinController.text;
-      var disponible = int.parse(
-          disponibleController.text == "" ? "0" : disponibleController.text);
-      var estado = 1;
       var fechaInicio = DateTime.parse(dateController.text);
       var fechafin = DateTime.parse(dateFinController.text);
 
       Planificacion tarea = Planificacion(
-          idplanificacion: referenciaTask,
-          idFinca: idFinca,
-          // idTerreno: uidTerrenos,
-          // disponible: disponible,
-          humedad: humedad,
-          temperatura: temperatura,
-          idListInsumo: uidInsumos,
-          idListPersonal: uidPersonal,
+          idplanificacion: UtilView.numberRandonUid(),
+          nombre: nombreController.text,
+          idFinca: fincasSelect!.idfinca,
+          humedad: humedadFinController.text,
+          temperatura: temperaturaFinController.text,
+          idListInsumo: "",
+          idListPersonal: "",
           idUsuario: UtilView.usuarioUtil.idusuarios,
           observacion: "-",
-          observacion2: observacio,
+          observacion2: observacionFinController.text,
+          observacion3: "-",
           fechaI: fechaInicio,
           fechaF: fechafin,
           estado: true);
-
-      bool saveCab = await _api.postApiTask(tarea);
+      saveCab = await _api.postApiTask(tarea);
       if (saveCab) {
-        for (var element in listDetailPlanificacion) {
-          var referenciaDetTask = UtilView.numberRandonUid();
-          Detalleplanificacion detalle = Detalleplanificacion(
-              iddetalleplanificacion: referenciaDetTask,
-              idPlanificacion: referenciaTask,
-              estado: true,
-              inicio: element.inicio,
-              fin: element.fin,
-              observacion: "",
-              observacion2: "-",
-              actividad: element.actividad,
-              idTerreno: "",
-              idtipograminea: "");
-
-          var detResult = await _api.postApiTaskDet(detalle);
-        }
+        limpiar();
       }
-      limpiar();
-      return true;
     } catch (e) {
       print("Error al guardar task ${e.toString()}");
-      return false;
     }
+    return saveCab;
+  }
+
+  Future<bool> graba2(Detalleplanificacion deta) async {
+    bool saveDet = false;
+
+    try {
+      for (var e in listInsumoSelect) {
+        await _api.postApiListInsumo(ListInsumos(
+            idlistadeInsumos: UtilView.numberRandonUid(),
+            idPlanificacion: deta.idPlanificacion,
+            idInsumo: e.idinsumos,
+            estado: 1,
+            unidad: '0'));
+      }
+
+      for (var e in listPersonasSelect) {
+        await _api.postApiListPersonal(ListPersonal(
+            idlistadepersonal: UtilView.numberRandonUid(),
+            idPlanificacion: deta.idPlanificacion,
+            idPersonal: e.idpersonas,
+            estado: 1));
+      }
+
+      for (var e in listGramineaSelect) {
+        await _api.postApiListTerrenos(ListTerrenos(
+            idlistadeterrenos: UtilView.numberRandonUid(),
+            idTerreno: terrenoSelect!.idterreno,
+            idPlanificacion: deta.idPlanificacion,
+            idenfermedad: "",
+            idGramineas: e.idtipograminea,
+            ocupado: true,
+            estado: true));
+      }
+
+      saveDet = await _api.postApiTaskDet(deta);
+
+      if (saveDet) {
+        limpiar2();
+      }
+    } catch (e) {
+      print("Error al guardar task ${e.toString()}");
+    }
+    return saveDet;
   }
 }
