@@ -3,6 +3,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/provider/terreno_provider.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
 class TerrenosDataSource extends DataGridSource {
   late List<DataGridRow> listData;
@@ -46,15 +47,20 @@ class TerrenosDataSource extends DataGridSource {
                 const SizedBox(width: 5),
                 InkWell(
                     onTap: () async {
-                      final respuesta = await dialogAcepCanc(
-                          context,
-                          "Seguro que deseas eliminar?",
-                          Icons.delete,
-                          Colors.red);
+                      if (UtilView.usuarioUtil.rol == "Admin") {
+                        final respuesta = await dialogAcepCanc(
+                            context,
+                            "Seguro que deseas eliminar?",
+                            Icons.delete,
+                            Colors.red);
 
-                      if (respuesta) {
-                        // ignore: use_build_context_synchronously
-                        terrenoProvider.deleteObjeto(row.getCells()[2].value);
+                        if (respuesta) {
+                          // ignore: use_build_context_synchronously
+                          terrenoProvider.deleteObjeto(row.getCells()[2].value);
+                        }
+                      } else {
+                        UtilView.messageSnackNewError(
+                            "NO CONTIENE PERMISOS", context);
                       }
                     },
                     child: const Icon(Icons.delete, color: Colors.red))

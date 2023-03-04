@@ -7,6 +7,7 @@ import 'package:tesis_karina/dialogs/dialog_insumo.dart';
 import 'package:tesis_karina/provider/insumo_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
 class InsumosView extends StatefulWidget {
@@ -29,11 +30,14 @@ class _InsumosViewState extends State<InsumosView> {
     return SingleChildScrollView(
       child: WhiteCard(
         title: 'Lista de insumos',
-        acciones: InkWell(
-            onTap: () {
-              showDialogViewInsumo(context, "Nuevo insumo", provider, null);
-            },
-            child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
+        acciones: UtilView.usuarioUtil.rol == "Admin"
+            ? InkWell(
+                onTap: () {
+                  showDialogViewInsumo(context, "Nuevo insumo", provider, null);
+                },
+                child:
+                    const Tooltip(message: "Agregar", child: Icon(Icons.add)))
+            : const Text(''),
         child: SfDataGridTheme(
           data: SfDataGridThemeData(headerColor: CustomColors.azulCielo),
           child: SizedBox(

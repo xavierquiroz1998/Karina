@@ -6,6 +6,7 @@ import 'package:tesis_karina/datasource/enfermedad_datasource.dart';
 import 'package:tesis_karina/provider/enfermedad_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
 class EnfermedadesView extends StatefulWidget {
@@ -28,17 +29,20 @@ class _EnfermedadesViewState extends State<EnfermedadesView> {
     return SingleChildScrollView(
       child: WhiteCard(
         title: 'Lista de enfermedades',
-        acciones: InkWell(
-            onTap: () {
-              provider.clearObjeto();
-              Navigator.pushNamed(context, '/dashboard/enfermedad');
-              /*  showModalBottomSheet(
+        acciones: UtilView.usuarioUtil.rol == "Admin"
+            ? InkWell(
+                onTap: () {
+                  provider.clearObjeto();
+                  Navigator.pushNamed(context, '/dashboard/enfermedad');
+                  /*  showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
                   backgroundColor: Colors.transparent,
                   builder: (_) => const EnfermedadModals(enfermedad: null)); */
-            },
-            child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
+                },
+                child:
+                    const Tooltip(message: "Agregar", child: Icon(Icons.add)))
+            : Text(''),
         child: SfDataGridTheme(
           data: SfDataGridThemeData(headerColor: CustomColors.azulCielo),
           child: SizedBox(

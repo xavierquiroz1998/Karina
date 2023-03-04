@@ -9,6 +9,7 @@ import 'package:tesis_karina/provider/user_form_provider.dart';
 import 'package:tesis_karina/provider/usuario_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
 class UsuariosView extends StatefulWidget {
@@ -31,33 +32,36 @@ class _UsuariosViewState extends State<UsuariosView> {
     return SingleChildScrollView(
       child: WhiteCard(
         title: 'Lista de Usuarios',
-        acciones: InkWell(
-            onTap: () {
-              Provider.of<UserFormProvider>(context, listen: false).user =
-                  Usuario(
-                      idusuarios: "",
-                      correo: "",
-                      rol: "",
-                      estado: true,
-                      clave: "",
-                      createdAt: DateTime.now(),
-                      updatedAt: DateTime.now());
+        acciones: UtilView.usuarioUtil.rol == "Admin"
+            ? InkWell(
+                onTap: () {
+                  Provider.of<UserFormProvider>(context, listen: false).user =
+                      Usuario(
+                          idusuarios: "",
+                          correo: "",
+                          rol: "",
+                          estado: true,
+                          clave: "",
+                          createdAt: DateTime.now(),
+                          updatedAt: DateTime.now());
 
-              Provider.of<UserFormProvider>(context, listen: false).person =
-                  Persona(
-                      idpersonas: "",
-                      cedula: "",
-                      nombre: "",
-                      apellido: "",
-                      direccion: "",
-                      celular: "",
-                      nacimiento: DateTime.now(),
-                      estado: true,
-                      idUsuario: "");
+                  Provider.of<UserFormProvider>(context, listen: false).person =
+                      Persona(
+                          idpersonas: "",
+                          cedula: "",
+                          nombre: "",
+                          apellido: "",
+                          direccion: "",
+                          celular: "",
+                          nacimiento: DateTime.now(),
+                          estado: true,
+                          idUsuario: "");
 
-              Navigator.pushNamed(context, '/dashboard/usuario');
-            },
-            child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
+                  Navigator.pushNamed(context, '/dashboard/usuario');
+                },
+                child:
+                    const Tooltip(message: "Agregar", child: Icon(Icons.add)))
+            : Text(''),
         child: SfDataGridTheme(
           data: SfDataGridThemeData(headerColor: CustomColors.azulCielo),
           child: SizedBox(

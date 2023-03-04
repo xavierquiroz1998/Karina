@@ -7,6 +7,7 @@ import 'package:tesis_karina/dialogs/dialog_terreno.dart';
 import 'package:tesis_karina/provider/terreno_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
 class TerrenosView extends StatefulWidget {
@@ -29,11 +30,15 @@ class _TerrenosViewState extends State<TerrenosView> {
     return SingleChildScrollView(
       child: WhiteCard(
         title: 'Lista de Terrenos',
-        acciones: InkWell(
-            onTap: () {
-              showDialogViewTerreno(context, "Nuevo terreno", provider, null);
-            },
-            child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
+        acciones: UtilView.usuarioUtil.rol == "Admin"
+            ? InkWell(
+                onTap: () {
+                  showDialogViewTerreno(
+                      context, "Nuevo terreno", provider, null);
+                },
+                child:
+                    const Tooltip(message: "Agregar", child: Icon(Icons.add)))
+            : Text(''),
         child: SfDataGridTheme(
           data: SfDataGridThemeData(headerColor: CustomColors.azulCielo),
           child: SizedBox(

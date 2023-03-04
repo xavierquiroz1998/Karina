@@ -7,6 +7,7 @@ import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
 import 'package:tesis_karina/entity/usuario.dart';
 import 'package:tesis_karina/provider/user_form_provider.dart';
 import 'package:tesis_karina/provider/usuario_provider.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
 class UsuariosDataSource extends DataGridSource {
   late List<DataGridRow> listData;
@@ -57,34 +58,42 @@ class UsuariosDataSource extends DataGridSource {
               children: [
                 InkWell(
                     onTap: () async {
+                      if (UtilView.usuarioUtil.rol == "Admin") {
+                        final opt = await usuarioProvider
+                            .getPersonById(row.getCells()[3].value.idusuarios);
+
+                        Provider.of<UserFormProvider>(context, listen: false)
+                            .user = row.getCells()[3].value;
+                        Provider.of<UserFormProvider>(context, listen: false)
+                            .person = opt;
+
+                        Navigator.pushNamed(context, '/dashboard/usuario');
+                      } else {
+                        UtilView.messageSnackNewError(
+                            "NO CONTIENE PERMISOS", context);
+                      }
                       /* Provider.of<UsuarioProvider>(context, listen: false)
                           .getUserById(row.getCells()[4].value.uid); */
-
-                      final opt = await usuarioProvider
-                          .getPersonById(row.getCells()[3].value.idusuarios);
-
-                      Provider.of<UserFormProvider>(context, listen: false)
-                          .user = row.getCells()[3].value;
-
-                      Provider.of<UserFormProvider>(context, listen: false)
-                          .person = opt;
-
-                      Navigator.pushNamed(context, '/dashboard/usuario');
                     },
                     child: const Icon(Icons.edit_outlined,
                         color: Colors.blueGrey)),
                 const SizedBox(width: 5),
                 InkWell(
                     onTap: () async {
-                      final respuesta = await dialogAcepCanc(
-                          context,
-                          "Seguro que deseas eliminar?",
-                          Icons.delete,
-                          Colors.red);
+                      if (UtilView.usuarioUtil.rol == "Admin") {
+                        final respuesta = await dialogAcepCanc(
+                            context,
+                            "Seguro que deseas eliminar?",
+                            Icons.delete,
+                            Colors.red);
 
-                      if (respuesta) {
-                        // ignore: use_build_context_synchronously
-                        usuarioProvider.deleteObjeto(row.getCells()[3].value);
+                        if (respuesta) {
+                          // ignore: use_build_context_synchronously
+                          usuarioProvider.deleteObjeto(row.getCells()[3].value);
+                        }
+                      } else {
+                        UtilView.messageSnackNewError(
+                            "NO CONTIENE PERMISOS", context);
                       }
                     },
                     child: const Icon(Icons.delete, color: Colors.red))
