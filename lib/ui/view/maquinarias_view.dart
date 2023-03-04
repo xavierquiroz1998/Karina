@@ -7,6 +7,7 @@ import 'package:tesis_karina/dialogs/dialog_maquinaria.dart';
 import 'package:tesis_karina/provider/maquinaria_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
 class MaquinariasView extends StatefulWidget {
@@ -30,12 +31,15 @@ class _MaquinariasViewState extends State<MaquinariasView> {
     return SingleChildScrollView(
       child: WhiteCard(
         title: 'Lista de Maquinarias',
-        acciones: InkWell(
-            onTap: () {
-              showDialogViewMaquinaria(
-                  context, "Nueva Maquinaria", provider, null);
-            },
-            child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
+        acciones: UtilView.usuarioUtil.rol == "Admin"
+            ? InkWell(
+                onTap: () {
+                  showDialogViewMaquinaria(
+                      context, "Nueva Maquinaria", provider, null);
+                },
+                child:
+                    const Tooltip(message: "Agregar", child: Icon(Icons.add)))
+            : Text(''),
         child: SfDataGridTheme(
           data: SfDataGridThemeData(headerColor: CustomColors.azulCielo),
           child: SizedBox(

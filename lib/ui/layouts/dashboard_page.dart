@@ -75,45 +75,53 @@ class MenuLateral extends StatelessWidget {
                   ),
                 ],
               )),
-          ListTile(
-            leading: const Icon(Icons.store_mall_directory_rounded,
-                color: Colors.blueGrey),
-            title: const Text("Mantenimiento"),
-            onTap: () async =>
-                Navigator.pushNamed(context, '/dashboard/mantenimientos'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
-            title: const Text("Tareas"),
-            onTap: () async =>
-                Navigator.pushNamed(context, '/dashboard/controlTareas'),
-          ),
-          ListTile(
-            leading:
-                const Icon(Icons.work_history_rounded, color: Colors.blueGrey),
-            title: const Text("Orden de trabajo"),
-            onTap: () async =>
-                Navigator.pushNamed(context, '/dashboard/controlCronograma'),
-          ),
-          ListTile(
-            leading:
-                const Icon(Icons.work_history_rounded, color: Colors.blueGrey),
-            title: const Text("Detalle de orden"),
-            onTap: () async => Navigator.pushNamed(
-                context, '/dashboard/controlDetailCronograma'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
-            title: const Text("Seguimiento de cultivo"),
-            onTap: () async =>
-                Navigator.pushNamed(context, '/dashboard/controlSeguimiento'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
-            title: const Text("Generacion de reportes"),
-            onTap: () async =>
-                Navigator.pushNamed(context, '/dashboard/controlReporte'),
-          ),
+          if (UtilView.usuarioUtil.rol == "Admin" ||
+              UtilView.usuarioUtil.rol == "Obrero")
+            ListTile(
+              leading: const Icon(Icons.store_mall_directory_rounded,
+                  color: Colors.blueGrey),
+              title: const Text("Mantenimiento"),
+              onTap: () async =>
+                  Navigator.pushNamed(context, '/dashboard/mantenimientos'),
+            ),
+          if (UtilView.usuarioUtil.rol == "Admin" ||
+              UtilView.usuarioUtil.rol == "Obrero")
+            ListTile(
+              leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
+              title: const Text("Tareas"),
+              onTap: () async =>
+                  Navigator.pushNamed(context, '/dashboard/controlTareas'),
+            ),
+          if (UtilView.usuarioUtil.rol == "Admin")
+            ListTile(
+              leading: const Icon(Icons.work_history_rounded,
+                  color: Colors.blueGrey),
+              title: const Text("Orden de trabajo"),
+              onTap: () async =>
+                  Navigator.pushNamed(context, '/dashboard/controlCronograma'),
+            ),
+          if (UtilView.usuarioUtil.rol == "Admin")
+            ListTile(
+              leading: const Icon(Icons.work_history_rounded,
+                  color: Colors.blueGrey),
+              title: const Text("Detalle de orden"),
+              onTap: () async => Navigator.pushNamed(
+                  context, '/dashboard/controlDetailCronograma'),
+            ),
+          if (UtilView.usuarioUtil.rol == "Admin")
+            ListTile(
+              leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
+              title: const Text("Seguimiento de cultivo"),
+              onTap: () async =>
+                  Navigator.pushNamed(context, '/dashboard/controlSeguimiento'),
+            ),
+          if (UtilView.usuarioUtil.rol == "Admin")
+            ListTile(
+              leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
+              title: const Text("Generacion de reportes"),
+              onTap: () async =>
+                  Navigator.pushNamed(context, '/dashboard/controlReporte'),
+            ),
           ListTile(
             leading: const Icon(Icons.exit_to_app_outlined, color: Colors.red),
             title: const Text("Salir"),

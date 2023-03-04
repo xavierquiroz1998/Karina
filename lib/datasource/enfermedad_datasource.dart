@@ -4,6 +4,7 @@ import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
 import 'package:tesis_karina/entity/enfermedad.dart';
 import 'package:tesis_karina/modals/enfermedad_modals.dart';
 import 'package:tesis_karina/provider/enfermedad_provider.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
 class EnfermedadesDataSource extends DataGridSource {
   late List<DataGridRow> listData;
@@ -46,31 +47,36 @@ class EnfermedadesDataSource extends DataGridSource {
               children: [
                 InkWell(
                     onTap: () {
-                      enfermedadProvider.isTipo = false;
-                      enfermedadProvider.mergerObjeto(row.getCells()[2].value);
-                      Navigator.pushNamed(context, '/dashboard/enfermedad');
-                      /*  showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          builder: (_) => EnfermedadModals(
-                              enfermedad: row.getCells()[2].value)); */
+                      if (UtilView.usuarioUtil.rol == "Admin") {
+                        enfermedadProvider.isTipo = false;
+                        enfermedadProvider
+                            .mergerObjeto(row.getCells()[2].value);
+                        Navigator.pushNamed(context, '/dashboard/enfermedad');
+                      } else {
+                        UtilView.messageSnackNewError(
+                            "NO CONTIENE PERMISOS", context);
+                      }
                     },
                     child: const Icon(Icons.edit_outlined,
                         color: Colors.blueGrey)),
                 const SizedBox(width: 5),
                 InkWell(
                     onTap: () async {
-                      final respuesta = await dialogAcepCanc(
-                          context,
-                          "Seguro que deseas eliminar?",
-                          Icons.delete,
-                          Colors.red);
+                      if (UtilView.usuarioUtil.rol == "Admin") {
+                        final respuesta = await dialogAcepCanc(
+                            context,
+                            "Seguro que deseas eliminar?",
+                            Icons.delete,
+                            Colors.red);
 
-                      if (respuesta) {
-                        // ignore: use_build_context_synchronously
-                        enfermedadProvider
-                            .deleteObjeto(row.getCells()[2].value);
+                        if (respuesta) {
+                          // ignore: use_build_context_synchronously
+                          enfermedadProvider
+                              .deleteObjeto(row.getCells()[2].value);
+                        }
+                      } else {
+                        UtilView.messageSnackNewError(
+                            "NO CONTIENE PERMISOS", context);
                       }
                     },
                     child: const Icon(Icons.delete, color: Colors.red))

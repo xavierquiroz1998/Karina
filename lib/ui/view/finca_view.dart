@@ -7,6 +7,7 @@ import 'package:tesis_karina/dialogs/dialog_finca.dart';
 import 'package:tesis_karina/provider/finca_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
 class FincaView extends StatefulWidget {
@@ -29,11 +30,14 @@ class _FincaViewState extends State<FincaView> {
     return SingleChildScrollView(
       child: WhiteCard(
         title: 'Lista de fincas',
-        acciones: InkWell(
-            onTap: () {
-              showDialogViewFinca(context, "Nueva finca", provider, null);
-            },
-            child: const Tooltip(message: "Agregar", child: Icon(Icons.add))),
+        acciones: UtilView.usuarioUtil.rol == "Admin"
+            ? InkWell(
+                onTap: () {
+                  showDialogViewFinca(context, "Nueva finca", provider, null);
+                },
+                child:
+                    const Tooltip(message: "Agregar", child: Icon(Icons.add)))
+            : const Text(''),
         child: SfDataGridTheme(
           data: SfDataGridThemeData(headerColor: CustomColors.azulCielo),
           child: SizedBox(
