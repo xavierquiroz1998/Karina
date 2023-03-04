@@ -23,8 +23,10 @@ class DetailPlanDataSource extends DataGridSource {
               DataGridCell<String>(
                   columnName: 'fechaF',
                   value: UtilView.convertDateToString(e.fin)),
-              DataGridCell<Detalleplanificacion>(
-                  columnName: 'accione', value: e),
+              DataGridCell<String>(
+                  columnName: 'estado', value: e.estado ? "Activo" : "Inactivo")
+              /*   DataGridCell<Detalleplanificacion>(
+                  columnName: 'accione', value: e), */
             ]))
         .toList();
   }
@@ -47,13 +49,17 @@ class DetailPlanDataSource extends DataGridSource {
             child: Text(row.getCells()[2].value.toString())),
         Container(
             padding: const EdgeInsets.only(left: 7),
+            alignment: Alignment.center,
+            child: Text(row.getCells()[3].value.toString())),
+        /* Container(
+            padding: const EdgeInsets.only(left: 7),
             alignment: Alignment.centerLeft,
             child: InkWell(
                 onTap: () {},
                 child: const Icon(
                   Icons.delete,
                   color: Colors.red,
-                ))),
+                ))), */
 
         // Container(
         //   alignment: Alignment.center,

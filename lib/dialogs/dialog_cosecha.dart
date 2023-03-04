@@ -1,10 +1,15 @@
 // ignore_for_file: unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
+import 'package:tesis_karina/api/solicitud_api.dart';
+import 'package:tesis_karina/entity/detalle_planificacion.dart';
+import 'package:tesis_karina/entity/historial.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
+import 'package:tesis_karina/utils/util_view.dart';
 
-Future<bool> dialogCosechaKg(BuildContext context) async {
+Future<bool> dialogCosechaKg(
+    BuildContext context, Detalleplanificacion detail) async {
   bool op = false;
   TextEditingController _controller = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
@@ -55,6 +60,18 @@ Future<bool> dialogCosechaKg(BuildContext context) async {
                       onPressed: () async {
                         if (formkey.currentState!.validate()) {
                           op = true;
+                          final datos = Historial(
+                              idhistorial: UtilView.numberRandonUid(),
+                              referencia:
+                                  "DT:: ${detail.iddetalleplanificacion}",
+                              observacion: "TAREA CERRADA::",
+                              observacion2:
+                                  "CANTIDAD COSECHADA Kg ${_controller.text} INGRESADA POR EL USUARIO :: ${UtilView.usuarioUtil.idusuarios} :: FECHA DE CERRADO ${UtilView.convertDateToString(detail.fin)}",
+                              evaluar: 5,
+                              carga: "");
+                          _controller.clear();
+                          SolicitudApi().postApiHist(datos);
+
                           Navigator.pop(context);
                         }
                       },

@@ -310,7 +310,9 @@ class _TaskPageState extends State<TaskPage> {
 
                                                               final respuesta =
                                                                   await dialogCosechaKg(
-                                                                      context);
+                                                                      context,
+                                                                      provider
+                                                                          .listTask[i]);
 
                                                               if (respuesta) {
                                                                 provider.closeTask(
