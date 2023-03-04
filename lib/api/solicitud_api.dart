@@ -26,9 +26,9 @@ import 'package:tesis_karina/utils/util_view.dart';
 
 class SolicitudApi {
   //static String baseUrl = "http://192.168.100.4:8000/api";
-  static String baseUrl = "http://192.168.100.111:8000/api";
+  //static String baseUrl = "http://192.168.100.111:8000/api";
   //static String baseUrl = "http://192.168.100.4:8000/api";
-  //static String baseUrl = "http://192.168.100.73:8000/api";
+  static String baseUrl = "http://192.168.100.73:8000/api";
   //static String baseUrl = "http://192.168.100.4:8000/api";
 
 // #region BLOQUE DE USUARIOS Y PERSONAS
@@ -549,7 +549,7 @@ class SolicitudApi {
 // #region BLOQUE DE TERRENO INCIO
   Future<Terreno?> getApiTerreno(String uid) async {
     var url = Uri.parse("$baseUrl/terreno/$uid");
-
+    print(url.toString());
     try {
       http.Response respuesta = await http.get(url);
       if (respuesta.statusCode == 200) {
@@ -830,6 +830,27 @@ class SolicitudApi {
     } catch (e) {
       throw ('$e');
     }
+  }
+
+  Future<List<Historial>> getApiHistorial() async {
+    var url = Uri.parse("$baseUrl/historial");
+    print(url.toString());
+
+    try {
+      var respuesta = await http.get(url);
+      if (respuesta.statusCode == 200) {
+        return parseJsonToListHistorial(utf8.decode(respuesta.bodyBytes));
+      } else {
+        throw Exception('Excepcion ${respuesta.statusCode}');
+      }
+    } catch (e) {
+      throw ('error el en GET: $e');
+    }
+  }
+
+  List<Historial> parseJsonToListHistorial(String respuesta) {
+    final parseo = jsonDecode(respuesta);
+    return parseo.map<Historial>((json) => Historial.fromMap(json)).toList();
   }
 
   Future<List<Detalleplanificacion>> getApiListTask() async {

@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
-import 'package:tesis_karina/dialogs/dialog_insumo.dart';
 import 'package:tesis_karina/entity/detalle_planificacion.dart';
-import 'package:tesis_karina/entity/insumo.dart';
+import 'package:tesis_karina/provider/historial_provider.dart';
 import 'package:tesis_karina/provider/planificacion_provider.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class DetailPlanDataSource extends DataGridSource {
   late List<DataGridRow> listData;
   late BuildContext context;
-  late PlanificacionProvider planificacionProvider;
+  late HistorialProvider planificacionProvider;
 
   DetailPlanDataSource(
-      {required PlanificacionProvider provider, required BuildContext cxt}) {
+      {required HistorialProvider provider, required BuildContext cxt}) {
     context = cxt;
     planificacionProvider = provider;
-    listData = planificacionProvider.listDetailPlanificacion
+    listData = planificacionProvider.listDetail
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<String>(columnName: 'actividad', value: e.actividad),
               DataGridCell<String>(
@@ -51,11 +49,7 @@ class DetailPlanDataSource extends DataGridSource {
             padding: const EdgeInsets.only(left: 7),
             alignment: Alignment.centerLeft,
             child: InkWell(
-                onTap: () {
-                  planificacionProvider.listDetailPlanificacion
-                      .remove(row.getCells()[3].value);
-                  planificacionProvider.update();
-                },
+                onTap: () {},
                 child: const Icon(
                   Icons.delete,
                   color: Colors.red,

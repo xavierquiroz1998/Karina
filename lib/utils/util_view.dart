@@ -28,7 +28,7 @@ class UtilView {
   }
 
   static DateTime convertStringToDate(String cadena) {
-    return DateFormat("dd/MM/yyyy").parse(cadena).add(const Duration(hours: 5));
+    return DateFormat("dd/MM/yyyy").parse(cadena);
   }
 
   static DateTime dateFormatNew(String cadena) {
@@ -246,6 +246,47 @@ class UtilView {
         break;
       default:
         resp = "";
+        break;
+    }
+    return resp;
+  }
+
+  static double porcentajeProceso(int valx, int valy) {
+    double resp = 0;
+    switch (valx) {
+      case 1:
+        if (valy == 0) {
+          resp = 10;
+        } else if (valy == 1) {
+          resp = 20;
+        } else {
+          resp = 30;
+        }
+
+        break;
+      case 2:
+        if (valy == 3) {
+          resp = 40;
+        } else if (valy == 4) {
+          resp = 50;
+        } else if (valy == 5) {
+          resp = 60;
+        } else {
+          resp = 70;
+        }
+
+        break;
+      case 3:
+        if (valy == 7) {
+          resp = 80;
+        } else if (valy == 8) {
+          resp = 90;
+        } else {
+          resp = 100;
+        }
+        break;
+      default:
+        resp = 0;
         break;
     }
     return resp;

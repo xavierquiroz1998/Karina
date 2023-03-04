@@ -11,6 +11,7 @@ import 'package:tesis_karina/ui/layouts/matenimiento_page.dart';
 import 'package:tesis_karina/ui/layouts/report_page.dart';
 import 'package:tesis_karina/ui/layouts/seguimiento_page.dart';
 import 'package:tesis_karina/ui/layouts/seguimiento_page2.dart';
+import 'package:tesis_karina/ui/layouts/seguimiento_page3.dart';
 import 'package:tesis_karina/ui/layouts/task_page.dart';
 import 'package:tesis_karina/ui/layouts/usuario_page.dart';
 
@@ -29,6 +30,8 @@ final routes = <String, WidgetBuilder>{
   '/dashboard/controlReporte': (context) => const ReportPage(),
   '/dashboard/controlSeguimiento': (context) => const SeguiminentoPage(),
   '/dashboard/controlSeguimiento2': (context) => const SeguiminentoPage2(),
+  '/dashboard/controlSeguimiento3': (context) => const SeguiminentoPage3(),
+
   '/dashboard/controlTareas': (context) => const TaskPage(),
   //FIN
 

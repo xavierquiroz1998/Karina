@@ -4,11 +4,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:tesis_karina/datasource/detail_plan_datasource.dart';
 import 'package:tesis_karina/entity/detalle_planificacion.dart';
-import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
 import 'package:tesis_karina/entity/personas.dart';
@@ -533,7 +529,7 @@ class _PlanificacionDetailPageState extends State<PlanificacionDetailPage> {
                             idTerreno:
                                 provPlanificacion.terrenoSelect!.idterreno,
                             etapa: 1,
-                            nivel: 1,
+                            nivel: 0,
                             idtipograminea: "",
                             observacion: "",
                             observacion2: "-",
@@ -576,7 +572,7 @@ class _PlanificacionDetailPageState extends State<PlanificacionDetailPage> {
                       provPlanificacion.planificacionSelect!.idplanificacion,
                   idTerreno: provPlanificacion.terrenoSelect!.idterreno,
                   etapa: 1,
-                  nivel: 1,
+                  nivel: 0,
                   idtipograminea: "",
                   observacion: "",
                   observacion2: "-",

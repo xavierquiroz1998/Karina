@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tesis_karina/provider/seguimiento_provider.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:tesis_karina/datasource/detail_plan_datasource.dart';
+import 'package:tesis_karina/provider/historial_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
+import 'package:tesis_karina/style/custom/custom_labels.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
 class SeguiminentoPage2 extends StatefulWidget {
@@ -13,20 +17,87 @@ class SeguiminentoPage2 extends StatefulWidget {
 
 class _SeguiminentoPage2State extends State<SeguiminentoPage2> {
   @override
+  void initState() {
+    Provider.of<HistorialProvider>(context, listen: false).getListIntDetail();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<SeguimientoProvider>(context);
+    final provider = Provider.of<HistorialProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Seguimiento'),
-        backgroundColor: CustomColors.customDefaut,
-      ),
-      body: WhiteCard(
-        title: 'Lista de terrenos ${provider.selectFinca}',
-        acciones: const Text(''),
-        child: Center(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height - 220,
-            child: Wrap(
+        appBar: AppBar(
+          title: const Text('Seguimiento'),
+          backgroundColor: CustomColors.customDefaut,
+        ),
+        body: WhiteCard(
+          title: ' ',
+          acciones: const Text(''),
+          child: SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height - 220,
+              child: SfDataGridTheme(
+                data:
+                    SfDataGridThemeData(headerColor: CustomColors.customDefaut),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height - 500,
+                  child: SfDataGrid(
+                    headerRowHeight: 35.0,
+                    rowHeight: 35.0,
+                    columns: <GridColumn>[
+                      GridColumn(
+                        columnWidthMode: ColumnWidthMode.fill,
+                        columnName: 'actividad',
+                        label: Center(
+                          child: Text('ACTIVIDAD',
+                              style: CustomLabels.h4
+                                  .copyWith(color: Colors.white)),
+                        ),
+                      ),
+                      GridColumn(
+                        columnWidthMode: ColumnWidthMode.fill,
+                        columnName: 'fechaI',
+                        label: Center(
+                          child: Text('INICIO',
+                              style: CustomLabels.h4
+                                  .copyWith(color: Colors.white)),
+                        ),
+                      ),
+                      GridColumn(
+                        columnWidthMode: ColumnWidthMode.fill,
+                        columnName: 'fechaF',
+                        label: Center(
+                          child: Text('FIN',
+                              style: CustomLabels.h4
+                                  .copyWith(color: Colors.white)),
+                        ),
+                      ),
+                      GridColumn(
+                        width: 30,
+                        columnName: 'accione',
+                        label: Center(
+                          child: Text('E',
+                              style: CustomLabels.h4
+                                  .copyWith(color: Colors.white)),
+                        ),
+                      ),
+                    ],
+                    source:
+                        DetailPlanDataSource(provider: provider, cxt: context),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ));
+  }
+}
+
+
+
+/* 
+
+Wrap(
               alignment: WrapAlignment.start,
               spacing: 20,
               runSpacing: 20,
@@ -79,10 +150,6 @@ class _SeguiminentoPage2State extends State<SeguiminentoPage2> {
                   )
                 ]
               ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+            )
+
+ */

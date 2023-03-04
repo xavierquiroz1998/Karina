@@ -1,9 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
 import 'package:tesis_karina/dialogs/dialog_adiciones.dart';
 import 'package:tesis_karina/dialogs/dialog_comentario.dart';
+import 'package:tesis_karina/dialogs/dialog_cosecha.dart';
+import 'package:tesis_karina/provider/seguimiento3_provider.dart';
+import 'package:tesis_karina/provider/seguimiento_provider.dart';
 import 'package:tesis_karina/provider/task_provider.dart';
 import 'package:tesis_karina/style/buttons/custom_form_button.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
@@ -172,7 +177,7 @@ class _TaskPageState extends State<TaskPage> {
                                               const EdgeInsets.only(right: 9),
                                           child: Text(
                                               "Process: ${UtilView.processNivelUtil(provider.listTask[i].nivel)}",
-                                              textAlign: TextAlign.start,
+                                              textAlign: TextAlign.end,
                                               style: const TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold)),
@@ -275,7 +280,7 @@ class _TaskPageState extends State<TaskPage> {
                                                                         .listTask[
                                                                             i]
                                                                         .nivel ==
-                                                                    10) {
+                                                                    11) {
                                                               provider
                                                                   .listTask[i]
                                                                   .etapa = (provider
@@ -303,13 +308,20 @@ class _TaskPageState extends State<TaskPage> {
                                                                   .listTask[i]
                                                                   .estado = false;
 
-                                                              provider.closeTask(
-                                                                  provider
-                                                                      .listTask[i]);
+                                                              final respuesta =
+                                                                  await dialogCosechaKg(
+                                                                      context);
 
-                                                              provider.listTask
-                                                                  .remove(provider
-                                                                      .listTask[i]);
+                                                              if (respuesta) {
+                                                                provider.closeTask(
+                                                                    provider
+                                                                        .listTask[i]);
+
+                                                                provider
+                                                                    .listTask
+                                                                    .remove(provider
+                                                                        .listTask[i]);
+                                                              }
                                                             } else {
                                                               provider.update(
                                                                   provider
@@ -388,7 +400,75 @@ class _TaskPageState extends State<TaskPage> {
                                                                           .bold),
                                                             )
                                                           ],
-                                                        )))
+                                                        ))),
+                                                if (provider
+                                                        .listTask[i].nivel ==
+                                                    0)
+                                                  Container(
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.blue,
+                                                          border: Border.all(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.3),
+                                                          ),
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                      .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
+                                                      margin: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 5),
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              3),
+                                                      child: InkWell(
+                                                          onTap: () async {
+                                                            final seguimiento =
+                                                                Provider.of<
+                                                                        Seguimiento3Provider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false);
+                                                            seguimiento
+                                                                .getListTerrenoOne(
+                                                                    provider
+                                                                        .listTask[
+                                                                            i]
+                                                                        .idTerreno);
+                                                            seguimiento
+                                                                    .selectDetail =
+                                                                provider
+                                                                    .listTask[i];
+
+                                                            Navigator.pushNamed(
+                                                                context,
+                                                                '/dashboard/controlSeguimiento3');
+                                                          },
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: const [
+                                                              Icon(
+                                                                  Icons
+                                                                      .assistant_photo_rounded,
+                                                                  size: 20,
+                                                                  color: Colors
+                                                                      .black),
+                                                              Text(
+                                                                'Observacion',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )
+                                                            ],
+                                                          ))),
                                               ],
                                             ),
                                           )

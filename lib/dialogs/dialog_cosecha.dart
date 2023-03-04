@@ -30,7 +30,12 @@ Future<bool> dialogCosechaKg(BuildContext context) async {
                   child: TextFormField(
                       controller: _controller,
                       keyboardType: TextInputType.number,
-                      validator: (value) {},
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "*Requerido";
+                        }
+                        return null;
+                      },
                       style: const TextStyle(color: Colors.black),
                       decoration: CustomInputs.boxInputDecoration2(
                           hint: 'Cantidad', icon: Icons.assignment_add)),
@@ -49,6 +54,7 @@ Future<bool> dialogCosechaKg(BuildContext context) async {
                     TextButton.icon(
                       onPressed: () async {
                         if (formkey.currentState!.validate()) {
+                          op = true;
                           Navigator.pop(context);
                         }
                       },
