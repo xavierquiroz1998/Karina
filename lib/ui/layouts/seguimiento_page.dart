@@ -2,6 +2,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/entity/terreno.dart';
+import 'package:tesis_karina/provider/historial_provider.dart';
+import 'package:tesis_karina/provider/seguimiento_provider.dart';
 import 'package:tesis_karina/provider/cultivo_task_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
@@ -43,7 +45,9 @@ class _SeguiminentoPageState extends State<SeguiminentoPage> {
                     padding: const EdgeInsets.only(top: 50),
                     child: InkWell(
                       onTap: () {
-                        provider.getListTerreno(item.idfinca);
+                        //provider.getListTerreno(item.idfinca);
+                        Provider.of<HistorialProvider>(context, listen: false)
+                            .getListTerreno(item.idfinca);
                         Navigator.pushNamed(
                             context, '/dashboard/controlSeguimiento2');
                       },

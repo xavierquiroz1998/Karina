@@ -30,6 +30,7 @@ class CultivoTaskProvider extends ChangeNotifier {
   getListPlaga() async {
     final resp = await _api.getApiTipoPlagas();
     listTplaga = resp;
+    selectTpPlaga = listTplaga[0];
     notifyListeners();
   }
 

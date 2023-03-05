@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/provider/enfermedad_provider.dart';
 import 'package:tesis_karina/provider/finca_provider.dart';
+import 'package:tesis_karina/provider/historial_provider.dart';
 import 'package:tesis_karina/provider/insumo_provider.dart';
 import 'package:tesis_karina/provider/maquinaria_provider.dart';
 import 'package:tesis_karina/provider/register_form_provider.dart';
@@ -42,6 +43,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CultivoTaskProvider()),
         ChangeNotifierProvider(create: (_) => Seguimiento3Provider()),
         ChangeNotifierProvider(create: (_) => ReporteProvider()),
+        ChangeNotifierProvider(create: (_) => HistorialProvider()),
       ],
       child: const MyApp(),
     );
