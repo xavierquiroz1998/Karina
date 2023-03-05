@@ -43,9 +43,8 @@ class Seguimiento3Provider extends ChangeNotifier {
   double porcentajeProgreso = 0;
   double valoracion = 0;
   String imgBs4 = "";
-  String novedad = "";
   String selectT = "";
-  TextEditingController txtNovedad = TextEditingController();
+  final txtNovedad = TextEditingController();
 
   getListPlaga() async {
     final resp = await _api.getApiTipoPlagas();
@@ -74,7 +73,9 @@ class Seguimiento3Provider extends ChangeNotifier {
             "ACTUAL PROCESO DE EVOLUCION $porcentajeProgreso% INGRESADA POR EL USUARIO :: ${UtilView.usuarioUtil.idusuarios}",
         evaluar: valoracion.toInt(),
         carga: imgBs4);
-    novedad = "";
+    txtNovedad.clear();
+    imgBs4 = "";
+    selectT = "";
     _api.postApiHist(datos);
   }
 }
