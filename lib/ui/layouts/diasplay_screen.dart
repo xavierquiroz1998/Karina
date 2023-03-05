@@ -30,7 +30,7 @@ class DisplayPictureScreen extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(top: 15, bottom: 10),
             // ignore: prefer_const_constructors
-            child: Text('IMAGEN TOMADA',
+            child: Text('IMAGEN TOMADA :) ',
                 style: const TextStyle(color: Colors.black, fontSize: 14)),
           ),
           Expanded(child: Image.file(File(imagePath))),

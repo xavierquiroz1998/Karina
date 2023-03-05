@@ -69,7 +69,7 @@ class Seguimiento3Provider extends ChangeNotifier {
     final datos = Historial(
         idhistorial: UtilView.numberRandonUid(),
         referencia: selectT,
-        observacion: txtNovedad.text,
+        observacion: "TE::${txtNovedad.text}",
         observacion2:
             "ACTUAL PROCESO DE EVOLUCION $porcentajeProgreso% INGRESADA POR EL USUARIO :: ${UtilView.usuarioUtil.idusuarios}",
         evaluar: valoracion.toInt(),
