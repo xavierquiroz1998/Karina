@@ -30,6 +30,7 @@ class SeguimientoProvider extends ChangeNotifier {
   getListPlaga() async {
     final resp = await _api.getApiTipoPlagas();
     listTplaga = resp;
+    selectTpPlaga = listTplaga[0];
     notifyListeners();
   }
 
@@ -51,7 +52,7 @@ class SeguimientoProvider extends ChangeNotifier {
   saveGuardarHist() async {
     final datos = Historial(
         idhistorial: UtilView.numberRandonUid(),
-        referencia: selectTerreno.idterreno,
+        referencia: selectTerreno != null ? selectTerreno.idterreno : "",
         observacion: txtNovedad.text,
         observacion2:
             "ACTUAL PROCESO DE EVOLUCION $porcentajeProgreso% INGRESADA POR EL USUARIO :: ${UtilView.usuarioUtil.idusuarios}",
