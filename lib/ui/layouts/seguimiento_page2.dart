@@ -18,7 +18,7 @@ class SeguiminentoPage2 extends StatefulWidget {
 class _SeguiminentoPage2State extends State<SeguiminentoPage2> {
   @override
   void initState() {
-    Provider.of<HistorialProvider>(context, listen: false).getListIntDetail();
+    Provider.of<HistorialProvider>(context, listen: false).getListIntDetail2();
     super.initState();
   }
 
@@ -27,11 +27,11 @@ class _SeguiminentoPage2State extends State<SeguiminentoPage2> {
     final provider = Provider.of<HistorialProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Seguimiento'),
+          title: const Text('Terrenos'),
           backgroundColor: CustomColors.customDefaut,
         ),
         body: WhiteCard(
-          title: ' ',
+          title: 'Estado de los terrenos',
           acciones: const Text(''),
           child: SingleChildScrollView(
             child: SizedBox(
@@ -73,10 +73,10 @@ class _SeguiminentoPage2State extends State<SeguiminentoPage2> {
                         ),
                       ),
                       GridColumn(
-                        width: 30,
-                        columnName: 'accione',
+                        columnWidthMode: ColumnWidthMode.fill,
+                        columnName: 'estado',
                         label: Center(
-                          child: Text('E',
+                          child: Text('Estado',
                               style: CustomLabels.h4
                                   .copyWith(color: Colors.white)),
                         ),

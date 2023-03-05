@@ -67,6 +67,7 @@ class _ObservacionPageState extends State<ObservacionPage> {
                             onChanged: (value) {
                               provider.selectTpPlaga = value!;
                             },
+                            value: provider.selectTpPlaga,
                             dropdownColor: Colors.blueGrey,
                             items: provider.listTplaga.map((item) {
                               return DropdownMenuItem(
@@ -167,7 +168,8 @@ class _ObservacionPageState extends State<ObservacionPage> {
                   onTap: () {
                     provider.saveGuardarHist();
                     UtilView.messageAccess("Guardado exitoso", Colors.green);
-                    Navigator.pushReplacementNamed(context, '/dashboard');
+                    Navigator.pushReplacementNamed(
+                        context, '/dashboard/controlTareas');
                   },
                   child: const Tooltip(
                       message: "Guardar", child: Icon(Icons.save))))
