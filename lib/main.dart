@@ -7,7 +7,7 @@ import 'package:tesis_karina/provider/maquinaria_provider.dart';
 import 'package:tesis_karina/provider/register_form_provider.dart';
 import 'package:tesis_karina/provider/reporte_provider.dart';
 import 'package:tesis_karina/provider/seguimiento3_provider.dart';
-import 'package:tesis_karina/provider/seguimiento_provider.dart';
+import 'package:tesis_karina/provider/cultivo_task_provider.dart';
 import 'package:tesis_karina/provider/task_provider.dart';
 import 'package:tesis_karina/provider/terreno_provider.dart';
 import 'package:tesis_karina/provider/user_form_provider.dart';
@@ -39,7 +39,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TaskProvider()),
         ChangeNotifierProvider(create: (_) => UserFormProvider()),
         ChangeNotifierProvider(create: (_) => PlanificacionProvider()),
-        ChangeNotifierProvider(create: (_) => SeguimientoProvider()),
+        ChangeNotifierProvider(create: (_) => CultivoTaskProvider()),
         ChangeNotifierProvider(create: (_) => Seguimiento3Provider()),
         ChangeNotifierProvider(create: (_) => ReporteProvider()),
       ],

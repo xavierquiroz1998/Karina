@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tesis_karina/api/solicitud_api.dart';
 import 'package:tesis_karina/entity/detalle_planificacion.dart';
+import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/historial.dart';
 import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/entity/tipos_plagas.dart';
@@ -11,17 +12,45 @@ class Seguimiento3Provider extends ChangeNotifier {
   List<Terreno> listTerreno = [];
   List<TiposPlagas> listTplaga = [];
   late Detalleplanificacion selectDetail;
-  late Terreno selectTerreno;
-  late TiposPlagas selectTpPlaga;
-  TextEditingController txtNovedad = TextEditingController();
-  TextEditingController txtPlagas = TextEditingController();
+  Terreno selectTerreno = Terreno(
+      idterreno: "",
+      idFinca: "",
+      ubicacion: "",
+      dimension: "",
+      longitud: "",
+      latitud: "",
+      unidad: "",
+      disponibilidad: "",
+      observacion: "",
+      estado: false,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      finca: Finca(
+          idfinca: "",
+          nombre: "",
+          dimension: "",
+          ubicacion: "",
+          referencia: "",
+          estado: "",
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now()));
+  TiposPlagas selectTpPlaga = TiposPlagas(
+      idtiposplagas: "",
+      observacion: "",
+      estado: true,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now());
   double porcentajeProgreso = 0;
   double valoracion = 0;
   String imgBs4 = "";
+  String novedad = "";
+  String selectT = "";
+  TextEditingController txtNovedad = TextEditingController();
 
   getListPlaga() async {
     final resp = await _api.getApiTipoPlagas();
     listTplaga = resp;
+    selectTpPlaga = listTplaga[0];
     notifyListeners();
   }
 
@@ -39,13 +68,13 @@ class Seguimiento3Provider extends ChangeNotifier {
   saveGuardarHist() async {
     final datos = Historial(
         idhistorial: UtilView.numberRandonUid(),
-        referencia: "T::${selectTerreno.idterreno}",
+        referencia: selectT,
         observacion: txtNovedad.text,
         observacion2:
             "ACTUAL PROCESO DE EVOLUCION $porcentajeProgreso% INGRESADA POR EL USUARIO :: ${UtilView.usuarioUtil.idusuarios}",
         evaluar: valoracion.toInt(),
         carga: imgBs4);
-    txtNovedad.clear();
+    novedad = "";
     _api.postApiHist(datos);
   }
 }

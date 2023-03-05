@@ -83,6 +83,17 @@ class PlanificacionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  getIntDetail2() async {
+    try {
+      final resp = await _api.getApiListTask();
+      await getListfincas();
+      listDetailPlanificacion = resp;
+    } catch (e) {
+      rethrow;
+    }
+    notifyListeners();
+  }
+
   getListTerrenosDetail() async {
     final resp = await _api.getApiTerrenos();
     listTerrenos = resp;

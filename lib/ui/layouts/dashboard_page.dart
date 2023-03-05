@@ -76,7 +76,8 @@ class MenuLateral extends StatelessWidget {
                 ],
               )),
           if (UtilView.usuarioUtil.rol == "Admin" ||
-              UtilView.usuarioUtil.rol == "Obrero")
+              UtilView.usuarioUtil.rol == "Jefe de cuadrilla" ||
+              UtilView.usuarioUtil.rol == "Jornaleros")
             ListTile(
               leading: const Icon(Icons.store_mall_directory_rounded,
                   color: Colors.blueGrey),
@@ -84,15 +85,15 @@ class MenuLateral extends StatelessWidget {
               onTap: () async =>
                   Navigator.pushNamed(context, '/dashboard/mantenimientos'),
             ),
-          if (UtilView.usuarioUtil.rol == "Admin" ||
-              UtilView.usuarioUtil.rol == "Obrero")
-            ListTile(
-              leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
-              title: const Text("Tareas"),
-              onTap: () async =>
-                  Navigator.pushNamed(context, '/dashboard/controlTareas'),
-            ),
-          if (UtilView.usuarioUtil.rol == "Admin")
+          /*  if (UtilView.usuarioUtil.rol == "Admin" ||
+              UtilView.usuarioUtil.rol == "Jefe de cuadrilla") */
+          ListTile(
+            leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
+            title: const Text("Tareas"),
+            onTap: () async =>
+                Navigator.pushNamed(context, '/dashboard/controlTareas'),
+          ),
+          if (UtilView.usuarioUtil.rol == "Jefe de cuadrilla")
             ListTile(
               leading: const Icon(Icons.work_history_rounded,
                   color: Colors.blueGrey),
@@ -100,7 +101,7 @@ class MenuLateral extends StatelessWidget {
               onTap: () async =>
                   Navigator.pushNamed(context, '/dashboard/controlCronograma'),
             ),
-          if (UtilView.usuarioUtil.rol == "Admin")
+          if (UtilView.usuarioUtil.rol == "Jefe de cuadrilla")
             ListTile(
               leading: const Icon(Icons.work_history_rounded,
                   color: Colors.blueGrey),
@@ -108,14 +109,15 @@ class MenuLateral extends StatelessWidget {
               onTap: () async => Navigator.pushNamed(
                   context, '/dashboard/controlDetailCronograma'),
             ),
-          if (UtilView.usuarioUtil.rol == "Admin")
+          if (UtilView.usuarioUtil.rol == "Jefe de cuadrilla")
             ListTile(
               leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
               title: const Text("Seguimiento de cultivo"),
               onTap: () async =>
                   Navigator.pushNamed(context, '/dashboard/controlSeguimiento'),
             ),
-          if (UtilView.usuarioUtil.rol == "Admin")
+          if (UtilView.usuarioUtil.rol == "Admin" ||
+              UtilView.usuarioUtil.rol == "Jefe de cuadrilla")
             ListTile(
               leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
               title: const Text("Generacion de reportes"),

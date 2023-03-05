@@ -8,7 +8,7 @@ import 'package:tesis_karina/dialogs/dialog_adiciones.dart';
 import 'package:tesis_karina/dialogs/dialog_comentario.dart';
 import 'package:tesis_karina/dialogs/dialog_cosecha.dart';
 import 'package:tesis_karina/provider/seguimiento3_provider.dart';
-import 'package:tesis_karina/provider/seguimiento_provider.dart';
+import 'package:tesis_karina/provider/cultivo_task_provider.dart';
 import 'package:tesis_karina/provider/task_provider.dart';
 import 'package:tesis_karina/style/buttons/custom_form_button.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
@@ -438,6 +438,11 @@ class _TaskPageState extends State<TaskPage> {
                                                                         .listTask[
                                                                             i]
                                                                         .idTerreno);
+                                                            seguimiento
+                                                                    .selectT =
+                                                                provider
+                                                                    .listTask[i]
+                                                                    .idTerreno;
                                                             seguimiento
                                                                     .selectDetail =
                                                                 provider

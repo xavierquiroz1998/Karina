@@ -4,10 +4,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tesis_karina/provider/enfermedad_provider.dart';
 import 'package:tesis_karina/provider/seguimiento3_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
-import 'package:tesis_karina/ui/layouts/seguimiento_page3.dart';
 
 // A widget that displays the picture taken by the user.
 class DisplayPictureScreen2 extends StatelessWidget {

@@ -6,7 +6,7 @@ import 'package:tesis_karina/entity/terreno.dart';
 import 'package:tesis_karina/entity/tipos_plagas.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
-class SeguimientoProvider extends ChangeNotifier {
+class CultivoTaskProvider extends ChangeNotifier {
   List<Finca> listFinca = [];
   List<Terreno> listTerreno = [];
   List<TiposPlagas> listTplaga = [];
@@ -49,9 +49,10 @@ class SeguimientoProvider extends ChangeNotifier {
   }
 
   saveGuardarHist() async {
+    var r = selectTerreno;
     final datos = Historial(
         idhistorial: UtilView.numberRandonUid(),
-        referencia: selectTerreno.idterreno,
+        referencia: r == null ? "X" : selectTerreno.idterreno,
         observacion: txtNovedad.text,
         observacion2:
             "ACTUAL PROCESO DE EVOLUCION $porcentajeProgreso% INGRESADA POR EL USUARIO :: ${UtilView.usuarioUtil.idusuarios}",

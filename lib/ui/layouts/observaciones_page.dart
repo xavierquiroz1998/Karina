@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/entity/tipos_plagas.dart';
-import 'package:tesis_karina/provider/seguimiento_provider.dart';
+import 'package:tesis_karina/provider/cultivo_task_provider.dart';
+import 'package:tesis_karina/provider/seguimiento3_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
@@ -23,7 +24,7 @@ class ObservacionPage extends StatefulWidget {
 class _ObservacionPageState extends State<ObservacionPage> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<SeguimientoProvider>(context);
+    final provider = Provider.of<Seguimiento3Provider>(context);
 
     return Scaffold(
       appBar: AppBar(

@@ -2,7 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/entity/terreno.dart';
-import 'package:tesis_karina/provider/seguimiento_provider.dart';
+import 'package:tesis_karina/provider/cultivo_task_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
@@ -16,13 +16,13 @@ class SeguiminentoPage extends StatefulWidget {
 class _SeguiminentoPageState extends State<SeguiminentoPage> {
   @override
   void initState() {
-    Provider.of<SeguimientoProvider>(context, listen: false).getIntList();
+    Provider.of<CultivoTaskProvider>(context, listen: false).getIntList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<SeguimientoProvider>(context);
+    final provider = Provider.of<CultivoTaskProvider>(context);
     return Scaffold(
       appBar: AppBar(
           title: const Text('Seguimiento'),

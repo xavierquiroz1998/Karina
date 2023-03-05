@@ -9,14 +9,18 @@ import 'package:tesis_karina/provider/enfermedad_provider.dart';
 import 'package:tesis_karina/provider/finca_provider.dart';
 import 'package:tesis_karina/provider/insumo_provider.dart';
 import 'package:tesis_karina/provider/maquinaria_provider.dart';
+import 'package:tesis_karina/provider/planificacion_provider.dart';
 import 'package:tesis_karina/provider/terreno_provider.dart';
 import 'package:tesis_karina/provider/usuario_provider.dart';
 import 'package:tesis_karina/utils/save_file_mobile.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class ReporteProvider extends ChangeNotifier {
-  Future<void> generateExcel() async {
+  Future<void> generateExcel(BuildContext context) async {
     int x = 3;
+    int count = 0;
+    final provider = Provider.of<PlanificacionProvider>(context, listen: false);
+    await provider.getIntDetail2();
     final excel.Workbook workbook = excel.Workbook(0);
     final excel.Worksheet sheet1 = workbook.worksheets.addWithName('Ordenes');
 
@@ -43,27 +47,28 @@ class ReporteProvider extends ChangeNotifier {
     sheet1.getRangeByIndex(2, 7).text = 'OBSERVACION';
     sheet1.getRangeByIndex(2, 8).text = 'ESTADO';
 
-    sheet1.getRangeByIndex(3, 1).text = "PD-01";
-    sheet1.getRangeByIndex(3, 2).text = "F-01 FINCA POLIVIO";
-    sheet1.getRangeByIndex(3, 2).text = "TN-01 TERRENO NORTE";
-    sheet1.getRangeByIndex(3, 3).text = "20/01/2023";
-    sheet1.getRangeByIndex(3, 4).text = "20/02/2023";
-    sheet1.getRangeByIndex(3, 5).text = "U-01";
-    sheet1.getRangeByIndex(3, 6).text = "SIN OBSERVACIONES";
-    sheet1.getRangeByIndex(3, 7).text = "TERMINADO";
-
-    sheet1.getRangeByIndex(4, 1).text = "PD-01";
-    sheet1.getRangeByIndex(4, 2).text = "F-01 FINCA POLIVIO";
-    sheet1.getRangeByIndex(4, 2).text = "TN-02 TERRENO SUR";
-    sheet1.getRangeByIndex(4, 3).text = "20/01/2023";
-    sheet1.getRangeByIndex(4, 4).text = "20/02/2023";
-    sheet1.getRangeByIndex(4, 5).text = "U-01";
-    sheet1.getRangeByIndex(4, 6).text =
-        "LA TAREA SE CERRO CON ANTERIORIDAD POR UN CAMBIO DE CLIMA EN LAS PLANTACIONES";
-    sheet1.getRangeByIndex(4, 7).text = "TERMINADO";
+    for (var element in provider.listDetailPlanificacion) {
+      sheet1.getRangeByIndex(x, 1).text =
+          "DETALLE-${element.iddetalleplanificacion}";
+      sheet1.getRangeByIndex(x, 2).text = element.actividad;
+      sheet1.getRangeByIndex(x, 2).text = element.idTerreno;
+      sheet1.getRangeByIndex(x, 3).text =
+          UtilView.convertDateToString(element.inicio);
+      sheet1.getRangeByIndex(x, 4).text =
+          UtilView.convertDateToString(element.fin);
+      sheet1.getRangeByIndex(x, 5).text = element.observacion;
+      sheet1.getRangeByIndex(x, 6).text = element.observacion2;
+      sheet1.getRangeByIndex(x, 7).text =
+          element.estado ? "ACTIVO" : "TERMINADO";
+      if (!element.estado) {
+        count++;
+      }
+      x++;
+    }
 
     sheet1.getRangeByIndex(5, 6).text = "RESULTADO";
-    sheet1.getRangeByIndex(5, 7).text = "50%";
+    sheet1.getRangeByIndex(5, 7).text =
+        "${provider.listDetailPlanificacion.length * count / 100}%";
 
     final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();

@@ -29,6 +29,7 @@ class UsuarioProvider extends ChangeNotifier {
   //usuario
   final txtUsuario = TextEditingController();
   final txtClave = TextEditingController();
+  String rol = "Jornaleros";
   //PERSONA
 
   final txtNombre = TextEditingController();
@@ -38,6 +39,8 @@ class UsuarioProvider extends ChangeNotifier {
   final txtEmail = TextEditingController();
   final txtCedula = TextEditingController();
   final txtFecha = TextEditingController();
+
+  List<String> listRol = ["Admin", "Jornaleros", "Jefe de cuadrilla"];
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 

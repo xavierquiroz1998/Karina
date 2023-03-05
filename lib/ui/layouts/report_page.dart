@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:tesis_karina/dialogs/dialog_mantenedores.dart';
 import 'package:tesis_karina/provider/reporte_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
-import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
 class ReportPage extends StatefulWidget {
@@ -40,7 +39,7 @@ class _ReportPageState extends State<ReportPage> {
                       padding: const EdgeInsets.only(top: 50),
                       child: InkWell(
                         onTap: () {
-                          provider.generateExcel();
+                          provider.generateExcel(context);
                         },
                         child: Column(
                           children: [

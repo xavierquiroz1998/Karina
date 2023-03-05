@@ -10,17 +10,16 @@ import 'package:tesis_karina/style/custom/custom_input.dart';
 import 'package:tesis_karina/style/custom/custom_labels.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 import 'package:tesis_karina/widgets/camara.dart';
-import 'package:tesis_karina/widgets/input_form.dart';
 import 'package:tesis_karina/widgets/white_card.dart';
 
-class SeguiminentoPage3 extends StatefulWidget {
-  const SeguiminentoPage3({Key? key}) : super(key: key);
+class TaskObservacion extends StatefulWidget {
+  const TaskObservacion({Key? key}) : super(key: key);
 
   @override
-  State<SeguiminentoPage3> createState() => _SeguiminentoPage3State();
+  State<TaskObservacion> createState() => _TaskObservacionState();
 }
 
-class _SeguiminentoPage3State extends State<SeguiminentoPage3> {
+class _TaskObservacionState extends State<TaskObservacion> {
   @override
   void initState() {
     Provider.of<Seguimiento3Provider>(context, listen: false).getListPlaga();
@@ -49,14 +48,13 @@ class _SeguiminentoPage3State extends State<SeguiminentoPage3> {
                           width: 100,
                           child: Text("Novedades", style: CustomLabels.h11)),
                       Expanded(
-                          child: InputForm(
-                        controller: provider.txtNovedad,
-                        hint: "",
-                        maxLines: 4,
-                        icon: Icons.assignment,
-                        length: 200,
-                        textInputType: TextInputType.text,
-                      )),
+                          child: TextFormField(
+                              controller: provider.txtNovedad,
+                              maxLines: 4,
+                              decoration: CustomInputs.boxInputDecoration2(
+                                  hint: "Ingresar Novedad",
+                                  icon: Icons.assignment_add),
+                              keyboardType: TextInputType.text)),
                     ],
                   ),
                   const SizedBox(height: 15),
@@ -69,7 +67,7 @@ class _SeguiminentoPage3State extends State<SeguiminentoPage3> {
                         child: SizedBox(
                           height: 40,
                           child: DropdownButtonFormField<TiposPlagas>(
-                            //value: provider.selectTpPlaga,
+                            value: provider.selectTpPlaga,
                             onChanged: (value) {
                               provider.selectTpPlaga = value!;
                             },

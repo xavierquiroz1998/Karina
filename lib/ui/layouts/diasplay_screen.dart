@@ -4,7 +4,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tesis_karina/provider/seguimiento_provider.dart';
+import 'package:tesis_karina/provider/cultivo_task_provider.dart';
+import 'package:tesis_karina/provider/seguimiento3_provider.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
 
 // A widget that displays the picture taken by the user.
@@ -18,7 +19,7 @@ class DisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
-    final provider = Provider.of<SeguimientoProvider>(context);
+    final provider = Provider.of<Seguimiento3Provider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Foto'),
@@ -41,15 +42,15 @@ class DisplayPictureScreen extends StatelessWidget {
                     File file = File(imagePath);
                     Uint8List imgbytes = file.readAsBytesSync();
                     provider.imgBs4 = base64Encode(imgbytes);
-                    await Navigator.of(context).pushReplacementNamed(
-                        "/dashboard/controlObservaciones");
+                    await Navigator.of(context)
+                        .pushReplacementNamed("/dashboard/controlSeguimiento3");
                   },
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Guardar')),
               const SizedBox(width: 8),
               ElevatedButton.icon(
                   onPressed: () async => Navigator.pushReplacementNamed(
-                      context, '/dashboard/controlObservaciones'),
+                      context, '/dashboard/controlSeguimiento3'),
                   icon: const Icon(Icons.cancel),
                   label: const Text('Cancelar'))
             ],

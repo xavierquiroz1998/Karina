@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/entity/usuario.dart';
-import 'package:tesis_karina/provider/user_form_provider.dart';
 import 'package:tesis_karina/provider/usuario_provider.dart';
 import 'package:tesis_karina/services/notifications_service.dart';
 import 'package:tesis_karina/style/colors/custom_colors.dart';
@@ -144,6 +143,38 @@ class _UsuarioPageForm extends StatelessWidget {
                   }
                   return null;
                 },
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 40,
+                      child: DropdownButtonFormField<String>(
+                        onChanged: (value) {
+                          usuarioProvider.rol = value!;
+                        },
+                        dropdownColor: Colors.blueGrey,
+                        items: usuarioProvider.listRol.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  item,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                          );
+                        }).toList(),
+                        decoration: CustomInputs.boxInputDecorationDialogSearch(
+                            label: 'Rol', hint: 'Seleccione uno'),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               ConstrainedBox(
