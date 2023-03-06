@@ -39,7 +39,8 @@ class _ReportPageState extends State<ReportPage> {
                       padding: const EdgeInsets.only(top: 50),
                       child: InkWell(
                         onTap: () {
-                          provider.generateExcel(context);
+                          //provider.generateExcel(context);
+                          provider.generarChart(context);
                         },
                         child: Column(
                           children: [
@@ -78,7 +79,7 @@ class _ReportPageState extends State<ReportPage> {
                       padding: const EdgeInsets.only(top: 50),
                       child: InkWell(
                         onTap: () {
-                          provider.generarChart();
+                          provider.generarChartCantProduct(context);
                         },
                         child: Column(
                           children: [
@@ -192,7 +193,7 @@ class _ReportPageState extends State<ReportPage> {
                       padding: const EdgeInsets.only(top: 50),
                       child: InkWell(
                         onTap: () {
-                          provider.generateInsumosExcel(context);
+                          provider.generarChartInsumo(context);
                         },
                         child: Column(
                           children: [

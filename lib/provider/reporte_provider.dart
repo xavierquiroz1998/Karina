@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_officechart/officechart.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel;
-import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/objeto_view.dart';
 import 'package:tesis_karina/provider/enfermedad_provider.dart';
 import 'package:tesis_karina/provider/finca_provider.dart';
@@ -167,43 +166,158 @@ class ReporteProvider extends ChangeNotifier {
     workbook.dispose();
     await FileSaveHelper.saveAndLaunchFile(bytes, 'HistorialReport.xlsx');
   }
+  // char requeridos
 
-  Future<void> generarChart() async {
+  Future<void> generarChartCantProduct(BuildContext context) async {
+    /*  final provider = Provider.of<InsumoProvider>(context, listen: false);
+    await provider.getListInt(); */
+    double x = 10;
+    double y = 90;
+
+/*  if (provider.listInsumo.isNotEmpty) {
+      for (var element in provider.listInsumo) {
+        x += element.cantidad;
+        y += double.tryParse(element.unidades)!;
+}*/
+
     final excel.Workbook workbook = excel.Workbook(0);
     final excel.Worksheet sheet =
-        workbook.worksheets.addWithName('ORDENES DE TRABAJOS');
+        workbook.worksheets.addWithName('CANTIDAD DE PRODUCTO CULTIVADOS');
 
-// Setting value in the cell.
-    sheet.getRangeByName('A11').setText('PD-01');
-    sheet.getRangeByName('A12').setText('PD-02');
-    sheet.getRangeByName('A13').setText('NO TERMINADAS');
-    sheet.getRangeByName('B11').setNumber(10);
-    sheet.getRangeByName('B12').setNumber(20);
-    sheet.getRangeByName('B13').setNumber(70);
+    sheet.getRangeByName('A11').setText('CULTIVADO');
+    sheet.getRangeByName('A12').setText('EN PROCESO');
+    sheet.getRangeByName('B11').setNumber(x);
+    sheet.getRangeByName('B12').setNumber(y);
 
-// Create an instances of chart collection.
     final ChartCollection charts = ChartCollection(sheet);
 
-// Add the chart.
     final Chart chart1 = charts.add();
 
-// Set Chart Type.
     chart1.chartType = ExcelChartType.pie;
 
-// Set data range in the worksheet.
-    chart1.dataRange = sheet.getRangeByName('A11:B13');
+    chart1.dataRange = sheet.getRangeByName('A11:B12');
     chart1.isSeriesInRows = false;
 
-// set charts to worksheet.
     sheet.charts = charts;
-
-// save and dispose the workbook.
     final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
 
     await FileSaveHelper.saveAndLaunchFile(bytes, 'Chart.xlsx');
   }
 
+  Future<void> generarChartPlagas(BuildContext context) async {
+    /*  final provider = Provider.of<InsumoProvider>(context, listen: false);
+    await provider.getListInt(); */
+    double x = 40;
+    double y = 60;
+
+/*  if (provider.listInsumo.isNotEmpty) {
+      for (var element in provider.listInsumo) {
+        x += element.cantidad;
+        y += double.tryParse(element.unidades)!;
+}*/
+
+    final excel.Workbook workbook = excel.Workbook(0);
+    final excel.Worksheet sheet =
+        workbook.worksheets.addWithName('PLAGAS REPORTADAS');
+
+    sheet.getRangeByName('A11').setText('SEMBRIO SIN NOVEDAD');
+    sheet.getRangeByName('A12').setText('SEMBRIO CON NOVEDAD');
+    sheet.getRangeByName('B11').setNumber(x);
+    sheet.getRangeByName('B12').setNumber(y);
+
+    final ChartCollection charts = ChartCollection(sheet);
+
+    final Chart chart1 = charts.add();
+
+    chart1.chartType = ExcelChartType.pie;
+
+    chart1.dataRange = sheet.getRangeByName('A11:B12');
+    chart1.isSeriesInRows = false;
+
+    sheet.charts = charts;
+    final List<int> bytes = workbook.saveAsStream();
+    workbook.dispose();
+
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'Chart.xlsx');
+  }
+
+  Future<void> generarChartInsumo(BuildContext context) async {
+    final provider = Provider.of<InsumoProvider>(context, listen: false);
+    await provider.getListInt();
+    double x = 0;
+    double y = 0;
+
+    if (provider.listInsumo.isNotEmpty) {
+      for (var element in provider.listInsumo) {
+        x += element.cantidad;
+        y += double.tryParse(element.unidades)!;
+      }
+
+      final excel.Workbook workbook = excel.Workbook(0);
+      final excel.Worksheet sheet =
+          workbook.worksheets.addWithName('INSUMOS UTILIZADOS');
+
+      sheet.getRangeByName('A11').setText('UTILIZADO');
+      sheet.getRangeByName('A12').setText('DISPONIBLES');
+      sheet.getRangeByName('B11').setNumber(x);
+      sheet.getRangeByName('B12').setNumber(y);
+
+      final ChartCollection charts = ChartCollection(sheet);
+
+      final Chart chart1 = charts.add();
+
+      chart1.chartType = ExcelChartType.pie;
+
+      chart1.dataRange = sheet.getRangeByName('A11:B12');
+      chart1.isSeriesInRows = false;
+
+      sheet.charts = charts;
+      final List<int> bytes = workbook.saveAsStream();
+      workbook.dispose();
+
+      await FileSaveHelper.saveAndLaunchFile(bytes, 'Chart.xlsx');
+    }
+  }
+
+  Future<void> generarChart(BuildContext context) async {
+    final provider = Provider.of<PlanificacionProvider>(context, listen: false);
+    await provider.getIntDetail2();
+    double x = 0;
+    double y = 0;
+
+    if (provider.listDetailPlanificacion.isNotEmpty) {
+      for (var element in provider.listDetailPlanificacion) {
+        element.estado ? x++ : y++;
+      }
+
+      final excel.Workbook workbook = excel.Workbook(0);
+      final excel.Worksheet sheet =
+          workbook.worksheets.addWithName('ORDENES DE TRABAJOS');
+
+      sheet.getRangeByName('A11').setText('TERMINADAS');
+      sheet.getRangeByName('A12').setText('NO TERMINADAS');
+      sheet.getRangeByName('B11').setNumber(x);
+      sheet.getRangeByName('B12').setNumber(y);
+
+      final ChartCollection charts = ChartCollection(sheet);
+
+      final Chart chart1 = charts.add();
+
+      chart1.chartType = ExcelChartType.pie;
+
+      chart1.dataRange = sheet.getRangeByName('A11:B12');
+      chart1.isSeriesInRows = false;
+
+      sheet.charts = charts;
+      final List<int> bytes = workbook.saveAsStream();
+      workbook.dispose();
+
+      await FileSaveHelper.saveAndLaunchFile(bytes, 'Chart.xlsx');
+    }
+  }
+
+  //SI QUEDO BIEN ESTA PARTE NO BORRAR
   Future<void> generateMantenimiento(
       List<ObjetoView> list, BuildContext context) async {
     //Creating a workbook.

@@ -50,13 +50,13 @@ class CultivoTaskProvider extends ChangeNotifier {
   }
 
   saveGuardarHist() async {
-    var r = selectTerreno;
+    var p = selectTpPlaga == null ? "" : " :: ${selectTpPlaga.idtiposplagas}";
     final datos = Historial(
         idhistorial: UtilView.numberRandonUid(),
-        referencia: r == null ? "X" : selectTerreno.idterreno,
+        referencia: selectTerreno == null ? "X" : selectTerreno.idterreno,
         observacion: txtNovedad.text,
         observacion2:
-            "ACTUAL PROCESO DE EVOLUCION $porcentajeProgreso% INGRESADA POR EL USUARIO :: ${UtilView.usuarioUtil.idusuarios}",
+            "ACTUAL PROCESO DE EVOLUCION $porcentajeProgreso% INGRESADA POR EL USUARIO :: ${UtilView.usuarioUtil.idusuarios} $p ",
         evaluar: valoracion.toInt(),
         carga: imgBs4);
     txtNovedad.clear();
