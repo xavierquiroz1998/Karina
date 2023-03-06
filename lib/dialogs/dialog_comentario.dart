@@ -44,7 +44,7 @@ Future<String> dialogComentario(BuildContext context, String opt) async {
                 children: [
                   TextButton.icon(
                     onPressed: () {
-                      _controller.text = "";
+                      _controller.text = "SINGUARDAR";
                       Navigator.pop(context);
                     },
                     icon: const Icon(Icons.cancel, color: Colors.red),
@@ -55,7 +55,9 @@ Future<String> dialogComentario(BuildContext context, String opt) async {
                   ),
                   TextButton.icon(
                     onPressed: () async {
-                      _controller.text = "SINGUARDAR";
+                      _controller.text = _controller.text == ""
+                          ? "SINGUARDAR"
+                          : _controller.text;
                       Navigator.pop(context);
                     },
                     icon: const Icon(Icons.check_circle, color: Colors.green),

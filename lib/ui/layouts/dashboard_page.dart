@@ -81,18 +81,17 @@ class MenuLateral extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.store_mall_directory_rounded,
                   color: Colors.blueGrey),
-              title: const Text("Mantenimiento"),
+              title: const Text("Gestiones"),
               onTap: () async =>
                   Navigator.pushNamed(context, '/dashboard/mantenimientos'),
             ),
-          /*  if (UtilView.usuarioUtil.rol == "Admin" ||
-              UtilView.usuarioUtil.rol == "Jefe de cuadrilla") */
-          ListTile(
-            leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
-            title: const Text("Tareas"),
-            onTap: () async =>
-                Navigator.pushNamed(context, '/dashboard/controlTareas'),
-          ),
+          if (UtilView.usuarioUtil.rol != "Admin")
+            ListTile(
+              leading: const Icon(Icons.task_rounded, color: Colors.blueGrey),
+              title: const Text("Tareas"),
+              onTap: () async =>
+                  Navigator.pushNamed(context, '/dashboard/controlTareas'),
+            ),
           if (UtilView.usuarioUtil.rol == "Jefe de cuadrilla")
             ListTile(
               leading: const Icon(Icons.work_history_rounded,
