@@ -188,6 +188,45 @@ class _ReportPageState extends State<ReportPage> {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50),
+                      child: InkWell(
+                        onTap: () {
+                          provider.generateInsumosExcel(context);
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 150,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.green[700]),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.assignment_add,
+                                  size: 80,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            Container(
+                                padding: const EdgeInsets.all(8.0),
+                                constraints:
+                                    const BoxConstraints(maxWidth: 200),
+                                child: const Text(
+                                  "Insumos",
+                                  textAlign: TextAlign.center,
+                                  maxLines: 3,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
                   ]),
             ),
           ),

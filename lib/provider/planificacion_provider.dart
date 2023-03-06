@@ -233,7 +233,9 @@ class PlanificacionProvider extends ChangeNotifier {
             idPlanificacion: deta.idPlanificacion,
             idInsumo: e.idinsumos,
             estado: 1,
-            unidad: '0'));
+            unidad: "${e.cantidad}"));
+
+        await _api.putApiInsumo(e);
       }
 
       for (var e in listPersonasSelect) {

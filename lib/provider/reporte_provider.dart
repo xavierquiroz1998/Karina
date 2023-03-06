@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_officechart/officechart.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel;
+import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/objeto_view.dart';
 import 'package:tesis_karina/provider/enfermedad_provider.dart';
 import 'package:tesis_karina/provider/finca_provider.dart';
@@ -66,13 +67,62 @@ class ReporteProvider extends ChangeNotifier {
       x++;
     }
 
-    sheet1.getRangeByIndex(5, 6).text = "RESULTADO";
-    sheet1.getRangeByIndex(5, 7).text =
+    sheet1.getRangeByIndex(x + 3, 6).text = "RESULTADO";
+    sheet1.getRangeByIndex(x + 3, 7).text =
         "${provider.listDetailPlanificacion.length * count / 100}%";
 
     final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
     await FileSaveHelper.saveAndLaunchFile(bytes, 'OrdenesReport.xlsx');
+  }
+
+  Future<void> generateInsumosExcel(BuildContext context) async {
+    int x = 3;
+    final provider = Provider.of<InsumoProvider>(context, listen: false);
+    await provider.getListInt();
+    final excel.Workbook workbook = excel.Workbook(0);
+    final excel.Worksheet sheet1 = workbook.worksheets.addWithName('Ordenes');
+
+    //Adding cell style.
+    final excel.Style style1 = workbook.styles.add('Style1');
+    style1.backColor = '#D9E1F2';
+    style1.hAlign = excel.HAlignType.left;
+    style1.vAlign = excel.VAlignType.center;
+    style1.bold = true;
+
+    sheet1.getRangeByName('A2').cellStyle = style1;
+    sheet1.getRangeByName('A2:AJ2').cellStyle.backColor = '#D9E1F2';
+    sheet1.getRangeByName('A2:AJ2').cellStyle.hAlign = excel.HAlignType.center;
+    sheet1.getRangeByName('A2:AJ2').cellStyle.vAlign = excel.VAlignType.center;
+    sheet1.getRangeByName('A2:AJ2').cellStyle.bold = true;
+    sheet1.getRangeByName('A2:AJ2').columnWidth = 20.00;
+    /* COLUMNAS */
+    sheet1.getRangeByIndex(2, 1).text = 'ID';
+    sheet1.getRangeByIndex(2, 2).text = 'PROVEEDOR';
+    sheet1.getRangeByIndex(2, 3).text = 'NOMBRE';
+    sheet1.getRangeByIndex(2, 4).text = 'FECHA';
+    sheet1.getRangeByIndex(2, 5).text = 'OBSERVACION';
+    sheet1.getRangeByIndex(2, 6).text = 'EXISTENCIA';
+    sheet1.getRangeByIndex(2, 7).text = 'CANTIDAD UTILIZADA';
+    sheet1.getRangeByIndex(2, 8).text = 'ESTADO';
+
+    for (var element in provider.listInsumo) {
+      sheet1.getRangeByIndex(x, 1).text = "DETALLE-${element.idinsumos}";
+      sheet1.getRangeByIndex(x, 2).text = element.idProveedor;
+      sheet1.getRangeByIndex(x, 2).text = element.nombre;
+      sheet1.getRangeByIndex(x, 3).text =
+          UtilView.convertDateToString(element.fechaCaducidad);
+      sheet1.getRangeByIndex(x, 4).text = element.observacion;
+      sheet1.getRangeByIndex(x, 5).text = element.unidades;
+      sheet1.getRangeByIndex(x, 6).text = "${element.cantidad}";
+      sheet1.getRangeByIndex(x, 7).text =
+          element.estado == 1 ? "ACTIVO" : "INACTIVO";
+      x++;
+    }
+
+    final List<int> bytes = workbook.saveAsStream();
+    workbook.dispose();
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'InsumosReport.xlsx');
   }
 
   Future<void> generateEnfAndPlagExcel() async {
@@ -115,7 +165,7 @@ class ReporteProvider extends ChangeNotifier {
 
     final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
-    await FileSaveHelper.saveAndLaunchFile(bytes, 'ExpensesReport.xlsx');
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'HistorialReport.xlsx');
   }
 
   Future<void> generarChart() async {

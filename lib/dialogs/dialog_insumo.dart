@@ -158,6 +158,7 @@ Future showDialogViewInsumo(BuildContext context, String title,
                       insumoTipoId:
                           insumoProvider.isTpInsumo.split("/")[0].trim(),
                       unidades: txtUnidades.text == "" ? "0" : txtUnidades.text,
+                      cantidad: 0,
                       fechaCaducidad:
                           UtilView.convertStringToDate(txtCritFI.text),
                       createdAt: DateTime.now(),

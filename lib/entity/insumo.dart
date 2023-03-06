@@ -11,6 +11,7 @@ class Insumos {
     required this.fechaCaducidad,
     required this.observacion,
     required this.unidades,
+    required this.cantidad,
     required this.estado,
     required this.createdAt,
     required this.updatedAt,
@@ -24,6 +25,7 @@ class Insumos {
   DateTime fechaCaducidad;
   String observacion;
   String unidades;
+  int cantidad;
   int estado;
   DateTime createdAt;
   DateTime updatedAt;
@@ -41,6 +43,7 @@ class Insumos {
         fechaCaducidad: DateTime.parse(json["fechaCaducidad"]),
         observacion: json["observacion"],
         unidades: json["unidades"],
+        cantidad: json["cantidad"],
         estado: json["estado"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -55,6 +58,7 @@ class Insumos {
         "fechaCaducidad": fechaCaducidad.toIso8601String(),
         "observacion": observacion,
         "unidades": unidades,
+        "cantidad": cantidad,
         "estado": estado,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

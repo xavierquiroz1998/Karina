@@ -60,11 +60,8 @@ class _SeguiminentoPageState extends State<SeguiminentoPage> {
                                     : Colors.blueGrey),
                             child: const Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.home_filled,
-                                size: 80,
-                                color: Colors.white,
-                              ),
+                              child: Icon(Icons.home_filled,
+                                  size: 80, color: Colors.white),
                             ),
                           ),
                           Container(

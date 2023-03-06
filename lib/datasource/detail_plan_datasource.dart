@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:tesis_karina/entity/detalle_planificacion.dart';
 import 'package:tesis_karina/provider/historial_provider.dart';
+import 'package:tesis_karina/provider/seguimiento3_provider.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 
 class DetailPlanDataSource extends DataGridSource {
@@ -22,9 +25,10 @@ class DetailPlanDataSource extends DataGridSource {
                   columnName: 'fechaF',
                   value: UtilView.convertDateToString(e.fin)),
               DataGridCell<String>(
-                  columnName: 'estado', value: e.estado ? "Activo" : "Inactivo")
-              /*   DataGridCell<Detalleplanificacion>(
-                  columnName: 'accione', value: e), */
+                  columnName: 'estado',
+                  value: e.estado ? "Activo" : "Inactivo"),
+              DataGridCell<Detalleplanificacion>(
+                  columnName: 'accione', value: e),
             ]))
         .toList();
   }
@@ -49,15 +53,23 @@ class DetailPlanDataSource extends DataGridSource {
             padding: const EdgeInsets.only(left: 7),
             alignment: Alignment.center,
             child: Text(row.getCells()[3].value.toString())),
-        /* Container(
+        Container(
             padding: const EdgeInsets.only(left: 7),
             alignment: Alignment.centerLeft,
             child: InkWell(
-                onTap: () {},
-                child: const Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ))), */
+                onTap: () {
+                  final seguimiento =
+                      Provider.of<Seguimiento3Provider>(context, listen: false);
+                  seguimiento
+                      .getListTerrenoOne(row.getCells()[4].value.idTerreno);
+                  seguimiento.selectT = row.getCells()[4].value.idTerreno;
+                  seguimiento.selectDetail = row.getCells()[4].value;
+
+                  Navigator.pushNamed(
+                      context, '/dashboard/controlSeguimiento3');
+                },
+                child:
+                    const Icon(Icons.assignment_add, color: Colors.blueGrey))),
 
         // Container(
         //   alignment: Alignment.center,

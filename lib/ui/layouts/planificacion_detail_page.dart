@@ -4,6 +4,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:tesis_karina/dialogs/dialog_update.dart';
 import 'package:tesis_karina/entity/detalle_planificacion.dart';
 import 'package:tesis_karina/entity/insumo.dart';
 import 'package:tesis_karina/entity/maquinaria.dart';
@@ -337,8 +338,12 @@ class _PlanificacionDetailPageState extends State<PlanificacionDetailPage> {
                       child: DropdownSearch<Insumos>.multiSelection(
                         items: provPlanificacion.listInsumo,
                         compareFn: (i, s) => i.isEqual(s),
-                        onChanged: (value) {
+                        onChanged: (value) async {
                           provPlanificacion.listInsumoSelect = value;
+                          for (var element
+                              in provPlanificacion.listInsumoSelect) {
+                            await dialogUpdate(context, element);
+                          }
                         },
                         popupProps: PopupPropsMultiSelection.modalBottomSheet(
                           showSearchBox: true,
@@ -666,7 +671,7 @@ class _PlanificacionDetailPageState extends State<PlanificacionDetailPage> {
     bool isSelected,
   ) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: !isSelected
           ? null
           : BoxDecoration(

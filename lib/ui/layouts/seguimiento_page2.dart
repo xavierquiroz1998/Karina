@@ -81,6 +81,15 @@ class _SeguiminentoPage2State extends State<SeguiminentoPage2> {
                                   .copyWith(color: Colors.white)),
                         ),
                       ),
+                      GridColumn(
+                        width: 40,
+                        columnName: 'accion',
+                        label: Center(
+                          child: Text('  ',
+                              style: CustomLabels.h4
+                                  .copyWith(color: Colors.white)),
+                        ),
+                      ),
                     ],
                     source:
                         DetailPlanDataSource(provider: provider, cxt: context),
