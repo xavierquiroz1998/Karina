@@ -55,6 +55,7 @@ Future<String> dialogComentario(BuildContext context, String opt) async {
                   ),
                   TextButton.icon(
                     onPressed: () async {
+                      _controller.text = "SINGUARDAR";
                       Navigator.pop(context);
                     },
                     icon: const Icon(Icons.check_circle, color: Colors.green),

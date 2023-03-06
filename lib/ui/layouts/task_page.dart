@@ -248,7 +248,8 @@ class _TaskPageState extends State<TaskPage> {
                                                               await dialogComentario(
                                                                   context,
                                                                   "¿Deseas Terminar el proceso?");
-                                                          if (resp != "") {
+                                                          if (resp !=
+                                                              "SINGUARDAR") {
                                                             provider.listTask[i]
                                                                 .inicio = UtilView.convertStringToDate(DateFormat(
                                                                     "dd/MM/yyyy")

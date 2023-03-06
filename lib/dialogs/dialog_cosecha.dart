@@ -62,13 +62,13 @@ Future<bool> dialogCosechaKg(
                           op = true;
                           final datos = Historial(
                               idhistorial: UtilView.numberRandonUid(),
-                              referencia:
-                                  "DT:: ${detail.iddetalleplanificacion}",
-                              observacion: "TAREA CERRADA::",
+                              referencia: "DP:: ${detail.idTerreno}",
+                              observacion:
+                                  "TAREA CERRADA:: ID ${detail.iddetalleplanificacion} :: DIA ${detail.fin.toIso8601String()}",
                               observacion2:
                                   "CANTIDAD COSECHADA Kg ${_controller.text} INGRESADA POR EL USUARIO :: ${UtilView.usuarioUtil.idusuarios} :: FECHA DE CERRADO ${UtilView.convertDateToString(detail.fin)}",
                               evaluar: 5,
-                              carga: "");
+                              carga: "x SIN IMAGEN");
                           _controller.clear();
                           SolicitudApi().postApiHist(datos);
 
