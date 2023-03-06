@@ -44,8 +44,8 @@ class _ReportPageState extends State<ReportPage> {
                         child: Column(
                           children: [
                             Container(
-                              height: 150,
-                              width: 150,
+                              height: 130,
+                              width: 130,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: Colors.green[700]),
@@ -83,8 +83,8 @@ class _ReportPageState extends State<ReportPage> {
                         child: Column(
                           children: [
                             Container(
-                              height: 150,
-                              width: 150,
+                              height: 130,
+                              width: 130,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: Colors.green[700]),
@@ -122,8 +122,8 @@ class _ReportPageState extends State<ReportPage> {
                         child: Column(
                           children: [
                             Container(
-                              height: 150,
-                              width: 150,
+                              height: 130,
+                              width: 130,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: Colors.green[700]),
@@ -161,8 +161,8 @@ class _ReportPageState extends State<ReportPage> {
                         child: Column(
                           children: [
                             Container(
-                              height: 150,
-                              width: 150,
+                              height: 130,
+                              width: 130,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: Colors.green[700]),
@@ -197,8 +197,9 @@ class _ReportPageState extends State<ReportPage> {
                         child: Column(
                           children: [
                             Container(
-                              height: 150,
-                              width: 150,
+                              height: 130,
+                              width: 130,
+                              margin: const EdgeInsets.only(left: 40),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: Colors.green[700]),
@@ -213,6 +214,7 @@ class _ReportPageState extends State<ReportPage> {
                             ),
                             Container(
                                 padding: const EdgeInsets.all(8.0),
+                                margin: const EdgeInsets.only(left: 25),
                                 constraints:
                                     const BoxConstraints(maxWidth: 200),
                                 child: const Text(
