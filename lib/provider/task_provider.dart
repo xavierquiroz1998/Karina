@@ -100,9 +100,14 @@ class TaskProvider extends ChangeNotifier {
   }
 
   getListTaskUsuer() async {
-    await getIdPersona();
-    final resp = await _api.getApiListUserTask(codigoPersona, "1");
-    listTask = resp;
+    if (UtilView.usuarioUtil.rol != "Jefe de cuadrilla") {
+      await getIdPersona();
+      final resp = await _api.getApiListUserTask(codigoPersona, "1");
+      listTask = resp;
+    } else {
+      final resp = await _api.getApiListTask();
+      listTask = resp;
+    }
     notifyListeners();
   }
 

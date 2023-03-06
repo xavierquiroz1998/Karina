@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:tesis_karina/entity/detalle_planificacion.dart';
 import 'package:tesis_karina/provider/historial_provider.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 

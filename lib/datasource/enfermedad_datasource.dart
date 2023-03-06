@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
 import 'package:tesis_karina/entity/enfermedad.dart';
-import 'package:tesis_karina/modals/enfermedad_modals.dart';
 import 'package:tesis_karina/provider/enfermedad_provider.dart';
 import 'package:tesis_karina/utils/util_view.dart';
 

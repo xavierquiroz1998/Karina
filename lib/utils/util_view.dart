@@ -292,6 +292,47 @@ class UtilView {
     return resp;
   }
 
+  static double porcentajeRaiting(int valx, int valy) {
+    double resp = 0;
+    switch (valx) {
+      case 1:
+        if (valy == 0) {
+          resp = 0.5;
+        } else if (valy == 1) {
+          resp = 1;
+        } else {
+          resp = 1.5;
+        }
+
+        break;
+      case 2:
+        if (valy == 3) {
+          resp = 2;
+        } else if (valy == 4) {
+          resp = 2.5;
+        } else if (valy == 5) {
+          resp = 3;
+        } else {
+          resp = 3.5;
+        }
+
+        break;
+      case 3:
+        if (valy == 7) {
+          resp = 4;
+        } else if (valy == 8) {
+          resp = 4.5;
+        } else {
+          resp = 5;
+        }
+        break;
+      default:
+        resp = 0;
+        break;
+    }
+    return resp;
+  }
+
 /*   static Color convertColor(String color) {
     Color colorPrimario = Palette.azulMarino;
     if (color != "") {

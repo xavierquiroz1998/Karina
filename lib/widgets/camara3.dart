@@ -70,7 +70,7 @@ class TakePictureScreen3State extends State<TakePictureScreen3> {
               ),
             );
           } catch (e) {
-            print(e);
+            rethrow;
           }
         },
         child: const Icon(Icons.camera_alt),

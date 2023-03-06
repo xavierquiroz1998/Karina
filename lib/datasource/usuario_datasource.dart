@@ -88,7 +88,6 @@ class UsuariosDataSource extends DataGridSource {
                             Colors.red);
 
                         if (respuesta) {
-                          // ignore: use_build_context_synchronously
                           usuarioProvider.deleteObjeto(row.getCells()[3].value);
                         }
                       } else {

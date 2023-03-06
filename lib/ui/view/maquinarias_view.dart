@@ -39,7 +39,7 @@ class _MaquinariasViewState extends State<MaquinariasView> {
                 },
                 child:
                     const Tooltip(message: "Agregar", child: Icon(Icons.add)))
-            : Text(''),
+            : const Text(''),
         child: SfDataGridTheme(
           data: SfDataGridThemeData(headerColor: CustomColors.azulCielo),
           child: SizedBox(

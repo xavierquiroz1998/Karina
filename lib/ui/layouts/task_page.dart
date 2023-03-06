@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis_karina/dialogs/dialog_acep_canc.dart';
@@ -41,7 +43,9 @@ class _TaskPageState extends State<TaskPage> {
       body: ListView(
         children: [
           WhiteCard(
-              title: 'Lista de activiades [Pendientes]',
+              title: UtilView.usuarioUtil.rol != "Jefe de cuadrilla"
+                  ? 'Lista de activiades [Pendientes]'
+                  : "Lista de tareas",
               // ignore: sort_child_properties_last
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -215,271 +219,320 @@ class _TaskPageState extends State<TaskPage> {
                                     ),
                                     const Divider(color: Colors.black),
                                     provider.listTask[i].observacion != "-"
-                                        ? Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 6),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Container(
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.green,
-                                                        border: Border.all(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.3),
-                                                        ),
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                    .all(
-                                                                Radius.circular(
-                                                                    10))),
-                                                    margin: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 5),
-                                                    padding:
-                                                        const EdgeInsets.all(3),
-                                                    child: InkWell(
-                                                        onTap: () async {
-                                                          String resp =
-                                                              await dialogComentario(
-                                                                  context,
-                                                                  "¿Deseas Terminar el proceso?");
-                                                          if (resp !=
-                                                              "SINGUARDAR") {
-                                                            provider.listTask[i]
-                                                                .inicio = UtilView.convertStringToDate(DateFormat(
-                                                                    "dd/MM/yyyy")
-                                                                .format(provider
-                                                                    .listTask[i]
-                                                                    .inicio));
-
-                                                            provider.listTask[i]
-                                                                    .observacion =
-                                                                resp;
-
-                                                            provider.listTask[i]
-                                                                    .fin =
-                                                                DateTime.now();
-
-                                                            provider.listTask[i]
-                                                                .nivel = (provider
-                                                                    .listTask[i]
-                                                                    .nivel +
-                                                                1);
-
-                                                            if (provider.listTask[i].nivel == 4 ||
+                                        ? UtilView.usuarioUtil.rol !=
+                                                "Jefe de cuadrilla"
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 6),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: Colors
+                                                                    .green,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.3),
+                                                                ),
+                                                                borderRadius:
+                                                                    const BorderRadius
+                                                                            .all(
+                                                                        Radius.circular(
+                                                                            10))),
+                                                        margin: const EdgeInsets
+                                                                .symmetric(
+                                                            horizontal: 5),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(3),
+                                                        child: InkWell(
+                                                            onTap: () async {
+                                                              String resp =
+                                                                  await dialogComentario(
+                                                                      context,
+                                                                      "¿Deseas Terminar el proceso?");
+                                                              if (resp !=
+                                                                  "SINGUARDAR") {
                                                                 provider
+                                                                    .listTask[i]
+                                                                    .inicio = UtilView.convertStringToDate(DateFormat(
+                                                                        "dd/MM/yyyy")
+                                                                    .format(provider
                                                                         .listTask[
                                                                             i]
-                                                                        .nivel ==
-                                                                    7 ||
+                                                                        .inicio));
+
                                                                 provider
+                                                                    .listTask[i]
+                                                                    .observacion = resp;
+
+                                                                provider
+                                                                        .listTask[i]
+                                                                        .fin =
+                                                                    DateTime
+                                                                        .now();
+
+                                                                provider
+                                                                    .listTask[i]
+                                                                    .nivel = (provider
                                                                         .listTask[
                                                                             i]
-                                                                        .nivel ==
-                                                                    11) {
-                                                              provider
-                                                                  .listTask[i]
-                                                                  .etapa = (provider
+                                                                        .nivel +
+                                                                    1);
+
+                                                                if (provider.listTask[i].nivel == 4 ||
+                                                                    provider
+                                                                            .listTask[
+                                                                                i]
+                                                                            .nivel ==
+                                                                        7 ||
+                                                                    provider.listTask[i]
+                                                                            .nivel ==
+                                                                        11) {
+                                                                  provider
                                                                       .listTask[
                                                                           i]
-                                                                      .etapa +
-                                                                  1);
-                                                            }
+                                                                      .etapa = (provider
+                                                                          .listTask[
+                                                                              i]
+                                                                          .etapa +
+                                                                      1);
+                                                                }
 
-                                                            if (provider
-                                                                        .listTask[
-                                                                            i]
-                                                                        .etapa ==
-                                                                    3 &&
-                                                                provider
-                                                                        .listTask[
-                                                                            i]
-                                                                        .nivel ==
-                                                                    9) {
-                                                              provider
-                                                                  .listTask[i]
-                                                                  .observacion = "C";
+                                                                if (provider
+                                                                            .listTask[
+                                                                                i]
+                                                                            .etapa ==
+                                                                        3 &&
+                                                                    provider.listTask[i]
+                                                                            .nivel ==
+                                                                        9) {
+                                                                  provider
+                                                                      .listTask[
+                                                                          i]
+                                                                      .observacion = "C";
 
-                                                              provider
-                                                                  .listTask[i]
-                                                                  .estado = false;
+                                                                  provider
+                                                                      .listTask[
+                                                                          i]
+                                                                      .estado = false;
 
-                                                              final respuesta =
-                                                                  await dialogCosechaKg(
-                                                                      context,
+                                                                  final respuesta =
+                                                                      await dialogCosechaKg(
+                                                                          context,
+                                                                          provider
+                                                                              .listTask[i]);
+
+                                                                  if (respuesta) {
+                                                                    provider.closeTask(
+                                                                        provider
+                                                                            .listTask[i]);
+
+                                                                    provider
+                                                                        .listTask
+                                                                        .remove(
+                                                                            provider.listTask[i]);
+                                                                  }
+                                                                } else {
+                                                                  provider.update(
                                                                       provider
                                                                           .listTask[i]);
-
-                                                              if (respuesta) {
-                                                                provider.closeTask(
-                                                                    provider
-                                                                        .listTask[i]);
-
-                                                                provider
-                                                                    .listTask
-                                                                    .remove(provider
-                                                                        .listTask[i]);
+                                                                }
                                                               }
-                                                            } else {
-                                                              provider.update(
-                                                                  provider
-                                                                      .listTask[i]);
-                                                            }
-                                                          }
-                                                        },
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: const [
-                                                            Icon(
-                                                                Icons.check_box,
-                                                                size: 20,
+                                                            },
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: const [
+                                                                Icon(
+                                                                    Icons
+                                                                        .check_box,
+                                                                    size: 20,
+                                                                    color: Colors
+                                                                        .black),
+                                                                Text(
+                                                                  'Sigs Proceso',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                )
+                                                              ],
+                                                            ))),
+                                                    Container(
+                                                        decoration:
+                                                            BoxDecoration(
                                                                 color: Colors
-                                                                    .black),
-                                                            Text(
-                                                              'Sigs Proceso',
-                                                              style: TextStyle(
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            )
-                                                          ],
-                                                        ))),
-                                                Container(
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            Colors.amber[700],
-                                                        border: Border.all(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.3),
-                                                        ),
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                    .all(
-                                                                Radius.circular(
-                                                                    10))),
-                                                    margin: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 5),
-                                                    padding:
-                                                        const EdgeInsets.all(3),
-                                                    child: InkWell(
-                                                        onTap: () async {
-                                                          provider
-                                                              .inializacion();
-                                                          final resp =
-                                                              await dialogAdiciones(
-                                                                  context,
-                                                                  provider);
-                                                          if (resp) {
-                                                            provider.saveList(
-                                                                provider
-                                                                    .listTask[i]
-                                                                    .iddetalleplanificacion);
-                                                          }
-                                                        },
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: const [
-                                                            Icon(
-                                                                Icons
-                                                                    .assignment_add,
-                                                                size: 20,
-                                                                color: Colors
-                                                                    .black),
-                                                            Text(
-                                                              'Agregar',
-                                                              style: TextStyle(
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            )
-                                                          ],
-                                                        ))),
-                                                if (provider
-                                                        .listTask[i].nivel ==
-                                                    0)
-                                                  Container(
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.blue,
-                                                          border: Border.all(
-                                                            color: Colors.grey
-                                                                .withOpacity(
-                                                                    0.3),
-                                                          ),
-                                                          borderRadius:
-                                                              const BorderRadius
+                                                                    .amber[700],
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.3),
+                                                                ),
+                                                                borderRadius:
+                                                                    const BorderRadius
+                                                                            .all(
+                                                                        Radius.circular(
+                                                                            10))),
+                                                        margin: const EdgeInsets
+                                                                .symmetric(
+                                                            horizontal: 5),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(3),
+                                                        child: InkWell(
+                                                            onTap: () async {
+                                                              provider
+                                                                  .inializacion();
+                                                              final resp =
+                                                                  await dialogAdiciones(
+                                                                      context,
+                                                                      provider);
+                                                              if (resp) {
+                                                                provider.saveList(
+                                                                    provider
+                                                                        .listTask[
+                                                                            i]
+                                                                        .iddetalleplanificacion);
+                                                              }
+                                                            },
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: const [
+                                                                Icon(
+                                                                    Icons
+                                                                        .assignment_add,
+                                                                    size: 20,
+                                                                    color: Colors
+                                                                        .black),
+                                                                Text(
+                                                                  'Agregar',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                )
+                                                              ],
+                                                            ))),
+                                                    if (provider.listTask[i]
+                                                            .nivel ==
+                                                        0)
+                                                      Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  border: Border
                                                                       .all(
-                                                                  Radius
-                                                                      .circular(
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .withOpacity(
+                                                                            0.3),
+                                                                  ),
+                                                                  borderRadius: const BorderRadius
+                                                                          .all(
+                                                                      Radius.circular(
                                                                           10))),
-                                                      margin: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 5),
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              3),
-                                                      child: InkWell(
-                                                          onTap: () async {
-                                                            final seguimiento =
-                                                                Provider.of<
-                                                                        Seguimiento3Provider>(
-                                                                    context,
-                                                                    listen:
-                                                                        false);
-                                                            seguimiento
-                                                                .getListTerrenoOne(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      5),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(3),
+                                                          child: InkWell(
+                                                              onTap: () async {
+                                                                final seguimiento =
+                                                                    Provider.of<
+                                                                            Seguimiento3Provider>(
+                                                                        context,
+                                                                        listen:
+                                                                            false);
+                                                                seguimiento.getListTerrenoOne(
                                                                     provider
                                                                         .listTask[
                                                                             i]
                                                                         .idTerreno);
-                                                            seguimiento
-                                                                    .selectT =
-                                                                provider
-                                                                    .listTask[i]
-                                                                    .idTerreno;
-                                                            seguimiento
-                                                                    .selectDetail =
-                                                                provider
-                                                                    .listTask[i];
+                                                                seguimiento
+                                                                        .selectT =
+                                                                    provider
+                                                                        .listTask[
+                                                                            i]
+                                                                        .idTerreno;
+                                                                seguimiento
+                                                                        .selectDetail =
+                                                                    provider
+                                                                        .listTask[i];
 
-                                                            Navigator.pushNamed(
-                                                                context,
-                                                                '/dashboard/controlSeguimiento3');
-                                                          },
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            children: const [
-                                                              Icon(
-                                                                  Icons
-                                                                      .assistant_photo_rounded,
-                                                                  size: 20,
-                                                                  color: Colors
-                                                                      .black),
-                                                              Text(
-                                                                'Observacion',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              )
-                                                            ],
-                                                          ))),
-                                              ],
-                                            ),
-                                          )
+                                                                Navigator.pushNamed(
+                                                                    context,
+                                                                    '/dashboard/controlSeguimiento3');
+                                                              },
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: const [
+                                                                  Icon(
+                                                                      Icons
+                                                                          .assistant_photo_rounded,
+                                                                      size: 20,
+                                                                      color: Colors
+                                                                          .black),
+                                                                  Text(
+                                                                    'Observacion',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  )
+                                                                ],
+                                                              ))),
+                                                  ],
+                                                ),
+                                              )
+                                            : Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: FAProgressBar(
+                                                  currentValue: UtilView
+                                                      .porcentajeProceso(
+                                                          provider.listTask[i]
+                                                              .etapa,
+                                                          provider.listTask[i]
+                                                              .nivel),
+                                                  maxValue: 100,
+                                                  displayText: '%',
+                                                  progressColor:
+                                                      Colors.green[700]!,
+                                                  backgroundColor:
+                                                      Colors.grey[400]!,
+                                                  animatedDuration:
+                                                      const Duration(
+                                                          milliseconds: 1100),
+                                                ),
+                                              )
                                         : const Text('')
                                   ],
                                 ),
