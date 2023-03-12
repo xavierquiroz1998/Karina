@@ -34,6 +34,7 @@ class _InsumosViewState extends State<InsumosView> {
             ? InkWell(
                 onTap: () {
                   showDialogViewInsumo(context, "Nuevo insumo", provider, null);
+                  setState(() {});
                 },
                 child:
                     const Tooltip(message: "Agregar", child: Icon(Icons.add)))
