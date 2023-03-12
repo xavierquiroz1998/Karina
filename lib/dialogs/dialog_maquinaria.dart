@@ -9,6 +9,7 @@ import 'package:tesis_karina/utils/util_view.dart';
 
 Future showDialogViewMaquinaria(BuildContext context, String title,
     MaquinariaProvider maquinariaProvider, Maquinaria? maquinaria) async {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final txtNonbre =
       TextEditingController(text: maquinaria == null ? "" : maquinaria.nombre);
   final txtIdentificacion = TextEditingController(
@@ -51,95 +52,117 @@ Future showDialogViewMaquinaria(BuildContext context, String title,
             height: 220,
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: txtNonbre,
-                    decoration: CustomInputs.boxInputDecoration(
-                        hint: 'Nombre',
-                        label: 'Nombre',
-                        icon: Icons.new_releases_outlined),
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: txtIdentificacion,
-                    decoration: CustomInputs.boxInputDecoration(
-                        hint: 'Identificación',
-                        label: 'Identificación',
-                        icon: Icons.new_releases_outlined),
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: txtProcedencia,
-                    decoration: CustomInputs.boxInputDecoration(
-                        hint: 'Procedencia',
-                        label: 'Procedencia',
-                        icon: Icons.new_releases_outlined),
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: txtCapacidad,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'(^[0-9]*$)')),
-                          ],
-                          decoration: CustomInputs.boxInputDecoration(
-                              hint: '0',
-                              label: 'Capacidad',
-                              icon: Icons.new_releases_outlined),
-                          style: const TextStyle(color: Colors.black),
-                        ),
-                      ),
-                      const SizedBox(width: 5),
-                      Expanded(
-                        child: SizedBox(
-                            height: 48,
-                            child: TextFormField(
-                              controller: txtCompra,
-                              decoration:
-                                  CustomInputs.boxInputDecorationDatePicker(
-                                      labelText: 'Fecha Compra',
-                                      fc: () => selectDate(context, 'init')),
-                              inputFormatters: [DateFormatter()],
-                            )),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    height: 40,
-                    child: DropdownButtonFormField<String>(
-                      value: maquinariaProvider.isSelect,
-                      onChanged: (value) {
-                        maquinariaProvider.isSelect = value!;
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: txtNonbre,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Campo requerido*';
+                        }
+                        return null;
                       },
-                      dropdownColor: Colors.blueGrey,
-                      items: maquinariaProvider.tipoMaquinaria.map((item) {
-                        return DropdownMenuItem(
-                          value: item,
-                          child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                item,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.bold),
-                              )),
-                        );
-                      }).toList(),
-                      decoration: CustomInputs.boxInputDecorationDialogSearch(
-                          label: 'Tipo de maquinaria',
-                          hint: 'Tipo de maquinaria'),
+                      decoration: CustomInputs.boxInputDecoration(
+                          hint: 'Nombre',
+                          label: 'Nombre',
+                          icon: Icons.new_releases_outlined),
+                      style: const TextStyle(color: Colors.black),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: txtIdentificacion,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Campo requerido*';
+                        }
+                        return null;
+                      },
+                      decoration: CustomInputs.boxInputDecoration(
+                          hint: 'Identificación',
+                          label: 'Identificación',
+                          icon: Icons.new_releases_outlined),
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: txtProcedencia,
+                      decoration: CustomInputs.boxInputDecoration(
+                          hint: 'Procedencia',
+                          label: 'Procedencia',
+                          icon: Icons.new_releases_outlined),
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: txtCapacidad,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Campo requerido*';
+                              }
+                              return null;
+                            },
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'(^[0-9]*$)')),
+                            ],
+                            decoration: CustomInputs.boxInputDecoration(
+                                hint: '0',
+                                label: 'Capacidad',
+                                icon: Icons.new_releases_outlined),
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: SizedBox(
+                              height: 48,
+                              child: TextFormField(
+                                controller: txtCompra,
+                                decoration:
+                                    CustomInputs.boxInputDecorationDatePicker(
+                                        labelText: 'Fecha Compra',
+                                        fc: () => selectDate(context, 'init')),
+                                inputFormatters: [DateFormatter()],
+                              )),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: 40,
+                      child: DropdownButtonFormField<String>(
+                        value: maquinariaProvider.isSelect,
+                        onChanged: (value) {
+                          maquinariaProvider.isSelect = value!;
+                        },
+                        dropdownColor: Colors.blueGrey,
+                        items: maquinariaProvider.tipoMaquinaria.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  item,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                          );
+                        }).toList(),
+                        decoration: CustomInputs.boxInputDecorationDialogSearch(
+                            label: 'Tipo de maquinaria',
+                            hint: 'Tipo de maquinaria'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -154,30 +177,33 @@ Future showDialogViewMaquinaria(BuildContext context, String title,
                   return Colors.transparent;
                 })),
                 onPressed: () {
-                  if (maquinaria == null) {
-                    maquinariaProvider.newObjeto(Maquinaria(
-                        idmaquinarias: UtilView.numberRandonUid(),
-                        nombre: txtNonbre.text,
-                        fechacompra:
-                            UtilView.convertStringToDate(txtCompra.text),
-                        procedencia: txtProcedencia.text,
-                        maquinariaTipoId:
-                            maquinariaProvider.isSelect.split("/")[0].trim(),
-                        identificacion: txtIdentificacion.text,
-                        capacidad: int.tryParse(txtCapacidad.text) ?? 0,
-                        createdAt: DateTime.now(),
-                        updatedAt: DateTime.now(),
-                        estado: 1));
-                  } else {
-                    maquinaria.nombre = txtNonbre.text;
-                    maquinaria.identificacion = txtIdentificacion.text;
-                    maquinaria.procedencia = txtProcedencia.text;
-                    maquinaria.fechacompra =
-                        UtilView.convertStringToDate(txtCompra.text);
-                    maquinaria.maquinariaTipoId =
-                        maquinariaProvider.isSelect.split("/")[0].trim();
-                    maquinaria.capacidad = int.tryParse(txtCapacidad.text) ?? 0;
-                    maquinariaProvider.updateObjeto(maquinaria);
+                  if (formKey.currentState!.validate()) {
+                    if (maquinaria == null) {
+                      maquinariaProvider.newObjeto(Maquinaria(
+                          idmaquinarias: UtilView.numberRandonUid(),
+                          nombre: txtNonbre.text,
+                          fechacompra:
+                              UtilView.convertStringToDate(txtCompra.text),
+                          procedencia: txtProcedencia.text,
+                          maquinariaTipoId:
+                              maquinariaProvider.isSelect.split("/")[0].trim(),
+                          identificacion: txtIdentificacion.text,
+                          capacidad: int.tryParse(txtCapacidad.text) ?? 0,
+                          createdAt: DateTime.now(),
+                          updatedAt: DateTime.now(),
+                          estado: 1));
+                    } else {
+                      maquinaria.nombre = txtNonbre.text;
+                      maquinaria.identificacion = txtIdentificacion.text;
+                      maquinaria.procedencia = txtProcedencia.text;
+                      maquinaria.fechacompra =
+                          UtilView.convertStringToDate(txtCompra.text);
+                      maquinaria.maquinariaTipoId =
+                          maquinariaProvider.isSelect.split("/")[0].trim();
+                      maquinaria.capacidad =
+                          int.tryParse(txtCapacidad.text) ?? 0;
+                      maquinariaProvider.updateObjeto(maquinaria);
+                    }
                   }
 
                   Navigator.of(context).pop();

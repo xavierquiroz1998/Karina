@@ -33,7 +33,8 @@ class _EnfermedadesViewState extends State<EnfermedadesView> {
             ? InkWell(
                 onTap: () {
                   provider.clearObjeto();
-                  Navigator.pushNamed(context, '/dashboard/enfermedad');
+                  Navigator.pushReplacementNamed(
+                      context, '/dashboard/enfermedad');
                   /*  showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
@@ -42,7 +43,7 @@ class _EnfermedadesViewState extends State<EnfermedadesView> {
                 },
                 child:
                     const Tooltip(message: "Agregar", child: Icon(Icons.add)))
-            : Text(''),
+            : const Text(''),
         child: SfDataGridTheme(
           data: SfDataGridThemeData(headerColor: CustomColors.azulCielo),
           child: SizedBox(
