@@ -168,6 +168,8 @@ Future showDialogViewInsumo(BuildContext context, String title,
                     ));
                   } else {
                     insumo.nombre = txtNombre.text;
+                    insumo.unidades =
+                        txtUnidades.text == "" ? "0" : txtUnidades.text;
                     insumo.insumoTipoId =
                         insumoProvider.isTpInsumo.split("/")[0].trim();
                     insumo.fechaCaducidad =
