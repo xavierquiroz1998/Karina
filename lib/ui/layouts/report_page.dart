@@ -118,7 +118,7 @@ class _ReportPageState extends State<ReportPage> {
                       padding: const EdgeInsets.only(top: 50),
                       child: InkWell(
                         onTap: () {
-                          provider.generateEnfAndPlagExcel();
+                          provider.generarChartPlagas(context);
                         },
                         child: Column(
                           children: [

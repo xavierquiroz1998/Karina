@@ -163,6 +163,33 @@ Future showDialogViewInsumo(BuildContext context, String title,
                   return Colors.transparent;
                 })),
                 onPressed: () {
+                  if (insumo == null) {
+                    insumoProvider.newObjeto(Insumos(
+                      idinsumos: UtilView.numberRandonUid(),
+                      nombre: txtNombre.text,
+                      idProveedor: insumoProvider.isTpPrv.split("/")[0].trim(),
+                      proveedore: insumoProvider.isProveedor,
+                      insumoTipoId:
+                          insumoProvider.isTpInsumo.split("/")[0].trim(),
+                      unidades: txtUnidades.text == "" ? "0" : txtUnidades.text,
+                      cantidad: 0,
+                      fechaCaducidad:
+                          UtilView.convertStringToDate(txtCritFI.text),
+                      createdAt: DateTime.now(),
+                      updatedAt: DateTime.now(),
+                      observacion: "--",
+                      estado: 1,
+                    ));
+                  } else {
+                    insumo.nombre = txtNombre.text;
+                    insumo.unidades =
+                        txtUnidades.text == "" ? "0" : txtUnidades.text;
+                    insumo.insumoTipoId =
+                        insumoProvider.isTpInsumo.split("/")[0].trim();
+                    insumo.fechaCaducidad =
+                        UtilView.convertStringToDate(txtCritFI.text);
+                    insumoProvider.updateObjeto(insumo);
+                  }
                   if (formKey.currentState!.validate()) {
                     if (insumo == null) {
                       insumoProvider.newObjeto(Insumos(
