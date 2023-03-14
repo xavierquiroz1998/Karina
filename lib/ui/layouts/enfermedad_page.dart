@@ -182,30 +182,34 @@ class _EnfermedadPageForm extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: 120),
                 child: ElevatedButton(
                     onPressed: () async {
-                      if (enfermedadProvider.isTipo) {
-                        await enfermedadProvider.newObjeto();
-                        NotificationsService.showSnackbar(
-                            '${enfermedadProvider.txtNombre.text} creado!');
-                      } else {
-                        await enfermedadProvider.updateObjeto(Enfermedades(
-                            idenfermedades: enfermedadProvider
-                                .isSelectEnfermedad.idenfermedades,
-                            nombre: enfermedadProvider.txtNombre.text,
-                            observacion:
-                                enfermedadProvider.txtObservaciones.text,
-                            enfermedadTipoId: enfermedadProvider.isSelectE
-                                .split("/")[0]
-                                .trim(),
-                            plagasTipoId: enfermedadProvider.isSelectP
-                                .split("/")[0]
-                                .trim(),
-                            fotografia: enfermedadProvider.imgBs4,
-                            tratamiento: enfermedadProvider.txtTratamiento.text,
-                            especificaciones:
-                                enfermedadProvider.txtEspecificaciones.text,
-                            estado: 1));
+                      if (formKey.currentState!.validate()) {
+                        if (enfermedadProvider.isTipo) {
+                          await enfermedadProvider.newObjeto();
+                          NotificationsService.showSnackbar(
+                              '${enfermedadProvider.txtNombre.text} creado!');
+                        } else {
+                          await enfermedadProvider.updateObjeto(Enfermedades(
+                              idenfermedades: enfermedadProvider
+                                  .isSelectEnfermedad.idenfermedades,
+                              nombre: enfermedadProvider.txtNombre.text,
+                              observacion:
+                                  enfermedadProvider.txtObservaciones.text,
+                              enfermedadTipoId: enfermedadProvider.isSelectE
+                                  .split("/")[0]
+                                  .trim(),
+                              plagasTipoId: enfermedadProvider.isSelectP
+                                  .split("/")[0]
+                                  .trim(),
+                              fotografia: enfermedadProvider.imgBs4,
+                              tratamiento:
+                                  enfermedadProvider.txtTratamiento.text,
+                              especificaciones:
+                                  enfermedadProvider.txtEspecificaciones.text,
+                              estado: 1));
+                        }
+                        Navigator.pushNamed(
+                            context, '/dashboard/mantenimientos');
                       }
-                      Navigator.pushNamed(context, '/dashboard/mantenimientos');
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.indigo),

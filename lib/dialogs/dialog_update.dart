@@ -49,6 +49,8 @@ Future<bool> dialogUpdate(BuildContext context, Insumos insumo) async {
                         if (int.tryParse(insumo.unidades)! <
                             int.tryParse(value!)!) {
                           return "Supero la cantidad";
+                        } else if (value.isEmpty) {
+                          return "Campo requerido";
                         }
 
                         return validateCantidad(value); // Válido
