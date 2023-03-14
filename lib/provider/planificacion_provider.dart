@@ -33,9 +33,10 @@ class PlanificacionProvider extends ChangeNotifier {
 
 //VARIABLES DE LA CABECERA DEL DETALLE
   TextEditingController dateController = TextEditingController(
-      text: DateFormat("dd/MM/yyyy").format(DateTime.now()));
-  TextEditingController dateFinController =
-      TextEditingController(text: UtilView.dateSumDay(60));
+      text: DateFormat("yyyy-dd-MM").format(DateTime.now()));
+  TextEditingController dateFinController = TextEditingController(
+      text: DateFormat("yyyy-dd-MM")
+          .format(DateTime.now().add(const Duration(days: 60))));
   TextEditingController disponibleController = TextEditingController();
   TextEditingController humedadFinController = TextEditingController();
   TextEditingController temperaturaFinController = TextEditingController();
@@ -50,7 +51,7 @@ class PlanificacionProvider extends ChangeNotifier {
   TextEditingController actvDetailController = TextEditingController();
   TextEditingController obsDetailController = TextEditingController();
   final txtDetailInicio = TextEditingController(
-      text: DateFormat("dd/MM/yyyy").format(DateTime.now()));
+      text: DateFormat("yyyy-dd-MM").format(DateTime.now()));
   final txtDetailFin = TextEditingController();
   bool isDetail = true;
 
@@ -175,7 +176,7 @@ class PlanificacionProvider extends ChangeNotifier {
 
     actvDetailController.clear();
     obsDetailController.clear();
-    txtDetailInicio.text = DateFormat("dd/MM/yyyy").format(DateTime.now());
+    txtDetailInicio.text = DateFormat("yyyy-dd-MM").format(DateTime.now());
     txtDetailFin.clear();
 
     notifyListeners();

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:tesis_karina/api/solicitud_api.dart';
 import 'package:tesis_karina/entity/personas.dart';
@@ -63,6 +66,17 @@ class UsuarioProvider extends ChangeNotifier {
   getUsuarioLogin(String x, String y) async {
     final resp = await _api.getApiLogin(x, y);
     return resp;
+  }
+
+  Future<File> decodeFile(String base64String, String filePath) async {
+    try {
+      List<int> bytes = base64.decode(base64String);
+      File file = File(filePath);
+      file.writeAsBytesSync(bytes);
+      return file;
+    } catch (e) {
+      throw 'Error al actualizar el usuario';
+    }
   }
 
   newObjeto(Usuario e) async {

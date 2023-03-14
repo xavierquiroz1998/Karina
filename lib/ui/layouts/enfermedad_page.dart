@@ -239,9 +239,10 @@ class _ImagenContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final enfermedadProvider = Provider.of<EnfermedadProvider>(context);
 
-    final image = (enfermedadProvider.imgBs4 == "")
+    final image = (enfermedadProvider.imgBs4.trim() == "")
         ? const Image(image: AssetImage('assets/no-image.jpg'))
-        : Image.file(File(enfermedadProvider.fileBs4));
+        : Image.memory(base64.decode(enfermedadProvider.imgBs4),
+            fit: BoxFit.cover);
 
     return WhiteCard(
       width: 250,

@@ -234,10 +234,9 @@ class _AvatarContainer extends StatelessWidget {
 
     final user = userFormProvider.user;
 
-    final image = (user.img == "")
+    final image = (user.img.trim() == "")
         ? const Image(image: AssetImage('assets/no-image.jpg'))
-        : FadeInImage.assetNetwork(
-            placeholder: 'assets/loader.gif', image: user.img);
+        : Image.memory(base64.decode(user.img), fit: BoxFit.cover);
 
     return WhiteCard(
       width: 250,

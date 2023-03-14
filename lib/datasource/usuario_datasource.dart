@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -30,24 +32,21 @@ class UsuariosDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
-    final image =
-        (row.getCells()[0].value == null || row.getCells()[0].value == "")
-            ? const Image(
-                image: AssetImage('assets/no-image.jpg'), width: 20, height: 20)
-            : FadeInImage.assetNetwork(
-                placeholder: 'assets/loader.gif',
-                image: row.getCells()[0].value.toString(),
-                width: 20,
-                height: 20);
+    final image = (row.getCells()[0].value == null ||
+            row.getCells()[0].value.toString().trim() == "")
+        ? const Image(
+            image: AssetImage('assets/no-image.jpg'), width: 20, height: 20)
+        : Image.memory(base64.decode(row.getCells()[0].value.toString()),
+            fit: BoxFit.cover);
 
     return DataGridRowAdapter(
       cells: <Widget>[
         Container(alignment: Alignment.center, child: ClipOval(child: image)),
         Container(
-            alignment: Alignment.center,
+            alignment: Alignment.centerLeft,
             child: Text(row.getCells()[1].value.toString())),
         Container(
-            alignment: Alignment.center,
+            alignment: Alignment.centerLeft,
             child: Text(row.getCells()[2].value.toString())),
         Container(
             alignment: Alignment.center,
