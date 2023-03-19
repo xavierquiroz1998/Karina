@@ -19,7 +19,7 @@ class _ReportPageState extends State<ReportPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Generacion de reportes'),
+        title: const Text('Generación de reportes'),
         backgroundColor: CustomColors.customDefaut,
       ),
       body: WhiteCard(

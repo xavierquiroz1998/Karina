@@ -5,7 +5,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tesis_karina/api/solicitud_api.dart';
 import 'package:tesis_karina/entity/finca.dart';
 import 'package:tesis_karina/entity/terreno.dart';
-import 'package:tesis_karina/utils/util_view.dart';
 
 class TerrenoProvider extends ChangeNotifier {
   List<Terreno> listTerreno = [];

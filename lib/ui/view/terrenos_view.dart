@@ -51,7 +51,7 @@ class _TerrenosViewState extends State<TerrenosView> {
                   columnWidthMode: ColumnWidthMode.fill,
                   columnName: 'ubicacion',
                   label: Center(
-                    child: Text('Ubicacion',
+                    child: Text('Ubicación',
                         style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),
@@ -59,7 +59,7 @@ class _TerrenosViewState extends State<TerrenosView> {
                   columnWidthMode: ColumnWidthMode.fill,
                   columnName: 'dimension',
                   label: Center(
-                    child: Text('Dimension',
+                    child: Text('Dimensión',
                         style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),

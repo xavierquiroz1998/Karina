@@ -67,7 +67,7 @@ class _EnfermedadesViewState extends State<EnfermedadesView> {
                   columnName: 'obs',
                   label: Center(
                     child: Text(
-                      'Observacion',
+                      'Observación',
                       style: CustomLabels.h4.copyWith(color: Colors.white),
                     ),
                   ),

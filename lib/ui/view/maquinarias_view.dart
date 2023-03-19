@@ -52,7 +52,7 @@ class _MaquinariasViewState extends State<MaquinariasView> {
                   columnWidthMode: ColumnWidthMode.fill,
                   columnName: 'identificacion',
                   label: Center(
-                    child: Text('Identificacion',
+                    child: Text('Identificación',
                         style: CustomLabels.h4.copyWith(color: Colors.white)),
                   ),
                 ),

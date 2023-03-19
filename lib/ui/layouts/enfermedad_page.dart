@@ -174,8 +174,8 @@ class _EnfermedadPageForm extends StatelessWidget {
               TextFormField(
                   controller: enfermedadProvider.txtObservaciones,
                   decoration: CustomInputs.boxInputDecoration(
-                      hint: 'Observacion',
-                      label: 'Ingrese Observacion',
+                      hint: 'OObservación',
+                      label: 'Ingrese Observación',
                       icon: Icons.new_releases_outlined)),
               const SizedBox(height: 20),
               ConstrainedBox(

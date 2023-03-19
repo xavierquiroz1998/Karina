@@ -543,7 +543,7 @@ class _PlanificacionDetailPageState extends State<PlanificacionDetailPage> {
 
                           if (resp) {
                             UtilView.messageSnackNewAccess(
-                                "Se realizo con exito", context);
+                                "Se realizó con éxito", context);
                           } else {
                             UtilView.messageSnackNewError("Error", context);
                           }
@@ -586,7 +586,7 @@ class _PlanificacionDetailPageState extends State<PlanificacionDetailPage> {
 
                 if (resp) {
                   UtilView.messageSnackNewAccess(
-                      "Se realizo con exito", context);
+                      "Se realizó con éxito", context);
                 } else {
                   UtilView.messageSnackNewError("Error", context);
                 }

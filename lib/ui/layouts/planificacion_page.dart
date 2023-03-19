@@ -84,7 +84,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                     Expanded(
                         child: InputForm(
                       controller: provPlanificacion.nombreController,
-                      hint: "Ingresa identificacion",
+                      hint: "Ingresa identificación",
                       icon: Icons.assignment,
                       length: 200,
                       textInputType: TextInputType.text,
@@ -155,7 +155,7 @@ class _PlanificacionPageState extends State<PlanificacionPage> {
                           controller: provPlanificacion
                               .dateController, //editing controller of this TextField
                           decoration: CustomInputs.boxInputDecoration3(
-                              label: "Fecha de inicio de planificacion",
+                              label: "Fecha de inicio de planificación",
                               icon: Icons.calendar_today),
                           readOnly: true, // when true user cannot edit text
                           onTap: () async {
